@@ -2,7 +2,11 @@
 	path = vendor/Catch2
 	url = https://github.com/catchorg/Catch2.git
 	ignore = dirty
-
 [submodule "vendor/rapidjson"]
 	path = vendor/rapidjson
 	url = https://github.com/Tencent/rapidjson.git
+	ignore = dirty
+[submodule "vendor/hat-trie"]
+	path = vendor/hat-trie
+	url = https://github.com/Tessil/hat-trie.git
+	ignore = dirty
