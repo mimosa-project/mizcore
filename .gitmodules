@@ -3,3 +3,6 @@
 	url = https://github.com/catchorg/Catch2.git
 	ignore = dirty
 
+[submodule "vendor/rapidjson"]
+	path = vendor/rapidjson
+	url = https://github.com/Tencent/rapidjson.git
