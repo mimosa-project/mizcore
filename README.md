@@ -1,2 +1,2 @@
 # emcore
-Extended Mizar Core Library
+eco-Mizar Core Library
