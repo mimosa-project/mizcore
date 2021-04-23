@@ -7,7 +7,10 @@
 #define yyFlexLexer yyVctFlexLexer
 #include <FlexLexer.h>
 #undef yyFlexLexer
+
+#include "symbol.hpp"
 #include "vct_file_handler.hpp"
+
 
 using std::cout;
 using std::endl;
@@ -31,24 +34,24 @@ TEST_CASE("execute vct scanner") {
     auto symbols = handler.GetFileSymbols("GROUP_1");
     CHECK(symbols.size() == 9);
 
-    CHECK(symbols[0].GetName() == "unital");
-    CHECK(symbols[0].GetPriority() == 64);
-    CHECK(symbols[0].GetType() == SYMBOL_TYPE::ATTRIBUTE);
+    CHECK(symbols[0]->GetName() == "unital");
+    CHECK(symbols[0]->GetPriority() == 64);
+    CHECK(symbols[0]->GetType() == SYMBOL_TYPE::ATTRIBUTE);
 
-    CHECK(symbols[4].GetName() == "inverse_op");
-    CHECK(symbols[4].GetPriority() == 124);
-    CHECK(symbols[4].GetType() == SYMBOL_TYPE::FUNCTOR);
+    CHECK(symbols[4]->GetName() == "inverse_op");
+    CHECK(symbols[4]->GetPriority() == 124);
+    CHECK(symbols[4]->GetType() == SYMBOL_TYPE::FUNCTOR);
 
     symbols = handler.GetFileSymbols("SCMFSA7B");
     CHECK(symbols.size() == 6);
     
-    CHECK(symbols[0].GetName() == "refers");
-    CHECK(symbols[0].GetPriority() == 64);
-    CHECK(symbols[0].GetType() == SYMBOL_TYPE::PREDICATE);
+    CHECK(symbols[0]->GetName() == "refers");
+    CHECK(symbols[0]->GetPriority() == 64);
+    CHECK(symbols[0]->GetType() == SYMBOL_TYPE::PREDICATE);
 
-    CHECK(symbols[1].GetName() == "refer");
-    CHECK(symbols[1].GetPriority() == 64);
-    CHECK(symbols[1].GetType() == SYMBOL_TYPE::PREDICATE);
+    CHECK(symbols[1]->GetName() == "refer");
+    CHECK(symbols[1]->GetPriority() == 64);
+    CHECK(symbols[1]->GetType() == SYMBOL_TYPE::PREDICATE);
     
     auto synonyms = handler.GetSynonyms();
     CHECK(synonyms.size() == 5);

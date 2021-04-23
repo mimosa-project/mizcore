@@ -1,8 +1,9 @@
 %{
-#include "vct_file_handler.hpp"
 #include <sstream>
 #include <iostream>
 #include <stdio.h>
+#include "symbol.hpp"
+#include "vct_file_handler.hpp"
 
 #undef  YY_DECL
 #define YY_DECL int emcore::mizar::VctFileHandler::yylex()
@@ -30,7 +31,7 @@ SPACES      [[:space:]]+
     /* File name */
 "#"{FILENAME} {
     current_mizfile_ = yytext + 1;
-    file2symbols_[current_mizfile_] = vector<Symbol>();
+    file2symbols_[current_mizfile_] = vector<SharedPtr>();
 }
 
     /* Number of types -> ignore */
@@ -46,8 +47,8 @@ SPACES      [[:space:]]+
     int priority;
     iss >> name >> priority;
 
-    Symbol symbol(std::move(name), type, (uint8_t)priority);
-    file2symbols_[current_mizfile_].push_back(std::move(symbol));
+    SharedPtr s(new Symbol(std::move(name), type, (uint8_t)priority));
+    file2symbols_[current_mizfile_].push_back(s);
 }
 
     /* Definition of two symbols */
@@ -59,19 +60,19 @@ SPACES      [[:space:]]+
     std::string name1;
     iss >> name0 >> name1;
 
-    synonyms_.push_back(std::make_pair(name0, name1));
+    SharedPtr s0(new Symbol(std::move(name0), type));
+    SharedPtr s1(new Symbol(std::move(name1), type));
 
-    Symbol s0(std::move(name0), type);
-    Symbol s1(std::move(name1), type);
+    file2symbols_[current_mizfile_].push_back(s0);
+    file2symbols_[current_mizfile_].push_back(s1);
 
-    file2symbols_[current_mizfile_].push_back(std::move(s0));
-    file2symbols_[current_mizfile_].push_back(std::move(s1));
+    synonyms_.push_back(std::make_pair(s0, s1));
 }
 
     /* Ordinary symbol definition */
 {TYPE}{SYMBOL} {
-    Symbol s(yytext + 1, SYMBOL_TYPE(yytext[0]));
-    file2symbols_[current_mizfile_].push_back(std::move(s));
+    SharedPtr s(new Symbol(yytext + 1, SYMBOL_TYPE(yytext[0])));
+    file2symbols_[current_mizfile_].push_back(s);
 }
 
     /* spaces -> ignore */

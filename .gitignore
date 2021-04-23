@@ -33,5 +33,5 @@
 
 # directories
 /data/
-build/
-.vscode/
+/build/
+/.vscode/

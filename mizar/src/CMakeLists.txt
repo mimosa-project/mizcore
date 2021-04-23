@@ -2,8 +2,8 @@ find_package(BISON REQUIRED)
 find_package(FLEX REQUIRED)
 
 flex_target(vct_scanner
-    vct_scanner.l
-    ${CMAKE_CURRENT_BINARY_DIR}/vct_scanner.cpp)
+    yy_vct_flex_lexer.l
+    ${CMAKE_CURRENT_BINARY_DIR}/yy_vct_flex_lexer.cpp)
 
 add_library(
     emcore_mizar
