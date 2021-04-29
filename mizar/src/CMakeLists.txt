@@ -8,6 +8,7 @@ flex_target(vct_scanner
 add_library(
     emcore_mizar
     STATIC
+    symbol_table.cpp
     ${FLEX_vct_scanner_OUTPUTS}
 )
 

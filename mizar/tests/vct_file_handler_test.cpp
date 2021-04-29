@@ -9,6 +9,7 @@
 #undef yyFlexLexer
 
 #include "symbol.hpp"
+#include "symbol_table.hpp"
 #include "vct_file_handler.hpp"
 
 
@@ -17,6 +18,7 @@ using std::endl;
 using std::ifstream;
 using emcore::mizar::SYMBOL_TYPE;
 using emcore::mizar::Symbol;
+using emcore::mizar::SymbolTable;
 using emcore::mizar::VctFileHandler;
 namespace fs = std::filesystem;
 
@@ -31,7 +33,8 @@ TEST_CASE("execute vct scanner") {
     VctFileHandler handler(&ifs);
     handler.yylex();
     
-    auto symbols = handler.GetFileSymbols("GROUP_1");
+    std::shared_ptr<SymbolTable> table = handler.GetSymbolTable();
+    auto symbols = table->CollectFileSymbols("GROUP_1");
     CHECK(symbols.size() == 9);
 
     CHECK(symbols[0]->GetName() == "unital");
@@ -42,7 +45,7 @@ TEST_CASE("execute vct scanner") {
     CHECK(symbols[4]->GetPriority() == 124);
     CHECK(symbols[4]->GetType() == SYMBOL_TYPE::FUNCTOR);
 
-    symbols = handler.GetFileSymbols("SCMFSA7B");
+    symbols = table->CollectFileSymbols("SCMFSA7B");
     CHECK(symbols.size() == 6);
     
     CHECK(symbols[0]->GetName() == "refers");
@@ -53,6 +56,6 @@ TEST_CASE("execute vct scanner") {
     CHECK(symbols[1]->GetPriority() == 64);
     CHECK(symbols[1]->GetType() == SYMBOL_TYPE::PREDICATE);
     
-    auto synonyms = handler.GetSynonyms();
+    auto synonyms = table->CollectSynonyms();
     CHECK(synonyms.size() == 5);
 }

@@ -9,29 +9,16 @@
 namespace emcore::mizar {
 
 class Symbol;
+class SymbolTable;
 
 class VctFileHandler : public yyVctFlexLexer {
 public:
-    using SharedPtr = std::shared_ptr<Symbol>;
-
-    VctFileHandler(std::istream *in) : yyVctFlexLexer(in) {}
+    VctFileHandler(std::istream *in);
     virtual int yylex();
 
-    std::vector<SharedPtr> GetFileSymbols(const std::string& filename) const {
-        auto it = file2symbols_.find(filename);
-        if (it != file2symbols_.end()) {
-            return it->second;
-        } else {
-            return std::vector<SharedPtr>();
-        }
-    }
-    
-    const std::vector<std::pair<SharedPtr, SharedPtr>>& GetSynonyms() const {
-        return synonyms_;
-    }
+    std::shared_ptr<SymbolTable> GetSymbolTable() const {return symbol_table_;}
 private:
-    std::map<std::string, std::vector<SharedPtr>> file2symbols_;
-    std::vector<std::pair<SharedPtr, SharedPtr>> synonyms_;
+    std::shared_ptr<SymbolTable> symbol_table_;
     std::string current_mizfile_;
 };
 

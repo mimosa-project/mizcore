@@ -3,6 +3,7 @@
 #include <iostream>
 #include <stdio.h>
 #include "symbol.hpp"
+#include "symbol_table.hpp"
 #include "vct_file_handler.hpp"
 
 #undef  YY_DECL
@@ -12,6 +13,14 @@
 using std::vector;
 using std::string;
 using emcore::mizar::Symbol;
+using emcore::mizar::VctFileHandler;
+
+VctFileHandler::VctFileHandler(std::istream *in)
+    : yyVctFlexLexer(in),
+      symbol_table_(std::make_shared<SymbolTable>())
+{
+}
+
 %}
 
 %option debug
@@ -31,7 +40,6 @@ SPACES      [[:space:]]+
     /* File name */
 "#"{FILENAME} {
     current_mizfile_ = yytext + 1;
-    file2symbols_[current_mizfile_] = vector<SharedPtr>();
 }
 
     /* Number of types -> ignore */
@@ -47,8 +55,8 @@ SPACES      [[:space:]]+
     int priority;
     iss >> name >> priority;
 
-    SharedPtr s(new Symbol(std::move(name), type, (uint8_t)priority));
-    file2symbols_[current_mizfile_].push_back(s);
+    Symbol* symbol = new Symbol(std::move(name), type, (uint8_t)priority);
+    symbol_table_->AddSymbol(current_mizfile_, symbol);
 }
 
     /* Definition of two symbols */
@@ -60,19 +68,19 @@ SPACES      [[:space:]]+
     std::string name1;
     iss >> name0 >> name1;
 
-    SharedPtr s0(new Symbol(std::move(name0), type));
-    SharedPtr s1(new Symbol(std::move(name1), type));
+    Symbol* s0 = new Symbol(std::move(name0), type);
+    Symbol* s1 = new Symbol(std::move(name1), type);
 
-    file2symbols_[current_mizfile_].push_back(s0);
-    file2symbols_[current_mizfile_].push_back(s1);
+    symbol_table_->AddSymbol(current_mizfile_, s0);
+    symbol_table_->AddSymbol(current_mizfile_, s1);
 
-    synonyms_.push_back(std::make_pair(s0, s1));
+    symbol_table_->AddSynonym(s0, s1);
 }
 
     /* Ordinary symbol definition */
 {TYPE}{SYMBOL} {
-    SharedPtr s(new Symbol(yytext + 1, SYMBOL_TYPE(yytext[0])));
-    file2symbols_[current_mizfile_].push_back(s);
+    Symbol* symbol = new Symbol(yytext + 1, SYMBOL_TYPE(yytext[0]));
+    symbol_table_->AddSymbol(current_mizfile_, symbol);
 }
 
     /* spaces -> ignore */
