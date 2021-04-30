@@ -14,6 +14,7 @@ namespace emcore::mizar {
 // K - Left Functor Bracket,
 // L - Right Functor Bracket.
 enum class SYMBOL_TYPE : char {
+    UNKNOWN = '-',
     PREDICATE = 'R',
     FUNCTOR = 'O',
     MODE = 'M',
@@ -21,7 +22,8 @@ enum class SYMBOL_TYPE : char {
     SELECTOR = 'U',
     ATTRIBUTE = 'V',
     LEFT_FUNCTOR_BRACKET = 'K',
-    RIGHT_FUNCTOR_BRACKET = 'L'
+    RIGHT_FUNCTOR_BRACKET = 'L',
+    SPECIAL = 'S',
 };
 
 class Symbol final {

@@ -22,7 +22,6 @@ public:
 private:
     std::map<std::string, std::vector<std::unique_ptr<Symbol>>> file2symbols_;
     std::vector<std::pair<Symbol*, Symbol*>> synonyms_;
-    std::vector<Symbol*> valid_symbols_;
 };
 
 }
