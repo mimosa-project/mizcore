@@ -28,6 +28,7 @@ std::vector<Symbol*> SymbolTable::CollectFileSymbols(const std::string& filename
     vector<Symbol*> symbols;
     auto it = file2symbols_.find(filename);
     if (it != file2symbols_.end()) {
+        symbols.reserve(it->second.size());
         for (const auto& symbol : it->second) {
             symbols.push_back(symbol.get());
         }
