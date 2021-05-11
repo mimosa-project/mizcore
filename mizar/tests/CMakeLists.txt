@@ -5,7 +5,9 @@ add_test(NAME emcore_mizar_test
 
 add_executable(
     emcore_mizar_test.out
+    symbol_table_test.cpp
     vct_file_handler_test.cpp
+    miz_file_handler_test.cpp
     main.cpp
 )
 
@@ -18,6 +20,7 @@ target_link_libraries(
 target_include_directories(
     emcore_mizar_test.out
     PUBLIC
+    ${PROJECT_SOURCE_DIR}/common
     ${CMAKE_CURRENT_SOURCE_DIR}/../src
 )
 

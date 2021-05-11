@@ -1,0 +1,26 @@
+#pragma once
+
+#include <vector>
+#include <memory>
+
+namespace emcore::mizar {
+
+class Token;
+
+class TokenArray {
+public:
+    // ctor, dtor
+    TokenArray() = default;
+    virtual ~TokenArray() = default;
+
+    // attributes
+    void AddToken(Token* token);
+    Token* GetToken(size_t i) const {return tokens_[i].get();}
+    size_t GetTokenNum() const {return tokens_.size();}
+    std::vector<Token*> CollectTokenArray() const;
+
+private:
+    std::vector<std::unique_ptr<Token>> tokens_;
+};
+
+}

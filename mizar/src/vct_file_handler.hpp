@@ -1,25 +1,20 @@
 #pragma once
 
-#include <utility>
-#include <string>
-#include <map>
-#include <vector>
 #include <memory>
 
 namespace emcore::mizar {
 
-class Symbol;
 class SymbolTable;
+class VctFlexLexer;
 
-class VctFileHandler : public yyVctFlexLexer {
+class VctFileHandler {
 public:
     VctFileHandler(std::istream *in);
-    virtual int yylex();
+    int yylex();
 
-    std::shared_ptr<SymbolTable> GetSymbolTable() const {return symbol_table_;}
+    std::shared_ptr<SymbolTable> GetSymbolTable() const;
 private:
-    std::shared_ptr<SymbolTable> symbol_table_;
-    std::string current_mizfile_;
+    std::shared_ptr<VctFlexLexer> vct_flex_lexer_;
 };
 
 }

@@ -4,28 +4,29 @@
 #include <stdio.h>
 #include "symbol.hpp"
 #include "symbol_table.hpp"
-#include "vct_file_handler.hpp"
+#include "vct_flex_lexer.hpp"
 
 #undef  YY_DECL
-#define YY_DECL int emcore::mizar::VctFileHandler::yylex()
+#define YY_DECL int emcore::mizar::VctFlexLexer::yylex()
 #define YY_NO_UNISTD_H
 
 using std::vector;
 using std::string;
 using emcore::mizar::Symbol;
-using emcore::mizar::VctFileHandler;
+using emcore::mizar::VctFlexLexer;
 
-VctFileHandler::VctFileHandler(std::istream *in)
+VctFlexLexer::VctFlexLexer(std::istream *in)
     : yyVctFlexLexer(in),
       symbol_table_(std::make_shared<SymbolTable>())
 {
+    symbol_table_->Initialize();
 }
 
 %}
 
 %option debug
 %option nodefault
-%option yyclass="emcore::mizar::VctFileHandler"
+%option yyclass="emcore::mizar::VctFlexLexer"
 %option noyywrap
 %option c++
 %option prefix="yyVct"
