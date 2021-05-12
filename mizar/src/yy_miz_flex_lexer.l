@@ -18,8 +18,6 @@
 
 %s ENVIRON_SECTION
 %s VOCABULARY_SECTION
-%x COMMENT2_SECTION
-%x COMMENT3_SECTION
 
 %option debug
 %option nodefault
@@ -38,34 +36,12 @@ SPACES      [[:blank:]]+
 
 %%
 
-"::"    {
-    yy_push_state(COMMENT2_SECTION);
-    column_number_ += 2;
+":::"[^\n\r]*    {
+    ScanComment(COMMENT_TYPE::TRIPLE);
 }
 
-<COMMENT2_SECTION>{
-    [^\n\r]+    ScanComment(COMMENT_TYPE::DOUBLE);
-    {RETURN} {
-        yy_pop_state();
-        ++line_number_;
-        column_number_ = 1;
-    }
-    <<EOF>>     return 0;
-}
-
-":::"   {
-    yy_push_state(COMMENT3_SECTION);
-    column_number_ += 3;
-}
-
-<COMMENT3_SECTION>{
-    [^\n\r]+    ScanComment(COMMENT_TYPE::TRIPLE);
-    {RETURN} {
-        yy_pop_state();
-        ++line_number_;
-        column_number_ = 1;
-    }
-    <<EOF>>     return 0;
+"::"[^\n\r]*    {
+    ScanComment(COMMENT_TYPE::DOUBLE);
 }
 
 <ENVIRON_SECTION>{FILENAME} {
@@ -122,7 +98,7 @@ does            ScanKeyword(KEYWORD_TYPE::DOES);
 end             ScanKeyword(KEYWORD_TYPE::END);
 environ         {
     ScanKeyword(KEYWORD_TYPE::ENVIRON);
-    BEGIN(ENVIRON_SECTION);
+    yy_push_state(ENVIRON_SECTION);
 }
 equals          ScanKeyword(KEYWORD_TYPE::EQUALS);
 ex              ScanKeyword(KEYWORD_TYPE::EX);
@@ -236,6 +212,7 @@ size_t MizFlexLexer::ScanSymbol()
         column_number_ += length;
         yyless(length);
 
+        std::cout << "ScanSymbol: \"" << token->GetText() << "\"" << std::endl;
         if (token->GetText() == ";" && yy_top_state() == VOCABULARY_SECTION) {
             // Quit VOCABULARY_SECTION
             yy_pop_state();
@@ -275,7 +252,7 @@ size_t MizFlexLexer::ScanNumeral()
 
 size_t MizFlexLexer::ScanFileName()
 {
-    Token* token = token_factory_->CreateNumeralToken(line_number_, column_number_, yytext);
+    Token* token = token_factory_->CreateFileNameToken(line_number_, column_number_, yytext);
     assert(token);
     token_array_->AddToken(token);
     column_number_ += yyleng;
