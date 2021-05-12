@@ -15,9 +15,9 @@ Token* TokenFactory::CreateSymbolToken(size_t line_number, size_t column_number,
     }
 }
 
-Token* TokenFactory::CreateVariableToken(size_t line_number, size_t column_number, const char* text)
+Token* TokenFactory::CreateIdentifierToken(size_t line_number, size_t column_number, const char* text)
 {
-    return new VariableToken(line_number, column_number, text);
+    return new IdentifierToken(line_number, column_number, text);
 }
 
 Token* TokenFactory::CreateKeywordToken(size_t line_number, size_t column_number, KEYWORD_TYPE keyword_type)

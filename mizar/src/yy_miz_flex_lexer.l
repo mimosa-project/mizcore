@@ -16,16 +16,12 @@
 
 %}
 
-%s ENVIRON_SECTION
-%s VOCABULARY_SECTION
-
 %option debug
 %option nodefault
 %option yyclass="emcore::mizar::MizFlexLexer"
 %option noyywrap
 %option c++
 %option prefix="yyMiz"
-%option stack
 
 SYMBOL      [[:graph:]]+
 NUMERAL     "0"|[1-9][0-9]*
@@ -44,13 +40,18 @@ SPACES      [[:blank:]]+
     ScanComment(COMMENT_TYPE::DOUBLE);
 }
 
-<ENVIRON_SECTION>{FILENAME} {
-    ScanFileName();
+{FILENAME} {
+    if (0 == ScanFileName()) {
+        ScanIdentifier();
+    }
 }
 
 {SYMBOL} {
-    if (0 == ScanSymbol()) {
+    size_t scanned_length = ScanSymbol();
+    if (scanned_length == 0) {
         REJECT;
+    } else {
+        yyless(scanned_length);
     }
 }
 
@@ -67,11 +68,7 @@ assume          ScanKeyword(KEYWORD_TYPE::ASSUME);
 asymmetry       ScanKeyword(KEYWORD_TYPE::ASYMMETRY);
 attr            ScanKeyword(KEYWORD_TYPE::ATTR);
 be              ScanKeyword(KEYWORD_TYPE::BE);
-begin           {
-    ScanKeyword(KEYWORD_TYPE::BEGIN_);
-    BEGIN(INITIAL);
-    symbol_table_->BuildQueryMap();
-}
+begin           ScanKeyword(KEYWORD_TYPE::BEGIN_);
 being           ScanKeyword(KEYWORD_TYPE::BEING);
 by              ScanKeyword(KEYWORD_TYPE::BY);
 canceled        ScanKeyword(KEYWORD_TYPE::CANCELED);
@@ -96,10 +93,7 @@ defpred         ScanKeyword(KEYWORD_TYPE::DEFPRED);
 do              ScanKeyword(KEYWORD_TYPE::DO);
 does            ScanKeyword(KEYWORD_TYPE::DOES);
 end             ScanKeyword(KEYWORD_TYPE::END);
-environ         {
-    ScanKeyword(KEYWORD_TYPE::ENVIRON);
-    yy_push_state(ENVIRON_SECTION);
-}
+environ         ScanKeyword(KEYWORD_TYPE::ENVIRON);
 equals          ScanKeyword(KEYWORD_TYPE::EQUALS);
 ex              ScanKeyword(KEYWORD_TYPE::EX);
 exactly         ScanKeyword(KEYWORD_TYPE::EXACTLY);
@@ -172,115 +166,16 @@ thus            ScanKeyword(KEYWORD_TYPE::THUS);
 to              ScanKeyword(KEYWORD_TYPE::TO);
 transitivity    ScanKeyword(KEYWORD_TYPE::TRANSITIVITY);
 uniqueness      ScanKeyword(KEYWORD_TYPE::UNIQUENESS);
-vocabularies    {
-    ScanKeyword(KEYWORD_TYPE::VOCABULARIES);
-    if (yy_top_state() == ENVIRON_SECTION) {
-        yy_push_state(VOCABULARY_SECTION);
-    }
-}
+vocabularies    ScanKeyword(KEYWORD_TYPE::VOCABULARIES);
 when            ScanKeyword(KEYWORD_TYPE::WHEN);
 where           ScanKeyword(KEYWORD_TYPE::WHERE);
 with            ScanKeyword(KEYWORD_TYPE::WITH);
 wrt             ScanKeyword(KEYWORD_TYPE::WRT);
 
-{IDENTIFIER}    ScanVariable();
+{IDENTIFIER}    ScanIdentifier();
 {RETURN}        {++line_number_; column_number_ = 1;}
 {SPACES}        {column_number_ += yyleng;}
 <<EOF>>         return 0;
 .               ScanUnknown();
 
 %%
-
-using emcore::mizar::MizFlexLexer;
-
-MizFlexLexer::MizFlexLexer(std::istream *in, std::shared_ptr<SymbolTable> symbol_table)
-    : yyMizFlexLexer(in),
-      symbol_table_(symbol_table),
-      token_factory_(std::make_shared<TokenFactory>(symbol_table)),
-      token_array_(std::make_shared<TokenArray>()),
-      line_number_(1),
-      column_number_(1)
-{
-}
-
-size_t MizFlexLexer::ScanSymbol()
-{
-    Token* token = token_factory_->CreateSymbolToken(line_number_, column_number_, yytext);
-    if (token) {
-        token_array_->AddToken(token);
-        size_t length = token->GetLength();
-        column_number_ += length;
-        yyless(length);
-
-        std::cout << "ScanSymbol: \"" << token->GetText() << "\"" << std::endl;
-        if (token->GetText() == ";" && yy_top_state() == VOCABULARY_SECTION) {
-            // Quit VOCABULARY_SECTION
-            yy_pop_state();
-        }
-        return length;
-    } else {
-        return 0;
-    }
-}
-
-size_t MizFlexLexer::ScanVariable()
-{
-    Token* token = token_factory_->CreateVariableToken(line_number_, column_number_, yytext);
-    assert(token);
-    token_array_->AddToken(token);
-    column_number_ += yyleng;
-    return yyleng;
-}
-
-size_t MizFlexLexer::ScanKeyword(KEYWORD_TYPE keyword_type)
-{
-    Token* token = token_factory_->CreateKeywordToken(line_number_, column_number_, keyword_type);
-    assert(token);
-    token_array_->AddToken(token);
-    column_number_ += yyleng;
-    return yyleng;
-}
-
-size_t MizFlexLexer::ScanNumeral()
-{
-    Token* token = token_factory_->CreateNumeralToken(line_number_, column_number_, yytext);
-    assert(token);
-    token_array_->AddToken(token);
-    column_number_ += yyleng;
-    return yyleng;
-}
-
-size_t MizFlexLexer::ScanFileName()
-{
-    Token* token = token_factory_->CreateFileNameToken(line_number_, column_number_, yytext);
-    assert(token);
-    token_array_->AddToken(token);
-    column_number_ += yyleng;
-
-    if (yy_top_state() == VOCABULARY_SECTION) {
-        symbol_table_->AddValidFileName(token->GetText());
-    }
-    return yyleng;
-}
-
-size_t MizFlexLexer::ScanComment(COMMENT_TYPE comment_type)
-{
-    Token* token = token_factory_->CreateCommentToken(line_number_, column_number_, yytext, comment_type);
-    assert(token);
-    token_array_->AddToken(token);
-    column_number_ += yyleng;
-    return yyleng;
-}
-
-size_t MizFlexLexer::ScanUnknown()
-{
-    // [TODO] temporary error message
-    std::cout << "[Error] Unknown token found: ["
-              << line_number_ << "," << column_number_ << "]"
-              << std::endl;
-    Token* token = token_factory_->CreateUnknownToken(line_number_, column_number_, yytext);
-    assert(token);
-    token_array_->AddToken(token);
-    column_number_ += yyleng;
-    return yyleng;
-}

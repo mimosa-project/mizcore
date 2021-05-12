@@ -24,7 +24,7 @@ public:
 
 private:
     size_t ScanSymbol();
-    size_t ScanVariable();
+    size_t ScanIdentifier();
     size_t ScanKeyword(KEYWORD_TYPE keyword_type);
     size_t ScanNumeral();
     size_t ScanFileName();
@@ -37,6 +37,9 @@ private:
     std::shared_ptr<TokenArray> token_array_;
     size_t line_number_;
     size_t column_number_;
+
+    bool is_in_environ_section_;
+    bool is_in_vocabulary_section_;
 };
 
 }

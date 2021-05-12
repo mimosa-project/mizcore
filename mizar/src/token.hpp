@@ -49,20 +49,19 @@ private:
     Symbol* symbol_;
 };
 
-class VariableToken : public Token {
+class IdentifierToken : public Token {
 public:
     // ctor, dtor
-    VariableToken(size_t line_number, size_t column_number, const char* text)
-      : Token(line_number, column_number), text_(text), ref_(nullptr) {}
-    ~VariableToken() override = default;
+    IdentifierToken(size_t line_number, size_t column_number, const char* text)
+      : Token(line_number, column_number), text_(text) {}
+    ~IdentifierToken() override = default;
 
     // override
-    TOKEN_TYPE GetType() const override {return TOKEN_TYPE::VARIABLE;}
+    TOKEN_TYPE GetType() const override {return TOKEN_TYPE::IDENTIFIER;}
     size_t GetLength() const override {return text_.length();}
     const std::string& GetText() const override {return text_;}
 private:
     std::string text_;
-    VariableToken* ref_;
 };
 
 class KeywordToken : public Token {

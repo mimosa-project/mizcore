@@ -12,7 +12,7 @@ using std::map;
 using emcore::mizar::KEYWORD_TYPE;
 using emcore::mizar::Token;
 using emcore::mizar::SymbolToken;
-using emcore::mizar::VariableToken;
+using emcore::mizar::IdentifierToken;
 using emcore::mizar::KeywordToken;
 using emcore::mizar::NumeralToken;
 using emcore::mizar::FileNameToken;
@@ -24,7 +24,7 @@ const char* Token::QueryTypeText(TOKEN_TYPE type)
     static string type_text[] = {
         "UNKNOWN",
         "SYMBOL",
-        "VARIABLE",
+        "IDENTIFIER",
         "KEYWORD",
         "NUMERAL",
         "FILENAME",

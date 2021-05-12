@@ -17,6 +17,7 @@ add_library(emcore_mizar
     token_factory.cpp
     vct_file_handler.cpp
     miz_file_handler.cpp
+    miz_flex_lexer.cpp
     ${FLEX_miz_scanner_OUTPUTS}
     ${FLEX_vct_scanner_OUTPUTS}
 )

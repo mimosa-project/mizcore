@@ -17,7 +17,7 @@ public:
 
     // operation
     Token* CreateSymbolToken(size_t line_number, size_t column_number, const char* text);
-    Token* CreateVariableToken(size_t line_number, size_t column_number, const char* text);
+    Token* CreateIdentifierToken(size_t line_number, size_t column_number, const char* text);
     Token* CreateKeywordToken(size_t line_number, size_t column_number, KEYWORD_TYPE keyword_type);
     Token* CreateNumeralToken(size_t line_number, size_t column_number, const char* text);
     Token* CreateFileNameToken(size_t line_number, size_t column_number, const char* text);

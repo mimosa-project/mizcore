@@ -5,7 +5,7 @@ namespace emcore::mizar {
 enum class TOKEN_TYPE {
     UNKNOWN,
     SYMBOL,
-    VARIABLE,
+    IDENTIFIER,
     KEYWORD,
     NUMERAL,
     FILENAME,
