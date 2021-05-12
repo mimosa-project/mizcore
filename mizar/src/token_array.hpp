@@ -19,6 +19,9 @@ public:
     size_t GetTokenNum() const {return tokens_.size();}
     std::vector<Token*> CollectTokenArray() const;
 
+    // operations
+    void Dump(std::ostream& os) const;
+
 private:
     std::vector<std::unique_ptr<Token>> tokens_;
 };

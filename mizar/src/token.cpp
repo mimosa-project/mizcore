@@ -1,5 +1,6 @@
 #include <cassert>
 #include <cstring>
+#include <ostream>
 #include <string>
 #include <map>
 
@@ -17,6 +18,21 @@ using emcore::mizar::NumeralToken;
 using emcore::mizar::FileNameToken;
 using emcore::mizar::CommentToken;
 using emcore::mizar::UnknownToken;
+
+const char* Token::QueryTypeText(TOKEN_TYPE type)
+{
+    static string type_text[] = {
+        "UNKNOWN",
+        "SYMBOL",
+        "VARIABLE",
+        "KEYWORD",
+        "NUMERAL",
+        "FILENAME",
+        "COMMENT",
+    };
+
+    return type_text[size_t(type)].c_str();
+}
 
 size_t SymbolToken::GetLength() const
 {
@@ -165,6 +181,19 @@ size_t KeywordToken::GetLength() const
         assert(false);
         return 0;
     }
+}
+
+void Token::Dump(std::ostream& os) const {
+    os << "pos = (" << line_number_ << ", " << column_number_ << "), "
+       << "type = " << QueryTypeText(GetType()) << ", "
+       << "length = " << GetLength() << ", "
+       << "text = \"" << GetText() << "\"";
+}
+
+void SymbolToken::Dump(std::ostream& os) const {
+    Token::Dump(os);
+    os << ", symbol_type = " << (char)symbol_->GetType()
+       << ", priority = " << (int)symbol_->GetPriority();
 }
 
 const string& KeywordToken::GetText() const

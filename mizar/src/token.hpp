@@ -24,6 +24,10 @@ public:
     virtual TOKEN_TYPE GetType() const = 0;
     virtual size_t GetLength() const = 0;
     virtual const std::string& GetText() const = 0;
+    virtual void Dump(std::ostream& os) const;
+
+    // static
+    static const char* QueryTypeText(TOKEN_TYPE type);
 private:
     size_t line_number_;
     size_t column_number_;
@@ -40,6 +44,7 @@ public:
     TOKEN_TYPE GetType() const override {return TOKEN_TYPE::SYMBOL;}
     size_t GetLength() const override;
     const std::string& GetText() const override;
+    void Dump(std::ostream& os) const override;
 private:
     Symbol* symbol_;
 };
