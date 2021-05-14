@@ -25,7 +25,7 @@ add_library(emcore_mizar
 target_include_directories(emcore_mizar
     PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}
-    ${PROJECT_SOURCE_DIR}/common
+    ${PROJECT_SOURCE_DIR}/common/include
 )
 
 target_compile_options(emcore_mizar PUBLIC "$<$<CONFIG:RELEASE>:-o3>")

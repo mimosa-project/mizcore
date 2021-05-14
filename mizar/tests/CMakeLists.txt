@@ -20,7 +20,7 @@ target_link_libraries(
 target_include_directories(
     emcore_mizar_test.out
     PUBLIC
-    ${PROJECT_SOURCE_DIR}/common
+    ${PROJECT_SOURCE_DIR}/common/include
     ${CMAKE_CURRENT_SOURCE_DIR}/../src
 )
 
