@@ -15,6 +15,7 @@ target_link_libraries(
     emcore_mizar_test.out
     PRIVATE
     emcore_mizar
+    spdlog::spdlog
 )
 
 target_include_directories(
@@ -28,4 +29,4 @@ target_compile_options(emcore_mizar_test.out PUBLIC "$<$<CONFIG:RELEASE>:-o3>")
 target_compile_options(emcore_mizar_test.out PUBLIC "$<$<CONFIG:DEBUG>:-o0 -g>")
 target_compile_features(emcore_mizar_test.out PUBLIC cxx_std_17)
 target_compile_definitions(emcore_mizar_test.out PUBLIC "$<$<CONFIG:RELEASE>:NDEBUG>")
-
+target_compile_definitions(emcore_mizar_test.out PUBLIC SPDLOG_COMPILED_LIB)

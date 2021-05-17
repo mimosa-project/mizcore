@@ -1,7 +1,10 @@
-#include "doctest/doctest.h"
 #include <iostream>
 #include <fstream>
 #include <filesystem>
+
+#include "doctest/doctest.h"
+#include "spdlog/spdlog.h"
+#include "spdlog/cfg/env.h"
 
 #undef yyFlexLexer
 #define yyFlexLexer yyVctFlexLexer

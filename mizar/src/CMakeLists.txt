@@ -28,7 +28,13 @@ target_include_directories(emcore_mizar
     ${PROJECT_SOURCE_DIR}/common/include
 )
 
+target_link_libraries(emcore_mizar
+    PUBLIC
+    spdlog::spdlog
+)
+
 target_compile_options(emcore_mizar PUBLIC "$<$<CONFIG:RELEASE>:-o3>")
 target_compile_options(emcore_mizar PUBLIC "$<$<CONFIG:DEBUG>:-o0 -g>")
 target_compile_features(emcore_mizar PUBLIC cxx_std_17)
+target_compile_definitions(emcore_mizar PUBLIC SPDLOG_COMPILED_LIB)
 target_compile_definitions(emcore_mizar PUBLIC "$<$<CONFIG:RELEASE>:NDEBUG>")
