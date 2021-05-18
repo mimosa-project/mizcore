@@ -47,19 +47,19 @@ TEST_CASE("symbol table test") {
 
         symbol = table->QueryLongestMatchSymbol(".abc def ghi");
         CHECK(symbol);
-        CHECK(symbol->GetName() == ".");
+        CHECK(0 == strcmp(symbol->GetName(), "."));
         CHECK(symbol->GetType() == SYMBOL_TYPE('O'));
         CHECK(symbol->GetPriority() == 100);
 
         symbol = table->QueryLongestMatchSymbol("..abc def ghi");
         CHECK(symbol);
-        CHECK(symbol->GetName() == "..");
+        CHECK(0 == strcmp(symbol->GetName(), ".."));
         CHECK(symbol->GetType() == SYMBOL_TYPE('O'));
         CHECK(symbol->GetPriority() == 100);
 
         symbol = table->QueryLongestMatchSymbol("||..abc def ghi");
         CHECK(symbol);
-        CHECK(symbol->GetName() == "||..");
+        CHECK(0 == strcmp(symbol->GetName(), "||.."));
         CHECK(symbol->GetType() == SYMBOL_TYPE('K'));
 
         symbol = table->QueryLongestMatchSymbol("abss def ghi");
@@ -67,38 +67,38 @@ TEST_CASE("symbol table test") {
 
         symbol = table->QueryLongestMatchSymbol(",;:abc||def");
         CHECK(symbol);
-        CHECK(symbol->GetName() == ",");
+        CHECK(0 == strcmp(symbol->GetName(), ","));
         CHECK(symbol->GetType() == SYMBOL_TYPE('S'));
 
         symbol = table->QueryLongestMatchSymbol(",||;:abcdef");
         CHECK(symbol);
-        CHECK(symbol->GetName() == ",");
+        CHECK(0 == strcmp(symbol->GetName(), ","));
         CHECK(symbol->GetType() == SYMBOL_TYPE('S'));
 
         symbol = table->QueryLongestMatchSymbol("$1,abcdef");
         CHECK(symbol);
-        CHECK(symbol->GetName() == "$1");
+        CHECK(0 == strcmp(symbol->GetName(), "$1"));
         CHECK(symbol->GetType() == SYMBOL_TYPE('S'));
 
         symbol = table->QueryLongestMatchSymbol("...||abcdef");
         CHECK(symbol);
-        CHECK(symbol->GetName() == "...");
+        CHECK(0 == strcmp(symbol->GetName(), "..."));
         CHECK(symbol->GetType() == SYMBOL_TYPE('S'));
 
         symbol = table->QueryLongestMatchSymbol("||abcdef");
         CHECK(symbol);
-        CHECK(symbol->GetName() == "||");
+        CHECK(0 == strcmp(symbol->GetName(), "||"));
         CHECK(symbol->GetType() == SYMBOL_TYPE('O'));
         CHECK(symbol->GetPriority() == 100);
 
         symbol = table->QueryLongestMatchSymbol("= a");
         CHECK(symbol);
-        CHECK(symbol->GetName() == "=");
+        CHECK(0 == strcmp(symbol->GetName(), "="));
         CHECK(symbol->GetType() == SYMBOL_TYPE('S'));
 
         symbol = table->QueryLongestMatchSymbol("& sup I in I;");
         CHECK(symbol);
-        CHECK(symbol->GetName() == "&");
+        CHECK(0 == strcmp(symbol->GetName(), "&"));
         CHECK(symbol->GetType() == SYMBOL_TYPE('S'));
     }
 
@@ -116,13 +116,13 @@ TEST_CASE("symbol table test") {
 
         symbol = table->QueryLongestMatchSymbol("..abc def ghi");
         CHECK(symbol);
-        CHECK(symbol->GetName() == "..");
+        CHECK(0 == strcmp(symbol->GetName(), ".."));
         CHECK(symbol->GetType() == SYMBOL_TYPE('O'));
         CHECK(symbol->GetPriority() == 100);
 
         symbol = table->QueryLongestMatchSymbol("||..abc def ghi");
         CHECK(symbol);
-        CHECK(symbol->GetName() == "||..");
+        CHECK(0 == strcmp(symbol->GetName(), "||.."));
         CHECK(symbol->GetType() == SYMBOL_TYPE('K'));
 
         symbol = table->QueryLongestMatchSymbol("abss def ghi");
@@ -130,22 +130,22 @@ TEST_CASE("symbol table test") {
 
         symbol = table->QueryLongestMatchSymbol(",;:abc||def");
         CHECK(symbol);
-        CHECK(symbol->GetName() == ",");
+        CHECK(0 == strcmp(symbol->GetName(), ","));
         CHECK(symbol->GetType() == SYMBOL_TYPE('S'));
 
         symbol = table->QueryLongestMatchSymbol(",||;:abcdef");
         CHECK(symbol);
-        CHECK(symbol->GetName() == ",");
+        CHECK(0 == strcmp(symbol->GetName(), ","));
         CHECK(symbol->GetType() == SYMBOL_TYPE('S'));
 
         symbol = table->QueryLongestMatchSymbol("$1,abcdef");
         CHECK(symbol);
-        CHECK(symbol->GetName() == "$1");
+        CHECK(0 == strcmp(symbol->GetName(), "$1"));
         CHECK(symbol->GetType() == SYMBOL_TYPE('S'));
 
         symbol = table->QueryLongestMatchSymbol("...||abcdef");
         CHECK(symbol);
-        CHECK(symbol->GetName() == "...");
+        CHECK(0 == strcmp(symbol->GetName(), "..."));
         CHECK(symbol->GetType() == SYMBOL_TYPE('S'));
 
         symbol = table->QueryLongestMatchSymbol("||abcdef");
@@ -153,12 +153,12 @@ TEST_CASE("symbol table test") {
 
         symbol = table->QueryLongestMatchSymbol("= a");
         CHECK(symbol);
-        CHECK(symbol->GetName() == "=");
+        CHECK(0 == strcmp(symbol->GetName(), "="));
         CHECK(symbol->GetType() == SYMBOL_TYPE('S'));
 
         symbol = table->QueryLongestMatchSymbol("& sup I in I;");
         CHECK(symbol);
-        CHECK(symbol->GetName() == "&");
+        CHECK(0 == strcmp(symbol->GetName(), "&"));
         CHECK(symbol->GetType() == SYMBOL_TYPE('S'));
     }
 }

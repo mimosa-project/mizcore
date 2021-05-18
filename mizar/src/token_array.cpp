@@ -1,4 +1,6 @@
 #include <ostream>
+#include <iomanip>
+
 #include "token.hpp"
 #include "token_array.hpp"
 
@@ -24,7 +26,7 @@ std::vector<Token*> TokenArray::CollectTokenArray() const
 void TokenArray::Dump(std::ostream& os) const
 {
     for (size_t i = 0; i < tokens_.size(); ++i) {
-        os << i << ": ";
+        os << std::setw(5) << i << ": ";
         tokens_[i]->Dump(os);
         os << std::endl;
     }

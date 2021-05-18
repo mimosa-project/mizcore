@@ -9,38 +9,39 @@ Token* TokenFactory::CreateSymbolToken(size_t line_number, size_t column_number,
 {
     Symbol* symbol = symbol_table_->QueryLongestMatchSymbol(text);
     if (symbol) {
-        return new SymbolToken(line_number, column_number, symbol);
+        return new Token(line_number, column_number, TOKEN_TYPE::SYMBOL, nullptr, symbol);
     } else {
         return nullptr;
     }
 }
 
-Token* TokenFactory::CreateIdentifierToken(size_t line_number, size_t column_number, const char* text)
-{
-    return new IdentifierToken(line_number, column_number, text);
-}
-
-Token* TokenFactory::CreateKeywordToken(size_t line_number, size_t column_number, KEYWORD_TYPE keyword_type)
-{
-    return new KeywordToken(line_number, column_number, keyword_type);
-}
-
 Token* TokenFactory::CreateNumeralToken(size_t line_number, size_t column_number, const char* text)
 {
-    return new NumeralToken(line_number, column_number, text);
+    return new Token(line_number, column_number, TOKEN_TYPE::NUMERAL, text);
 }
+
+Token* TokenFactory::CreateIdentifierToken(size_t line_number, size_t column_number, const char* text)
+{
+    return new Token(line_number, column_number, TOKEN_TYPE::IDENTIFIER, text);
+}
+
+Token* TokenFactory::CreateKeywordToken(size_t line_number, size_t column_number, TOKEN_TYPE token_type)
+{
+    return new Token(line_number, column_number, token_type, nullptr);
+}
+
 
 Token* TokenFactory::CreateFileNameToken(size_t line_number, size_t column_number, const char* text)
 {
-    return new FileNameToken(line_number, column_number, text);
+    return new Token(line_number, column_number, TOKEN_TYPE::FILENAME, text);
 }
 
-Token* TokenFactory::CreateCommentToken(size_t line_number, size_t column_number, const char* text, COMMENT_TYPE comment_type)
+Token* TokenFactory::CreateCommentToken(size_t line_number, size_t column_number, const char* text, TOKEN_TYPE token_type)
 {
-    return new CommentToken(line_number, column_number, text, comment_type);
+    return new Token(line_number, column_number, token_type, text);
 }
 
 Token* TokenFactory::CreateUnknownToken(size_t line_number, size_t column_number, const char* text)
 {
-    return new UnknownToken(line_number, column_number, text);
+    return new Token(line_number, column_number, TOKEN_TYPE::UNKNOWN, text);
 }

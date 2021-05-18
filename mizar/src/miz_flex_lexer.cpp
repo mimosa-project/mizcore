@@ -55,20 +55,20 @@ size_t MizFlexLexer::ScanIdentifier()
     return yyleng;
 }
 
-size_t MizFlexLexer::ScanKeyword(KEYWORD_TYPE keyword_type)
+size_t MizFlexLexer::ScanKeyword(TOKEN_TYPE token_type)
 {
-    Token* token = token_factory_->CreateKeywordToken(line_number_, column_number_, keyword_type);
+    Token* token = token_factory_->CreateKeywordToken(line_number_, column_number_, token_type);
     assert(token);
     token_array_->AddToken(token);
     column_number_ += yyleng;
 
-    if (keyword_type == KEYWORD_TYPE::ENVIRON) {
+    if (token_type == TOKEN_TYPE::ENVIRON) {
         is_in_environ_section_ = true;
-    } else if (keyword_type == KEYWORD_TYPE::VOCABULARIES) {
+    } else if (token_type == TOKEN_TYPE::VOCABULARIES) {
         if (is_in_environ_section_) {
             is_in_vocabulary_section_ = true;
         }
-    } else if (keyword_type == KEYWORD_TYPE::BEGIN_) {
+    } else if (token_type == TOKEN_TYPE::BEGIN_) {
         is_in_environ_section_ = false;
         is_in_vocabulary_section_ = false;
         symbol_table_->BuildQueryMap();
@@ -103,9 +103,9 @@ size_t MizFlexLexer::ScanFileName()
     }
 }
 
-size_t MizFlexLexer::ScanComment(COMMENT_TYPE comment_type)
+size_t MizFlexLexer::ScanComment(TOKEN_TYPE token_type)
 {
-    Token* token = token_factory_->CreateCommentToken(line_number_, column_number_, yytext, comment_type);
+    Token* token = token_factory_->CreateCommentToken(line_number_, column_number_, yytext, token_type);
     assert(token);
     token_array_->AddToken(token);
     column_number_ += yyleng;

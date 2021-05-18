@@ -3,337 +3,290 @@
 #include <ostream>
 #include <string>
 #include <map>
+#include <iomanip>
+#include <new>
 
 #include "token.hpp"
 #include "symbol.hpp"
 
 using std::string;
 using std::map;
-using emcore::mizar::KEYWORD_TYPE;
+using emcore::mizar::TOKEN_TYPE;
 using emcore::mizar::Token;
-using emcore::mizar::SymbolToken;
-using emcore::mizar::IdentifierToken;
-using emcore::mizar::KeywordToken;
-using emcore::mizar::NumeralToken;
-using emcore::mizar::FileNameToken;
-using emcore::mizar::CommentToken;
-using emcore::mizar::UnknownToken;
+
+Token::Token(size_t line_number, size_t column_number, TOKEN_TYPE type,
+             const char* text, Symbol* symbol)
+: line_number_(line_number),
+  column_number_(column_number),
+  type_(type),
+  text_(nullptr)
+{
+    if (text) {
+        text_ = strdup(text);
+        if (!text_) {
+            throw std::bad_alloc();
+        }
+    }
+    if (symbol) {
+        symbol_ = symbol;
+    }
+}
+
+Token::Token(const Token& rhs)
+: line_number_(rhs.line_number_),
+  column_number_(rhs.column_number_),
+  type_(rhs.type_),
+  text_(nullptr)
+{
+    if (rhs.type_ == TOKEN_TYPE::SYMBOL) {
+        symbol_ = rhs.symbol_;
+    } else if (rhs.text_) {
+        text_ = strdup(rhs.text_);
+        if (!text_) {
+            throw std::bad_alloc();
+        }
+    }
+}
+
+Token::Token(Token&& rhs)
+: line_number_(rhs.line_number_),
+  column_number_(rhs.column_number_),
+  type_(rhs.type_),
+  text_(nullptr)
+{
+    if (rhs.type_ == TOKEN_TYPE::SYMBOL) {
+        symbol_ = rhs.symbol_;
+    } else if (rhs.text_) {
+        text_ = rhs.text_;
+        rhs.text_ = nullptr;
+    }
+}
+
+Token& Token::operator=(const Token& rhs)
+{
+    if (this != &rhs) {
+        line_number_ = rhs.line_number_;
+        column_number_ = rhs.column_number_;
+        type_ = rhs.type_;
+        text_ = nullptr;
+
+        if (rhs.type_ == TOKEN_TYPE::SYMBOL) {
+            symbol_ = rhs.symbol_;
+        } else if (rhs.text_) {
+            text_ = strdup(rhs.text_);
+            if (!text_) {
+                throw std::bad_alloc();
+            }
+        }
+    }
+    return *this;
+}
+
+Token& Token::operator=(Token&& rhs)
+{
+    if (this != &rhs) {
+        line_number_ = rhs.line_number_;
+        column_number_ = rhs.column_number_;
+        type_ = rhs.type_;
+        text_ = nullptr;
+
+        if (rhs.type_ == TOKEN_TYPE::SYMBOL) {
+            symbol_ = rhs.symbol_;
+        } else if (rhs.text_) {
+            text_ = rhs.text_;
+            rhs.text_ = nullptr;
+        }
+    }
+    return *this;
+}
+
+Token::~Token()
+{
+    if (type_ != TOKEN_TYPE::SYMBOL) {
+        free(text_);
+    }
+}
+
+const char* Token::GetText() const
+{
+    if (type_ == TOKEN_TYPE::SYMBOL) {
+        return symbol_->GetName();
+    } else if (int(type_) >= int(TOKEN_TYPE::ACCORDING)) {
+        return QueryTypeText(type_);
+    } else {
+        return text_;
+    }
+}
+
+size_t Token::GetLength() const
+{
+    static size_t length_array[] = {
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        9,
+        9,
+        3,
+        3,
+        7,
+        3,
+        2,
+        2,
+        6,
+        9,
+        4,
+        2,
+        5,
+        5,
+        2,
+        8,
+        4,
+        5,
+        7,
+        9,
+        2,
+        2,
+        2,
+        8,
+        2,
+        2,
+        2,
+        2,
+        3,
+        7,
+        6,
+        2,
+        2,
+        7,
+        2,
+        4,
+        3,
+        7,
+        6,
+        2,
+        7,
+        9,
+        3,
+        4,
+        4,
+        5,
+        5,
+        6,
+        5,
+        2,
+        8,
+        2,
+        3,
+        7,
+        2,
+        2,
+        2,
+        2,
+        3,
+        5,
+        4,
+        3,
+        3,
+        8,
+        9,
+        3,
+        2,
+        2,
+        9,
+        4,
+        3,
+        4,
+        6,
+        2,
+        5,
+        8,
+        3,
+        2,
+        6,
+        2,
+        8,
+        2,
+        2,
+        2,
+        2,
+        7,
+        3,
+        6,
+        7,
+        7,
+        8,
+        3,
+        7,
+        2,
+        6,
+        6,
+        4,
+        7,
+        8,
+        7,
+        4,
+        4,
+        3,
+        4,
+        7,
+        8,
+        6,
+        4,
+        2,
+        2,
+        2,
+        2,
+        4,
+        5,
+        4,
+        3,
+    };
+
+    if (type_ == TOKEN_TYPE::SYMBOL) {
+        return symbol_->GetLength();
+    } else if (int(type_) >= int(TOKEN_TYPE::ACCORDING)) {
+        return length_array[(size_t)type_];
+    } else {
+        return strlen(text_);
+    }
+}
+
+void Token::Dump(std::ostream& os) const {
+    os << "pos = (" << std::setw(4) << line_number_ << ", "
+                    << std::setw(4) << column_number_ << "), "
+       << "length = " << std::setw(3) << GetLength() << ", "
+       << "type = " << std::setw(14);
+    if (int(type_) < int(TOKEN_TYPE::ACCORDING)) {
+        os << QueryTypeText(type_);
+    } else {
+        os << "KEYWORD";
+    }
+    os << ", "
+       << "text = \"" << GetText() << "\"";
+    if (type_ == TOKEN_TYPE::SYMBOL) {
+        os << ", symbol_type = " << (char)symbol_->GetType()
+           << ", priority = " << (int)symbol_->GetPriority();
+    }
+}
 
 const char* Token::QueryTypeText(TOKEN_TYPE type)
 {
     static string type_text[] = {
         "UNKNOWN",
+        "NUMERAL",
         "SYMBOL",
         "IDENTIFIER",
-        "KEYWORD",
-        "NUMERAL",
+        "LABEL",
+        "VARIABLE",
         "FILENAME",
-        "COMMENT",
-    };
-
-    return type_text[size_t(type)].c_str();
-}
-
-size_t SymbolToken::GetLength() const
-{
-    return symbol_->GetName().size();
-}
-
-const string& SymbolToken::GetText() const
-{
-    return symbol_->GetName();
-}
-
-size_t KeywordToken::GetLength() const
-{
-    switch (keyword_type_) {
-    case KEYWORD_TYPE::UNKNOWN:
-        return 0;
-    case KEYWORD_TYPE::AS:
-    case KEYWORD_TYPE::BE:
-    case KEYWORD_TYPE::BY:
-    case KEYWORD_TYPE::DO:
-    case KEYWORD_TYPE::EX:
-    case KEYWORD_TYPE::IF:
-    case KEYWORD_TYPE::IS:
-    case KEYWORD_TYPE::IT:
-    case KEYWORD_TYPE::OF:
-    case KEYWORD_TYPE::OR:
-    case KEYWORD_TYPE::ST:
-    case KEYWORD_TYPE::TO:
-        return 2;
-    case KEYWORD_TYPE::ALL:
-    case KEYWORD_TYPE::AND:
-    case KEYWORD_TYPE::ARE:
-    case KEYWORD_TYPE::DEF:
-    case KEYWORD_TYPE::END:
-    case KEYWORD_TYPE::FOR:
-    case KEYWORD_TYPE::IFF:
-    case KEYWORD_TYPE::LET:
-    case KEYWORD_TYPE::NON:
-    case KEYWORD_TYPE::NOT:
-    case KEYWORD_TYPE::NOW:
-    case KEYWORD_TYPE::PER:
-    case KEYWORD_TYPE::QUA:
-    case KEYWORD_TYPE::SCH:
-    case KEYWORD_TYPE::SET:
-    case KEYWORD_TYPE::THE:
-    case KEYWORD_TYPE::WRT:
-        return 3;
-    case KEYWORD_TYPE::ATTR:
-    case KEYWORD_TYPE::CASE:
-    case KEYWORD_TYPE::DOES:
-    case KEYWORD_TYPE::FROM:
-    case KEYWORD_TYPE::FUNC:
-    case KEYWORD_TYPE::MODE:
-    case KEYWORD_TYPE::OVER:
-    case KEYWORD_TYPE::PRED:
-    case KEYWORD_TYPE::SUCH:
-    case KEYWORD_TYPE::TAKE:
-    case KEYWORD_TYPE::THAT:
-    case KEYWORD_TYPE::THEN:
-    case KEYWORD_TYPE::THUS:
-    case KEYWORD_TYPE::WHEN:
-    case KEYWORD_TYPE::WITH:
-        return 4;
-    case KEYWORD_TYPE::BEGIN_:
-    case KEYWORD_TYPE::BEING:
-    case KEYWORD_TYPE::CASES:
-    case KEYWORD_TYPE::GIVEN:
-    case KEYWORD_TYPE::HENCE:
-    case KEYWORD_TYPE::HOLDS:
-    case KEYWORD_TYPE::MEANS:
-    case KEYWORD_TYPE::PROOF:
-    case KEYWORD_TYPE::WHERE:
-        return 5;
-    case KEYWORD_TYPE::ASSUME:
-    case KEYWORD_TYPE::DEFINE:
-    case KEYWORD_TYPE::EQUALS:
-    case KEYWORD_TYPE::HEREBY:
-    case KEYWORD_TYPE::PREFIX:
-    case KEYWORD_TYPE::REDUCE:
-    case KEYWORD_TYPE::SCHEME:
-    case KEYWORD_TYPE::STRUCT:
-    case KEYWORD_TYPE::THESIS:
-        return 6;
-    case KEYWORD_TYPE::ANTONYM:
-    case KEYWORD_TYPE::CLUSTER:
-    case KEYWORD_TYPE::DEFFUNC:
-    case KEYWORD_TYPE::DEFPRED:
-    case KEYWORD_TYPE::ENVIRON:
-    case KEYWORD_TYPE::EXACTLY:
-    case KEYWORD_TYPE::IMPLIES:
-    case KEYWORD_TYPE::RESERVE:
-    case KEYWORD_TYPE::SCHEMES:
-    case KEYWORD_TYPE::SECTION:
-    case KEYWORD_TYPE::SETHOOD:
-    case KEYWORD_TYPE::SUPPOSE:
-    case KEYWORD_TYPE::SYNONYM:
-    case KEYWORD_TYPE::THEOREM:
-        return 7;
-    case KEYWORD_TYPE::CANCELED:
-    case KEYWORD_TYPE::CONSIDER:
-    case KEYWORD_TYPE::IDENTIFY:
-    case KEYWORD_TYPE::NOTATION:
-    case KEYWORD_TYPE::PROVIDED:
-    case KEYWORD_TYPE::REDEFINE:
-    case KEYWORD_TYPE::SELECTOR:
-    case KEYWORD_TYPE::SYMMETRY:
-    case KEYWORD_TYPE::THEOREMS:
-        return 8;
-    case KEYWORD_TYPE::ACCORDING:
-    case KEYWORD_TYPE::AGGREGATE:
-    case KEYWORD_TYPE::ASYMMETRY:
-    case KEYWORD_TYPE::COHERENCE:
-    case KEYWORD_TYPE::EXISTENCE:
-    case KEYWORD_TYPE::NOTATIONS:
-    case KEYWORD_TYPE::OTHERWISE:
-        return 9;
-    case KEYWORD_TYPE::DEFINITION:
-    case KEYWORD_TYPE::RECONSIDER:
-    case KEYWORD_TYPE::UNIQUENESS:
-        return 10;
-    case KEYWORD_TYPE::CONSISTENCY:
-    case KEYWORD_TYPE::CORRECTNESS:
-    case KEYWORD_TYPE::DEFINITIONS:
-    case KEYWORD_TYPE::IDEMPOTENCE:
-    case KEYWORD_TYPE::REFLEXIVITY:
-        return 11;
-    case KEYWORD_TYPE::CONSTRUCTORS:
-    case KEYWORD_TYPE::PROJECTIVITY:
-    case KEYWORD_TYPE::REDUCIBILITY:
-    case KEYWORD_TYPE::REGISTRATION:
-    case KEYWORD_TYPE::REQUIREMENTS:
-    case KEYWORD_TYPE::TRANSITIVITY:
-    case KEYWORD_TYPE::VOCABULARIES:
-        return 12;
-    case KEYWORD_TYPE::ASSOCIATIVITY:
-    case KEYWORD_TYPE::COMMUTATIVITY:
-    case KEYWORD_TYPE::COMPATIBILITY:
-    case KEYWORD_TYPE::CONNECTEDNESS:
-    case KEYWORD_TYPE::CONTRADICTION:
-    case KEYWORD_TYPE::IRREFLEXIVITY:
-    case KEYWORD_TYPE::REGISTRATIONS:
-        return 13;
-    case KEYWORD_TYPE::INVOLUTIVENESS:
-        return 14;
-    default:
-        assert(false);
-        return 0;
-    }
-}
-
-void Token::Dump(std::ostream& os) const {
-    os << "pos = (" << line_number_ << ", " << column_number_ << "), "
-       << "type = " << QueryTypeText(GetType()) << ", "
-       << "length = " << GetLength() << ", "
-       << "text = \"" << GetText() << "\"";
-}
-
-void SymbolToken::Dump(std::ostream& os) const {
-    Token::Dump(os);
-    os << ", symbol_type = " << (char)symbol_->GetType()
-       << ", priority = " << (int)symbol_->GetPriority();
-}
-
-const string& KeywordToken::GetText() const
-{
-    return QueryKeywordText(keyword_type_);
-}
-
-KEYWORD_TYPE KeywordToken::QueryKeywordType(const char* name)
-{
-    static map<string, KEYWORD_TYPE> keyword_map = 
-    {
-        {"according", KEYWORD_TYPE::ACCORDING},
-        {"aggregate", KEYWORD_TYPE::AGGREGATE},
-        {"all", KEYWORD_TYPE::ALL},
-        {"and", KEYWORD_TYPE::AND},
-        {"antonym", KEYWORD_TYPE::ANTONYM},
-        {"are", KEYWORD_TYPE::ARE},
-        {"as", KEYWORD_TYPE::AS},
-        {"associativity", KEYWORD_TYPE::ASSOCIATIVITY},
-        {"assume", KEYWORD_TYPE::ASSUME},
-        {"asymmetry", KEYWORD_TYPE::ASYMMETRY},
-        {"attr", KEYWORD_TYPE::ATTR},
-        {"be", KEYWORD_TYPE::BE},
-        {"begin", KEYWORD_TYPE::BEGIN_},
-        {"being", KEYWORD_TYPE::BEING},
-        {"by", KEYWORD_TYPE::BY},
-        {"canceled", KEYWORD_TYPE::CANCELED},
-        {"case", KEYWORD_TYPE::CASE},
-        {"cases", KEYWORD_TYPE::CASES},
-        {"cluster", KEYWORD_TYPE::CLUSTER},
-        {"coherence", KEYWORD_TYPE::COHERENCE},
-        {"commutativity", KEYWORD_TYPE::COMMUTATIVITY},
-        {"compatibility", KEYWORD_TYPE::COMPATIBILITY},
-        {"connectedness", KEYWORD_TYPE::CONNECTEDNESS},
-        {"consider", KEYWORD_TYPE::CONSIDER},
-        {"consistency", KEYWORD_TYPE::CONSISTENCY},
-        {"constructors", KEYWORD_TYPE::CONSTRUCTORS},
-        {"contradiction", KEYWORD_TYPE::CONTRADICTION},
-        {"correctness", KEYWORD_TYPE::CORRECTNESS},
-        {"def", KEYWORD_TYPE::DEF},
-        {"deffunc", KEYWORD_TYPE::DEFFUNC},
-        {"define", KEYWORD_TYPE::DEFINE},
-        {"definition", KEYWORD_TYPE::DEFINITION},
-        {"definitions", KEYWORD_TYPE::DEFINITIONS},
-        {"defpred", KEYWORD_TYPE::DEFPRED},
-        {"do", KEYWORD_TYPE::DO},
-        {"does", KEYWORD_TYPE::DOES},
-        {"end", KEYWORD_TYPE::END},
-        {"environ", KEYWORD_TYPE::ENVIRON},
-        {"equals", KEYWORD_TYPE::EQUALS},
-        {"ex", KEYWORD_TYPE::EX},
-        {"exactly", KEYWORD_TYPE::EXACTLY},
-        {"existence", KEYWORD_TYPE::EXISTENCE},
-        {"for", KEYWORD_TYPE::FOR},
-        {"from", KEYWORD_TYPE::FROM},
-        {"func", KEYWORD_TYPE::FUNC},
-        {"given", KEYWORD_TYPE::GIVEN},
-        {"hence", KEYWORD_TYPE::HENCE},
-        {"hereby", KEYWORD_TYPE::HEREBY},
-        {"holds", KEYWORD_TYPE::HOLDS},
-        {"idempotence", KEYWORD_TYPE::IDEMPOTENCE},
-        {"identify", KEYWORD_TYPE::IDENTIFY},
-        {"if", KEYWORD_TYPE::IF},
-        {"iff", KEYWORD_TYPE::IFF},
-        {"implies", KEYWORD_TYPE::IMPLIES},
-        {"involutiveness", KEYWORD_TYPE::INVOLUTIVENESS},
-        {"irreflexivity", KEYWORD_TYPE::IRREFLEXIVITY},
-        {"is", KEYWORD_TYPE::IS},
-        {"it", KEYWORD_TYPE::IT},
-        {"let", KEYWORD_TYPE::LET},
-        {"means", KEYWORD_TYPE::MEANS},
-        {"mode", KEYWORD_TYPE::MODE},
-        {"non", KEYWORD_TYPE::NON},
-        {"not", KEYWORD_TYPE::NOT},
-        {"notation", KEYWORD_TYPE::NOTATION},
-        {"notations", KEYWORD_TYPE::NOTATIONS},
-        {"now", KEYWORD_TYPE::NOW},
-        {"of", KEYWORD_TYPE::OF},
-        {"or", KEYWORD_TYPE::OR},
-        {"otherwise", KEYWORD_TYPE::OTHERWISE},
-        {"over", KEYWORD_TYPE::OVER},
-        {"per", KEYWORD_TYPE::PER},
-        {"pred", KEYWORD_TYPE::PRED},
-        {"prefix", KEYWORD_TYPE::PREFIX},
-        {"projectivity", KEYWORD_TYPE::PROJECTIVITY},
-        {"proof", KEYWORD_TYPE::PROOF},
-        {"provided", KEYWORD_TYPE::PROVIDED},
-        {"qua", KEYWORD_TYPE::QUA},
-        {"reconsider", KEYWORD_TYPE::RECONSIDER},
-        {"reduce", KEYWORD_TYPE::REDUCE},
-        {"reducibility", KEYWORD_TYPE::REDUCIBILITY},
-        {"redefine", KEYWORD_TYPE::REDEFINE},
-        {"reflexivity", KEYWORD_TYPE::REFLEXIVITY},
-        {"registration", KEYWORD_TYPE::REGISTRATION},
-        {"registrations", KEYWORD_TYPE::REGISTRATIONS},
-        {"requirements", KEYWORD_TYPE::REQUIREMENTS},
-        {"reserve", KEYWORD_TYPE::RESERVE},
-        {"sch", KEYWORD_TYPE::SCH},
-        {"scheme", KEYWORD_TYPE::SCHEME},
-        {"schemes", KEYWORD_TYPE::SCHEMES},
-        {"section", KEYWORD_TYPE::SECTION},
-        {"selector", KEYWORD_TYPE::SELECTOR},
-        {"set", KEYWORD_TYPE::SET},
-        {"sethood", KEYWORD_TYPE::SETHOOD},
-        {"st", KEYWORD_TYPE::ST},
-        {"struct", KEYWORD_TYPE::STRUCT},
-        {"such", KEYWORD_TYPE::SUCH},
-        {"suppose", KEYWORD_TYPE::SUPPOSE},
-        {"symmetry", KEYWORD_TYPE::SYMMETRY},
-        {"synonym", KEYWORD_TYPE::SYNONYM},
-        {"take", KEYWORD_TYPE::TAKE},
-        {"that", KEYWORD_TYPE::THAT},
-        {"the", KEYWORD_TYPE::THE},
-        {"then", KEYWORD_TYPE::THEN},
-        {"theorem", KEYWORD_TYPE::THEOREM},
-        {"theorems", KEYWORD_TYPE::THEOREMS},
-        {"thesis", KEYWORD_TYPE::THESIS},
-        {"thus", KEYWORD_TYPE::THUS},
-        {"to", KEYWORD_TYPE::TO},
-        {"transitivity", KEYWORD_TYPE::TRANSITIVITY},
-        {"uniqueness", KEYWORD_TYPE::UNIQUENESS},
-        {"vocabularies", KEYWORD_TYPE::VOCABULARIES},
-        {"when", KEYWORD_TYPE::WHEN},
-        {"where", KEYWORD_TYPE::WHERE},
-        {"with", KEYWORD_TYPE::WITH},
-        {"wrt", KEYWORD_TYPE::WRT},
-    };
-
-    auto it = keyword_map.find(name);
-    if (it != keyword_map.end()) {
-        return it->second;
-    } else {
-        return KEYWORD_TYPE::UNKNOWN;
-    }
-}
-
-const std::string& KeywordToken::QueryKeywordText(KEYWORD_TYPE keyword_type)
-{
-    static string keyword_texts[] = {
-        "", // unknown
+        "DOUBLE_COMMENT",
+        "TRIPLE_COMMENT",
         "according",
         "aggregate",
         "all",
@@ -428,6 +381,7 @@ const std::string& KeywordToken::QueryKeywordText(KEYWORD_TYPE keyword_type)
         "set",
         "sethood",
         "st",
+        "static",
         "struct",
         "such",
         "suppose",
@@ -448,8 +402,138 @@ const std::string& KeywordToken::QueryKeywordText(KEYWORD_TYPE keyword_type)
         "when",
         "where",
         "with",
-        "wrt"
+        "wrt",
     };
 
-    return keyword_texts[(int)keyword_type];
+    return type_text[size_t(type)].c_str();
+}
+
+TOKEN_TYPE Token::QueryKeywordType(const char* text)
+{
+    static map<string, TOKEN_TYPE> keyword_map = 
+    {
+        {"according", TOKEN_TYPE::ACCORDING},
+        {"aggregate", TOKEN_TYPE::AGGREGATE},
+        {"all", TOKEN_TYPE::ALL},
+        {"and", TOKEN_TYPE::AND},
+        {"antonym", TOKEN_TYPE::ANTONYM},
+        {"are", TOKEN_TYPE::ARE},
+        {"as", TOKEN_TYPE::AS},
+        {"associativity", TOKEN_TYPE::ASSOCIATIVITY},
+        {"assume", TOKEN_TYPE::ASSUME},
+        {"asymmetry", TOKEN_TYPE::ASYMMETRY},
+        {"attr", TOKEN_TYPE::ATTR},
+        {"be", TOKEN_TYPE::BE},
+        {"begin", TOKEN_TYPE::BEGIN_},
+        {"being", TOKEN_TYPE::BEING},
+        {"by", TOKEN_TYPE::BY},
+        {"canceled", TOKEN_TYPE::CANCELED},
+        {"case", TOKEN_TYPE::CASE},
+        {"cases", TOKEN_TYPE::CASES},
+        {"cluster", TOKEN_TYPE::CLUSTER},
+        {"coherence", TOKEN_TYPE::COHERENCE},
+        {"commutativity", TOKEN_TYPE::COMMUTATIVITY},
+        {"compatibility", TOKEN_TYPE::COMPATIBILITY},
+        {"connectedness", TOKEN_TYPE::CONNECTEDNESS},
+        {"consider", TOKEN_TYPE::CONSIDER},
+        {"consistency", TOKEN_TYPE::CONSISTENCY},
+        {"constructors", TOKEN_TYPE::CONSTRUCTORS},
+        {"contradiction", TOKEN_TYPE::CONTRADICTION},
+        {"correctness", TOKEN_TYPE::CORRECTNESS},
+        {"def", TOKEN_TYPE::DEF},
+        {"deffunc", TOKEN_TYPE::DEFFUNC},
+        {"define", TOKEN_TYPE::DEFINE},
+        {"definition", TOKEN_TYPE::DEFINITION},
+        {"definitions", TOKEN_TYPE::DEFINITIONS},
+        {"defpred", TOKEN_TYPE::DEFPRED},
+        {"do", TOKEN_TYPE::DO},
+        {"does", TOKEN_TYPE::DOES},
+        {"end", TOKEN_TYPE::END},
+        {"environ", TOKEN_TYPE::ENVIRON},
+        {"equals", TOKEN_TYPE::EQUALS},
+        {"ex", TOKEN_TYPE::EX},
+        {"exactly", TOKEN_TYPE::EXACTLY},
+        {"existence", TOKEN_TYPE::EXISTENCE},
+        {"for", TOKEN_TYPE::FOR},
+        {"from", TOKEN_TYPE::FROM},
+        {"func", TOKEN_TYPE::FUNC},
+        {"given", TOKEN_TYPE::GIVEN},
+        {"hence", TOKEN_TYPE::HENCE},
+        {"hereby", TOKEN_TYPE::HEREBY},
+        {"holds", TOKEN_TYPE::HOLDS},
+        {"idempotence", TOKEN_TYPE::IDEMPOTENCE},
+        {"identify", TOKEN_TYPE::IDENTIFY},
+        {"if", TOKEN_TYPE::IF},
+        {"iff", TOKEN_TYPE::IFF},
+        {"implies", TOKEN_TYPE::IMPLIES},
+        {"involutiveness", TOKEN_TYPE::INVOLUTIVENESS},
+        {"irreflexivity", TOKEN_TYPE::IRREFLEXIVITY},
+        {"is", TOKEN_TYPE::IS},
+        {"it", TOKEN_TYPE::IT},
+        {"let", TOKEN_TYPE::LET},
+        {"means", TOKEN_TYPE::MEANS},
+        {"mode", TOKEN_TYPE::MODE},
+        {"non", TOKEN_TYPE::NON},
+        {"not", TOKEN_TYPE::NOT},
+        {"notation", TOKEN_TYPE::NOTATION},
+        {"notations", TOKEN_TYPE::NOTATIONS},
+        {"now", TOKEN_TYPE::NOW},
+        {"of", TOKEN_TYPE::OF},
+        {"or", TOKEN_TYPE::OR},
+        {"otherwise", TOKEN_TYPE::OTHERWISE},
+        {"over", TOKEN_TYPE::OVER},
+        {"per", TOKEN_TYPE::PER},
+        {"pred", TOKEN_TYPE::PRED},
+        {"prefix", TOKEN_TYPE::PREFIX},
+        {"projectivity", TOKEN_TYPE::PROJECTIVITY},
+        {"proof", TOKEN_TYPE::PROOF},
+        {"provided", TOKEN_TYPE::PROVIDED},
+        {"qua", TOKEN_TYPE::QUA},
+        {"reconsider", TOKEN_TYPE::RECONSIDER},
+        {"reduce", TOKEN_TYPE::REDUCE},
+        {"reducibility", TOKEN_TYPE::REDUCIBILITY},
+        {"redefine", TOKEN_TYPE::REDEFINE},
+        {"reflexivity", TOKEN_TYPE::REFLEXIVITY},
+        {"registration", TOKEN_TYPE::REGISTRATION},
+        {"registrations", TOKEN_TYPE::REGISTRATIONS},
+        {"requirements", TOKEN_TYPE::REQUIREMENTS},
+        {"reserve", TOKEN_TYPE::RESERVE},
+        {"sch", TOKEN_TYPE::SCH},
+        {"scheme", TOKEN_TYPE::SCHEME},
+        {"schemes", TOKEN_TYPE::SCHEMES},
+        {"section", TOKEN_TYPE::SECTION},
+        {"selector", TOKEN_TYPE::SELECTOR},
+        {"set", TOKEN_TYPE::SET},
+        {"sethood", TOKEN_TYPE::SETHOOD},
+        {"st", TOKEN_TYPE::ST},
+        {"static", TOKEN_TYPE::STATIC},
+        {"struct", TOKEN_TYPE::STRUCT},
+        {"such", TOKEN_TYPE::SUCH},
+        {"suppose", TOKEN_TYPE::SUPPOSE},
+        {"symmetry", TOKEN_TYPE::SYMMETRY},
+        {"synonym", TOKEN_TYPE::SYNONYM},
+        {"take", TOKEN_TYPE::TAKE},
+        {"that", TOKEN_TYPE::THAT},
+        {"the", TOKEN_TYPE::THE},
+        {"then", TOKEN_TYPE::THEN},
+        {"theorem", TOKEN_TYPE::THEOREM},
+        {"theorems", TOKEN_TYPE::THEOREMS},
+        {"thesis", TOKEN_TYPE::THESIS},
+        {"thus", TOKEN_TYPE::THUS},
+        {"to", TOKEN_TYPE::TO},
+        {"transitivity", TOKEN_TYPE::TRANSITIVITY},
+        {"uniqueness", TOKEN_TYPE::UNIQUENESS},
+        {"vocabularies", TOKEN_TYPE::VOCABULARIES},
+        {"when", TOKEN_TYPE::WHEN},
+        {"where", TOKEN_TYPE::WHERE},
+        {"with", TOKEN_TYPE::WITH},
+        {"wrt", TOKEN_TYPE::WRT},
+    };
+
+    auto it = keyword_map.find(text);
+    if (it != keyword_map.end()) {
+        return it->second;
+    } else {
+        return TOKEN_TYPE::UNKNOWN;
+    }
 }

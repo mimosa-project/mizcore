@@ -32,7 +32,8 @@ public:
         : name_(name), type_(type), priority_(priority) {}
     ~Symbol() = default;
 
-    const std::string& GetName() const {return name_;}
+    const char* GetName() const {return name_.c_str();}
+    size_t GetLength() const {return name_.length();}
     SYMBOL_TYPE GetType() const {return type_;}
     uint8_t GetPriority() const {return priority_;}
     

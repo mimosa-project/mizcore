@@ -4,16 +4,14 @@ namespace emcore::mizar {
 
 enum class TOKEN_TYPE {
     UNKNOWN,
+    NUMERAL,
     SYMBOL,
     IDENTIFIER,
-    KEYWORD,
-    NUMERAL,
+    LABEL,
+    VARIABLE,
     FILENAME,
-    COMMENT,
-};
-
-enum class KEYWORD_TYPE {
-    UNKNOWN,
+    DOUBLE_COMMENT,
+    TRIPLE_COMMENT,
     ACCORDING,
     AGGREGATE,
     ALL,
@@ -108,6 +106,7 @@ enum class KEYWORD_TYPE {
     SET,
     SETHOOD,
     ST,
+    STATIC,
     STRUCT,
     SUCH,
     SUPPOSE,
@@ -129,12 +128,6 @@ enum class KEYWORD_TYPE {
     WHERE,
     WITH,
     WRT,
-};
-
-enum class COMMENT_TYPE {
-    UNKNOWN,
-    DOUBLE,
-    TRIPLE,
 };
 
 }
