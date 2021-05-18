@@ -12,3 +12,11 @@ cd build
 cmake ..
 make
 ```
+
+## Test
+
+```bash
+# User the following Bash code:
+cd build
+ctest
+```

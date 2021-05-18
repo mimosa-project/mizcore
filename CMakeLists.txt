@@ -7,8 +7,9 @@ if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE "Debug")
 endif()
 
+# test
+enable_testing()
+
 add_subdirectory(common)
 add_subdirectory(mizar)
 
-# test
-enable_testing()
