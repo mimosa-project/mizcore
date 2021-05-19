@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.8)
+cmake_minimum_required(VERSION 3.12)
 
 project(emcore LANGUAGES CXX)
 
@@ -9,6 +9,8 @@ endif()
 
 # test
 enable_testing()
+
+add_compile_options(-Wall -Wextra -Wpedantic)
 
 add_subdirectory(common)
 add_subdirectory(mizar)

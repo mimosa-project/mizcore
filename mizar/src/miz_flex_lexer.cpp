@@ -31,7 +31,7 @@ size_t MizFlexLexer::ScanSymbol() {
     size_t length = token->GetLength();
     column_number_ += length;
 
-    if (token->GetText() == ";" && is_in_vocabulary_section_) {
+    if (0 == strcmp(token->GetText(), ";") && is_in_vocabulary_section_) {
       is_in_vocabulary_section_ = false;
     }
     return length;
