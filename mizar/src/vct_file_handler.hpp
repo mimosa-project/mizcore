@@ -9,12 +9,13 @@ class VctFlexLexer;
 
 class VctFileHandler {
 public:
-    VctFileHandler(std::istream *in);
-    int yylex();
+  VctFileHandler(std::istream *in);
+  int yylex();
 
-    std::shared_ptr<SymbolTable> GetSymbolTable() const;
+  std::shared_ptr<SymbolTable> GetSymbolTable() const;
+
 private:
-    std::shared_ptr<VctFlexLexer> vct_flex_lexer_;
+  std::shared_ptr<VctFlexLexer> vct_flex_lexer_;
 };
 
-}
+} // namespace emcore::mizar
