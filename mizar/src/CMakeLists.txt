@@ -14,7 +14,6 @@ add_library(emcore_mizar
     symbol_table.cpp
     token.cpp
     token_array.cpp
-    token_factory.cpp
     vct_file_handler.cpp
     miz_file_handler.cpp
     miz_flex_lexer.cpp

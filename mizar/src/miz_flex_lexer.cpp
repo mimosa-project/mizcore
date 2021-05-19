@@ -5,7 +5,6 @@
 
 #include "symbol_table.hpp"
 #include "token.hpp"
-#include "token_factory.hpp"
 #include "token_array.hpp"
 
 #undef yyFlexLexer
@@ -20,7 +19,6 @@ using emcore::mizar::MizFlexLexer;
 MizFlexLexer::MizFlexLexer(std::istream *in, std::shared_ptr<SymbolTable> symbol_table)
     : yyMizFlexLexer(in),
       symbol_table_(symbol_table),
-      token_factory_(std::make_shared<TokenFactory>(symbol_table)),
       token_array_(std::make_shared<TokenArray>()),
       line_number_(1),
       column_number_(1),
@@ -31,8 +29,9 @@ MizFlexLexer::MizFlexLexer(std::istream *in, std::shared_ptr<SymbolTable> symbol
 
 size_t MizFlexLexer::ScanSymbol()
 {
-    Token* token = token_factory_->CreateSymbolToken(line_number_, column_number_, yytext);
-    if (token) {
+    Symbol* symbol = symbol_table_->QueryLongestMatchSymbol(yytext);
+    if (symbol) {
+        Token* token = new Token(line_number_, column_number_, TOKEN_TYPE::SYMBOL, nullptr, symbol);
         token_array_->AddToken(token);
         size_t length = token->GetLength();
         column_number_ += length;
@@ -48,8 +47,7 @@ size_t MizFlexLexer::ScanSymbol()
 
 size_t MizFlexLexer::ScanIdentifier()
 {
-    Token* token = token_factory_->CreateIdentifierToken(line_number_, column_number_, yytext);
-    assert(token);
+    Token* token = new Token(line_number_, column_number_, TOKEN_TYPE::IDENTIFIER, yytext);
     token_array_->AddToken(token);
     column_number_ += yyleng;
     return yyleng;
@@ -57,8 +55,7 @@ size_t MizFlexLexer::ScanIdentifier()
 
 size_t MizFlexLexer::ScanKeyword(TOKEN_TYPE token_type)
 {
-    Token* token = token_factory_->CreateKeywordToken(line_number_, column_number_, token_type);
-    assert(token);
+    Token* token = new Token(line_number_, column_number_, token_type, nullptr);
     token_array_->AddToken(token);
     column_number_ += yyleng;
 
@@ -79,7 +76,7 @@ size_t MizFlexLexer::ScanKeyword(TOKEN_TYPE token_type)
 
 size_t MizFlexLexer::ScanNumeral()
 {
-    Token* token = token_factory_->CreateNumeralToken(line_number_, column_number_, yytext);
+    Token* token = new Token(line_number_, column_number_, TOKEN_TYPE::NUMERAL, yytext);
     assert(token);
     token_array_->AddToken(token);
     column_number_ += yyleng;
@@ -89,7 +86,7 @@ size_t MizFlexLexer::ScanNumeral()
 size_t MizFlexLexer::ScanFileName()
 {
     if (is_in_environ_section_) {
-        Token* token = token_factory_->CreateFileNameToken(line_number_, column_number_, yytext);
+        Token* token = new Token(line_number_, column_number_, TOKEN_TYPE::FILENAME, yytext);
         assert(token);
         token_array_->AddToken(token);
         column_number_ += yyleng;
@@ -105,7 +102,7 @@ size_t MizFlexLexer::ScanFileName()
 
 size_t MizFlexLexer::ScanComment(TOKEN_TYPE token_type)
 {
-    Token* token = token_factory_->CreateCommentToken(line_number_, column_number_, yytext, token_type);
+    Token* token = new Token(line_number_, column_number_, token_type, yytext);
     assert(token);
     token_array_->AddToken(token);
     column_number_ += yyleng;
@@ -118,7 +115,7 @@ size_t MizFlexLexer::ScanUnknown()
     std::cout << "[Error] Unknown token found: ["
               << line_number_ << "," << column_number_ << "]"
               << std::endl;
-    Token* token = token_factory_->CreateUnknownToken(line_number_, column_number_, yytext);
+    Token* token = new Token(line_number_, column_number_, TOKEN_TYPE::UNKNOWN, yytext);
     assert(token);
     token_array_->AddToken(token);
     column_number_ += yyleng;

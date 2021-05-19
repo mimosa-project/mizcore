@@ -6,7 +6,6 @@
 
 #include "symbol_table.hpp"
 #include "token.hpp"
-#include "token_factory.hpp"
 #include "token_array.hpp"
 #include "miz_flex_lexer.hpp"
 

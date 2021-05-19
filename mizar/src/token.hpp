@@ -13,7 +13,7 @@ class Token final {
 public:
     // ctor, dtor
     Token(size_t line_number, size_t column_number, TOKEN_TYPE type,
-          const char* text, Symbol* symbol = nullptr);
+          const char* text = nullptr, Symbol* symbol = nullptr);
     Token(const Token &rhs);
     Token(Token&& rhs);
     Token& operator=(const Token& rhs);

@@ -9,7 +9,6 @@ namespace emcore::mizar {
 
 class SymbolTable;
 class Token;
-class TokenFactory;
 class TokenArray;
 using std::istream;
 
@@ -33,7 +32,6 @@ private:
 
 private:
     std::shared_ptr<SymbolTable> symbol_table_;
-    std::shared_ptr<TokenFactory> token_factory_;
     std::shared_ptr<TokenArray> token_array_;
     size_t line_number_;
     size_t column_number_;
