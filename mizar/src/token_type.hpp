@@ -106,7 +106,6 @@ enum class TOKEN_TYPE {
     SET,
     SETHOOD,
     ST,
-    STATIC,
     STRUCT,
     SUCH,
     SUPPOSE,

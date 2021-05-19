@@ -79,17 +79,18 @@ TEST_CASE("execute miz file handler") {
         remove(result_file_path.c_str());
     }
 
-/*
+    /*
     SUBCASE("jgraph_4.miz") {
-        fs::path miz_file_path = TEST_DATA_DIR / "jgraph_4.miz";
-        ifstream ifs(miz_file_path.c_str());
+        fs::path miz_file_path = TEST_DIR / "data" / "jgraph_4.miz";
+        std::ifstream ifs(miz_file_path.c_str());
         MizFileHandler miz_handler(&ifs, symbol_table);
         miz_handler.yylex();
 
         auto token_array = miz_handler.GetTokenArray();
-        cout << "Token Num: " << token_array->GetTokenNum() << endl;
-        token_array->Dump(cout);
-        cout << endl;
+        CHECK(186748 == token_array->GetTokenNum());
+        // std::cout << "Token Num: " << token_array->GetTokenNum() << std::endl;
+        // token_array->Dump(std::cout);
+        // std::cout << std::endl;
     }
-*/
+    */
 }
