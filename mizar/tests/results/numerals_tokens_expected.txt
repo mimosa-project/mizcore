@@ -12,7 +12,7 @@
    11: pos = (  12,    1), length =  60, type = DOUBLE_COMMENT, text = ":: licenses, or see http://www.gnu.org/licenses/gpl.html and"
    12: pos = (  13,    1), length =  50, type = DOUBLE_COMMENT, text = ":: http://creativecommons.org/licenses/by-sa/3.0/."
    13: pos = (  15,    1), length =   7, type =        KEYWORD, text = "environ"
-   14: pos = (  17,    2), length =   2, type =        KEYWORD, text = "vocabularies"
+   14: pos = (  17,    2), length =  12, type =        KEYWORD, text = "vocabularies"
    15: pos = (  17,   15), length =   8, type =       FILENAME, text = "XBOOLE_0"
    16: pos = (  17,   23), length =   1, type =         SYMBOL, text = ",", symbol_type = S, priority = 64
    17: pos = (  17,   25), length =   8, type =       FILENAME, text = "SUBSET_1"
@@ -26,12 +26,12 @@
    25: pos = (  18,   30), length =   1, type =         SYMBOL, text = ",", symbol_type = S, priority = 64
    26: pos = (  18,   32), length =   8, type =       FILENAME, text = "ORDINAL1"
    27: pos = (  18,   40), length =   1, type =         SYMBOL, text = ";", symbol_type = S, priority = 64
-   28: pos = (  19,    2), length =   2, type =        KEYWORD, text = "constructors"
+   28: pos = (  19,    2), length =  12, type =        KEYWORD, text = "constructors"
    29: pos = (  19,   15), length =   8, type =       FILENAME, text = "SUBSET_1"
    30: pos = (  19,   23), length =   1, type =         SYMBOL, text = ",", symbol_type = S, priority = 64
    31: pos = (  19,   25), length =   8, type =       FILENAME, text = "ORDINAL1"
    32: pos = (  19,   33), length =   1, type =         SYMBOL, text = ";", symbol_type = S, priority = 64
-   33: pos = (  20,    2), length =   2, type =        KEYWORD, text = "requirements"
+   33: pos = (  20,    2), length =  12, type =        KEYWORD, text = "requirements"
    34: pos = (  20,   15), length =   5, type =       FILENAME, text = "BOOLE"
    35: pos = (  20,   20), length =   1, type =         SYMBOL, text = ";", symbol_type = S, priority = 64
    36: pos = (  21,    2), length =   8, type =        KEYWORD, text = "theorems"
