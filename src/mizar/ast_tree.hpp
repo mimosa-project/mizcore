@@ -6,13 +6,14 @@ namespace emcore::mizar {
 
 class ASTNode;
 
-class ASTTree {
-public:
-  ASTTree() = default;
-  virtual ~ASTTree() = default;
+class ASTTree
+{
+  public:
+    ASTTree() = default;
+    virtual ~ASTTree() = default;
 
-private:
-  std::unique_ptr<ASTNode> root_node_;
+  private:
+    std::unique_ptr<ASTNode> root_node_;
 };
 
 } // namespace emcore::mizar

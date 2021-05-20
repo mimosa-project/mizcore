@@ -12,12 +12,19 @@ using emcore::mizar::MizFlexLexer;
 using emcore::mizar::SymbolTable;
 using emcore::mizar::TokenArray;
 
-MizFileHandler::MizFileHandler(std::istream *in,
+MizFileHandler::MizFileHandler(std::istream* in,
                                std::shared_ptr<SymbolTable> symbol_table)
-    : miz_flex_lexer_(std::make_shared<MizFlexLexer>(in, symbol_table)) {}
+  : miz_flex_lexer_(std::make_shared<MizFlexLexer>(in, symbol_table))
+{}
 
-int MizFileHandler::yylex() { return miz_flex_lexer_->yylex(); }
+int
+MizFileHandler::yylex()
+{
+    return miz_flex_lexer_->yylex();
+}
 
-std::shared_ptr<TokenArray> MizFileHandler::GetTokenArray() const {
-  return miz_flex_lexer_->GetTokenArray();
+std::shared_ptr<TokenArray>
+MizFileHandler::GetTokenArray() const
+{
+    return miz_flex_lexer_->GetTokenArray();
 }
