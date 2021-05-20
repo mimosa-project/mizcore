@@ -31,8 +31,7 @@ MizFlexLexer::ScanSymbol()
 {
     Symbol* symbol = symbol_table_->QueryLongestMatchSymbol(yytext);
     if (symbol) {
-        Token* token = new Token(
-          line_number_, column_number_, TOKEN_TYPE::SYMBOL, nullptr, symbol);
+        Token* token = new SymbolToken(line_number_, column_number_, symbol);
         token_array_->AddToken(token);
         size_t length = token->GetLength();
         column_number_ += length;
@@ -49,27 +48,26 @@ MizFlexLexer::ScanSymbol()
 size_t
 MizFlexLexer::ScanIdentifier()
 {
-    Token* token =
-      new Token(line_number_, column_number_, TOKEN_TYPE::IDENTIFIER, yytext);
+    Token* token = new IdentifierToken(line_number_, column_number_, yytext);
     token_array_->AddToken(token);
     column_number_ += yyleng;
     return yyleng;
 }
 
 size_t
-MizFlexLexer::ScanKeyword(TOKEN_TYPE token_type)
+MizFlexLexer::ScanKeyword(KEYWORD_TYPE type)
 {
-    Token* token = new Token(line_number_, column_number_, token_type, nullptr);
+    Token* token = new KeywordToken(line_number_, column_number_, type);
     token_array_->AddToken(token);
     column_number_ += yyleng;
 
-    if (token_type == TOKEN_TYPE::ENVIRON) {
+    if (type == KEYWORD_TYPE::ENVIRON) {
         is_in_environ_section_ = true;
-    } else if (token_type == TOKEN_TYPE::VOCABULARIES) {
+    } else if (type == KEYWORD_TYPE::VOCABULARIES) {
         if (is_in_environ_section_) {
             is_in_vocabulary_section_ = true;
         }
-    } else if (token_type == TOKEN_TYPE::BEGIN_) {
+    } else if (type == KEYWORD_TYPE::BEGIN_) {
         is_in_environ_section_ = false;
         is_in_vocabulary_section_ = false;
         symbol_table_->BuildQueryMap();
@@ -81,8 +79,7 @@ MizFlexLexer::ScanKeyword(TOKEN_TYPE token_type)
 size_t
 MizFlexLexer::ScanNumeral()
 {
-    Token* token =
-      new Token(line_number_, column_number_, TOKEN_TYPE::NUMERAL, yytext);
+    Token* token = new NumeralToken(line_number_, column_number_, yytext);
     assert(token);
     token_array_->AddToken(token);
     column_number_ += yyleng;
@@ -93,8 +90,8 @@ size_t
 MizFlexLexer::ScanFileName()
 {
     if (is_in_environ_section_) {
-        Token* token =
-          new Token(line_number_, column_number_, TOKEN_TYPE::FILENAME, yytext);
+        Token* token = new IdentifierToken(
+          line_number_, column_number_, yytext, IDENTIFIER_TYPE::FILENAME);
         assert(token);
         token_array_->AddToken(token);
         column_number_ += yyleng;
@@ -109,9 +106,9 @@ MizFlexLexer::ScanFileName()
 }
 
 size_t
-MizFlexLexer::ScanComment(TOKEN_TYPE token_type)
+MizFlexLexer::ScanComment(COMMENT_TYPE type)
 {
-    Token* token = new Token(line_number_, column_number_, token_type, yytext);
+    Token* token = new CommentToken(line_number_, column_number_, yytext, type);
     assert(token);
     token_array_->AddToken(token);
     column_number_ += yyleng;
@@ -124,8 +121,7 @@ MizFlexLexer::ScanUnknown()
     // [TODO] temporary error message
     std::cout << "[Error] Unknown token found: [" << line_number_ << ","
               << column_number_ << "]" << std::endl;
-    Token* token =
-      new Token(line_number_, column_number_, TOKEN_TYPE::UNKNOWN, yytext);
+    Token* token = new UnknownToken(line_number_, column_number_, yytext);
     assert(token);
     token_array_->AddToken(token);
     column_number_ += yyleng;

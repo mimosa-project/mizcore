@@ -1,79 +1,79 @@
-    0: pos = (   1,    1), length =  26, type = DOUBLE_COMMENT, text = ":: Numerals - Requirements"
-    1: pos = (   2,    1), length =  24, type = DOUBLE_COMMENT, text = "::  by Library Committee"
-    2: pos = (   3,    1), length =   2, type = DOUBLE_COMMENT, text = "::"
-    3: pos = (   4,    1), length =  29, type = DOUBLE_COMMENT, text = ":: Received February 27, 2003"
-    4: pos = (   5,    1), length =  53, type = DOUBLE_COMMENT, text = ":: Copyright (c) 2003-2021 Association of Mizar Users"
-    5: pos = (   6,    1), length =  69, type = DOUBLE_COMMENT, text = "::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland)."
-    6: pos = (   7,    1), length =  68, type = DOUBLE_COMMENT, text = ":: This code can be distributed under the GNU General Public Licence"
-    7: pos = (   8,    1), length =  71, type = DOUBLE_COMMENT, text = ":: version 3.0 or later, or the Creative Commons Attribution-ShareAlike"
-    8: pos = (   9,    1), length =  70, type = DOUBLE_COMMENT, text = ":: License version 3.0 or later, subject to the binding interpretation"
-    9: pos = (  10,    1), length =  43, type = DOUBLE_COMMENT, text = ":: detailed in file COPYING.interpretation."
-   10: pos = (  11,    1), length =  66, type = DOUBLE_COMMENT, text = ":: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these"
-   11: pos = (  12,    1), length =  60, type = DOUBLE_COMMENT, text = ":: licenses, or see http://www.gnu.org/licenses/gpl.html and"
-   12: pos = (  13,    1), length =  50, type = DOUBLE_COMMENT, text = ":: http://creativecommons.org/licenses/by-sa/3.0/."
-   13: pos = (  15,    1), length =   7, type =        KEYWORD, text = "environ"
-   14: pos = (  17,    2), length =  12, type =        KEYWORD, text = "vocabularies"
-   15: pos = (  17,   15), length =   8, type =       FILENAME, text = "XBOOLE_0"
-   16: pos = (  17,   23), length =   1, type =         SYMBOL, text = ",", symbol_type = S, priority = 64
-   17: pos = (  17,   25), length =   8, type =       FILENAME, text = "SUBSET_1"
-   18: pos = (  17,   33), length =   1, type =         SYMBOL, text = ",", symbol_type = S, priority = 64
-   19: pos = (  17,   35), length =   8, type =       FILENAME, text = "ORDINAL1"
-   20: pos = (  17,   43), length =   1, type =         SYMBOL, text = ";", symbol_type = S, priority = 64
-   21: pos = (  18,    2), length =   9, type =        KEYWORD, text = "notations"
-   22: pos = (  18,   12), length =   8, type =       FILENAME, text = "XBOOLE_0"
-   23: pos = (  18,   20), length =   1, type =         SYMBOL, text = ",", symbol_type = S, priority = 64
-   24: pos = (  18,   22), length =   8, type =       FILENAME, text = "SUBSET_1"
-   25: pos = (  18,   30), length =   1, type =         SYMBOL, text = ",", symbol_type = S, priority = 64
-   26: pos = (  18,   32), length =   8, type =       FILENAME, text = "ORDINAL1"
-   27: pos = (  18,   40), length =   1, type =         SYMBOL, text = ";", symbol_type = S, priority = 64
-   28: pos = (  19,    2), length =  12, type =        KEYWORD, text = "constructors"
-   29: pos = (  19,   15), length =   8, type =       FILENAME, text = "SUBSET_1"
-   30: pos = (  19,   23), length =   1, type =         SYMBOL, text = ",", symbol_type = S, priority = 64
-   31: pos = (  19,   25), length =   8, type =       FILENAME, text = "ORDINAL1"
-   32: pos = (  19,   33), length =   1, type =         SYMBOL, text = ";", symbol_type = S, priority = 64
-   33: pos = (  20,    2), length =  12, type =        KEYWORD, text = "requirements"
-   34: pos = (  20,   15), length =   5, type =       FILENAME, text = "BOOLE"
-   35: pos = (  20,   20), length =   1, type =         SYMBOL, text = ";", symbol_type = S, priority = 64
-   36: pos = (  21,    2), length =   8, type =        KEYWORD, text = "theorems"
-   37: pos = (  21,   11), length =   8, type =       FILENAME, text = "SUBSET_1"
-   38: pos = (  21,   19), length =   1, type =         SYMBOL, text = ",", symbol_type = S, priority = 64
-   39: pos = (  21,   21), length =   8, type =       FILENAME, text = "ORDINAL1"
-   40: pos = (  21,   29), length =   1, type =         SYMBOL, text = ";", symbol_type = S, priority = 64
-   41: pos = (  23,    1), length =   5, type =        KEYWORD, text = "begin"
-   42: pos = (  25,    1), length =  71, type = DOUBLE_COMMENT, text = ":: This file contains statements which are obvious for Mizar checker if"
-   43: pos = (  26,    1), length =  69, type = DOUBLE_COMMENT, text = ":: "requirements NUMERALS" is included in the environment description"
-   44: pos = (  27,    1), length =  63, type = DOUBLE_COMMENT, text = ":: of an article. They are published for testing purposes only."
-   45: pos = (  28,    1), length =  67, type = DOUBLE_COMMENT, text = ":: Users should use appropriate requirements instead of referencing"
-   46: pos = (  29,    1), length =  21, type = DOUBLE_COMMENT, text = ":: to these theorems."
-   47: pos = (  30,    1), length =  68, type = DOUBLE_COMMENT, text = ":: Some of these items need also other requirements for proper work."
-   48: pos = (  31,    1), length =  76, type = DOUBLE_COMMENT, text = ":: Statements which cannot be expressed in Mizar language are commented out."
-   49: pos = (  33,    1), length =   7, type =        KEYWORD, text = "theorem"
-   50: pos = (  34,    3), length =   2, type =         SYMBOL, text = "{}", symbol_type = O, priority = 128
-   51: pos = (  34,    6), length =   2, type =        KEYWORD, text = "is"
-   52: pos = (  34,    9), length =   7, type =         SYMBOL, text = "Element", symbol_type = M, priority = 64
-   53: pos = (  34,   17), length =   2, type =        KEYWORD, text = "of"
-   54: pos = (  34,   20), length =   5, type =         SYMBOL, text = "omega", symbol_type = O, priority = 128
-   55: pos = (  35,    1), length =   5, type =        KEYWORD, text = "proof"
-   56: pos = (  36,    3), length =   2, type =         SYMBOL, text = "{}", symbol_type = O, priority = 128
-   57: pos = (  36,    6), length =   2, type =         SYMBOL, text = "in", symbol_type = R, priority = 64
-   58: pos = (  36,    9), length =   5, type =         SYMBOL, text = "omega", symbol_type = O, priority = 128
-   59: pos = (  36,   15), length =   2, type =        KEYWORD, text = "by"
-   60: pos = (  36,   18), length =   8, type =     IDENTIFIER, text = "ORDINAL1"
-   61: pos = (  36,   26), length =   1, type =         SYMBOL, text = ":", symbol_type = S, priority = 64
-   62: pos = (  36,   27), length =   3, type =        KEYWORD, text = "def"
-   63: pos = (  36,   31), length =   2, type =        NUMERAL, text = "11"
-   64: pos = (  36,   33), length =   1, type =         SYMBOL, text = ";", symbol_type = S, priority = 64
-   65: pos = (  37,    3), length =   5, type =        KEYWORD, text = "hence"
-   66: pos = (  37,    9), length =   6, type =        KEYWORD, text = "thesis"
-   67: pos = (  37,   16), length =   2, type =        KEYWORD, text = "by"
-   68: pos = (  37,   19), length =   8, type =     IDENTIFIER, text = "SUBSET_1"
-   69: pos = (  37,   27), length =   1, type =         SYMBOL, text = ":", symbol_type = S, priority = 64
-   70: pos = (  37,   28), length =   3, type =        KEYWORD, text = "def"
-   71: pos = (  37,   32), length =   1, type =        NUMERAL, text = "1"
-   72: pos = (  37,   33), length =   1, type =         SYMBOL, text = ";", symbol_type = S, priority = 64
-   73: pos = (  38,    1), length =   3, type =        KEYWORD, text = "end"
-   74: pos = (  38,    4), length =   1, type =         SYMBOL, text = ";", symbol_type = S, priority = 64
-   75: pos = (  40,    1), length =   9, type = DOUBLE_COMMENT, text = "::theorem"
-   76: pos = (  41,    1), length =  45, type = DOUBLE_COMMENT, text = "::  numeral(X) implies X is Element of omega;"
-   77: pos = (  42,    1), length =   9, type = DOUBLE_COMMENT, text = "::theorem"
-   78: pos = (  43,    1), length =  39, type = DOUBLE_COMMENT, text = "::  numeral(X) implies succ(X) = X + 1;"
+    0: pos: [   1,    1], length: 26, type: comment,    text: ":: Numerals - Requirements",
+    1: pos: [   2,    1], length: 24, type: comment,    text: "::  by Library Committee",
+    2: pos: [   3,    1], length:  2, type: comment,    text: "::",                
+    3: pos: [   4,    1], length: 29, type: comment,    text: ":: Received February 27, 2003",
+    4: pos: [   5,    1], length: 53, type: comment,    text: ":: Copyright (c) 2003-2021 Association of Mizar Users",
+    5: pos: [   6,    1], length: 69, type: comment,    text: "::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).",
+    6: pos: [   7,    1], length: 68, type: comment,    text: ":: This code can be distributed under the GNU General Public Licence",
+    7: pos: [   8,    1], length: 71, type: comment,    text: ":: version 3.0 or later, or the Creative Commons Attribution-ShareAlike",
+    8: pos: [   9,    1], length: 70, type: comment,    text: ":: License version 3.0 or later, subject to the binding interpretation",
+    9: pos: [  10,    1], length: 43, type: comment,    text: ":: detailed in file COPYING.interpretation.",
+   10: pos: [  11,    1], length: 66, type: comment,    text: ":: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these",
+   11: pos: [  12,    1], length: 60, type: comment,    text: ":: licenses, or see http://www.gnu.org/licenses/gpl.html and",
+   12: pos: [  13,    1], length: 50, type: comment,    text: ":: http://creativecommons.org/licenses/by-sa/3.0/.",
+   13: pos: [  15,    1], length:  7, type: keyword,    text: "environ",           
+   14: pos: [  17,    2], length: 12, type: keyword,    text: "vocabularies",      
+   15: pos: [  17,   15], length:  8, type: identifier, text: "XBOOLE_0",           identifier_type: filename
+   16: pos: [  17,   23], length:  1, type: symbol,     text: ",",                  symbol_type: S, priority: 64
+   17: pos: [  17,   25], length:  8, type: identifier, text: "SUBSET_1",           identifier_type: filename
+   18: pos: [  17,   33], length:  1, type: symbol,     text: ",",                  symbol_type: S, priority: 64
+   19: pos: [  17,   35], length:  8, type: identifier, text: "ORDINAL1",           identifier_type: filename
+   20: pos: [  17,   43], length:  1, type: symbol,     text: ";",                  symbol_type: S, priority: 64
+   21: pos: [  18,    2], length:  9, type: keyword,    text: "notations",         
+   22: pos: [  18,   12], length:  8, type: identifier, text: "XBOOLE_0",           identifier_type: filename
+   23: pos: [  18,   20], length:  1, type: symbol,     text: ",",                  symbol_type: S, priority: 64
+   24: pos: [  18,   22], length:  8, type: identifier, text: "SUBSET_1",           identifier_type: filename
+   25: pos: [  18,   30], length:  1, type: symbol,     text: ",",                  symbol_type: S, priority: 64
+   26: pos: [  18,   32], length:  8, type: identifier, text: "ORDINAL1",           identifier_type: filename
+   27: pos: [  18,   40], length:  1, type: symbol,     text: ";",                  symbol_type: S, priority: 64
+   28: pos: [  19,    2], length: 12, type: keyword,    text: "constructors",      
+   29: pos: [  19,   15], length:  8, type: identifier, text: "SUBSET_1",           identifier_type: filename
+   30: pos: [  19,   23], length:  1, type: symbol,     text: ",",                  symbol_type: S, priority: 64
+   31: pos: [  19,   25], length:  8, type: identifier, text: "ORDINAL1",           identifier_type: filename
+   32: pos: [  19,   33], length:  1, type: symbol,     text: ";",                  symbol_type: S, priority: 64
+   33: pos: [  20,    2], length: 12, type: keyword,    text: "requirements",      
+   34: pos: [  20,   15], length:  5, type: identifier, text: "BOOLE",              identifier_type: filename
+   35: pos: [  20,   20], length:  1, type: symbol,     text: ";",                  symbol_type: S, priority: 64
+   36: pos: [  21,    2], length:  8, type: keyword,    text: "theorems",          
+   37: pos: [  21,   11], length:  8, type: identifier, text: "SUBSET_1",           identifier_type: filename
+   38: pos: [  21,   19], length:  1, type: symbol,     text: ",",                  symbol_type: S, priority: 64
+   39: pos: [  21,   21], length:  8, type: identifier, text: "ORDINAL1",           identifier_type: filename
+   40: pos: [  21,   29], length:  1, type: symbol,     text: ";",                  symbol_type: S, priority: 64
+   41: pos: [  23,    1], length:  5, type: keyword,    text: "begin",             
+   42: pos: [  25,    1], length: 71, type: comment,    text: ":: This file contains statements which are obvious for Mizar checker if",
+   43: pos: [  26,    1], length: 69, type: comment,    text: ":: "requirements NUMERALS" is included in the environment description",
+   44: pos: [  27,    1], length: 63, type: comment,    text: ":: of an article. They are published for testing purposes only.",
+   45: pos: [  28,    1], length: 67, type: comment,    text: ":: Users should use appropriate requirements instead of referencing",
+   46: pos: [  29,    1], length: 21, type: comment,    text: ":: to these theorems.",
+   47: pos: [  30,    1], length: 68, type: comment,    text: ":: Some of these items need also other requirements for proper work.",
+   48: pos: [  31,    1], length: 76, type: comment,    text: ":: Statements which cannot be expressed in Mizar language are commented out.",
+   49: pos: [  33,    1], length:  7, type: keyword,    text: "theorem",           
+   50: pos: [  34,    3], length:  2, type: symbol,     text: "{}",                 symbol_type: O, priority: 128
+   51: pos: [  34,    6], length:  2, type: keyword,    text: "is",                
+   52: pos: [  34,    9], length:  7, type: symbol,     text: "Element",            symbol_type: M, priority: 64
+   53: pos: [  34,   17], length:  2, type: keyword,    text: "of",                
+   54: pos: [  34,   20], length:  5, type: symbol,     text: "omega",              symbol_type: O, priority: 128
+   55: pos: [  35,    1], length:  5, type: keyword,    text: "proof",             
+   56: pos: [  36,    3], length:  2, type: symbol,     text: "{}",                 symbol_type: O, priority: 128
+   57: pos: [  36,    6], length:  2, type: symbol,     text: "in",                 symbol_type: R, priority: 64
+   58: pos: [  36,    9], length:  5, type: symbol,     text: "omega",              symbol_type: O, priority: 128
+   59: pos: [  36,   15], length:  2, type: keyword,    text: "by",                
+   60: pos: [  36,   18], length:  8, type: identifier, text: "ORDINAL1",           identifier_type: unknown
+   61: pos: [  36,   26], length:  1, type: symbol,     text: ":",                  symbol_type: S, priority: 64
+   62: pos: [  36,   27], length:  3, type: keyword,    text: "def",               
+   63: pos: [  36,   31], length:  2, type: numeral,    text: "11",                
+   64: pos: [  36,   33], length:  1, type: symbol,     text: ";",                  symbol_type: S, priority: 64
+   65: pos: [  37,    3], length:  5, type: keyword,    text: "hence",             
+   66: pos: [  37,    9], length:  6, type: keyword,    text: "thesis",            
+   67: pos: [  37,   16], length:  2, type: keyword,    text: "by",                
+   68: pos: [  37,   19], length:  8, type: identifier, text: "SUBSET_1",           identifier_type: unknown
+   69: pos: [  37,   27], length:  1, type: symbol,     text: ":",                  symbol_type: S, priority: 64
+   70: pos: [  37,   28], length:  3, type: keyword,    text: "def",               
+   71: pos: [  37,   32], length:  1, type: numeral,    text: "1",                 
+   72: pos: [  37,   33], length:  1, type: symbol,     text: ";",                  symbol_type: S, priority: 64
+   73: pos: [  38,    1], length:  3, type: keyword,    text: "end",               
+   74: pos: [  38,    4], length:  1, type: symbol,     text: ";",                  symbol_type: S, priority: 64
+   75: pos: [  40,    1], length:  9, type: comment,    text: "::theorem",         
+   76: pos: [  41,    1], length: 45, type: comment,    text: "::  numeral(X) implies X is Element of omega;",
+   77: pos: [  42,    1], length:  9, type: comment,    text: "::theorem",         
+   78: pos: [  43,    1], length: 39, type: comment,    text: "::  numeral(X) implies succ(X) = X + 1;",

@@ -90,7 +90,7 @@ SymbolTable::BuildQueryMap()
         for (const auto& pair : file2symbols_) {
             for (const auto& symbol_ptr : pair.second) {
                 Symbol* symbol = symbol_ptr.get();
-                query_map_[symbol->GetName()] = symbol;
+                query_map_[symbol->GetText()] = symbol;
             }
         }
     } else {
@@ -119,7 +119,7 @@ SymbolTable::BuildQueryMapOne(const std::string& filename)
     if (it != file2symbols_.end()) {
         for (const auto& symbol_ptr : it->second) {
             Symbol* symbol = symbol_ptr.get();
-            query_map_[symbol->GetName()] = symbol;
+            query_map_[symbol->GetText()] = symbol;
         }
     }
 }

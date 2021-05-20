@@ -30,20 +30,20 @@ enum class SYMBOL_TYPE : char
 class Symbol final
 {
   public:
-    Symbol(std::string&& name, SYMBOL_TYPE type, uint8_t priority = 64)
-      : name_(name)
+    Symbol(std::string&& text, SYMBOL_TYPE type, uint8_t priority = 64)
+      : text_(text)
       , type_(type)
       , priority_(priority)
     {}
     ~Symbol() = default;
 
-    const char* GetName() const { return name_.c_str(); }
-    size_t GetLength() const { return name_.length(); }
+    const char* GetText() const { return text_.c_str(); }
+    size_t GetLength() const { return text_.length(); }
     SYMBOL_TYPE GetType() const { return type_; }
     uint8_t GetPriority() const { return priority_; }
 
   private:
-    std::string name_;
+    std::string text_;
     SYMBOL_TYPE type_;
     uint8_t priority_;
 };

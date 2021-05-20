@@ -8,11 +8,28 @@ enum class TOKEN_TYPE
     NUMERAL,
     SYMBOL,
     IDENTIFIER,
+    KEYWORD,
+    COMMENT,
+};
+
+enum class IDENTIFIER_TYPE
+{
+    UNKNOWN,
     LABEL,
     VARIABLE,
     FILENAME,
-    DOUBLE_COMMENT,
-    TRIPLE_COMMENT,
+};
+
+enum class COMMENT_TYPE
+{
+    UNKNOWN,
+    DOUBLE,
+    TRIPLE,
+};
+
+enum class KEYWORD_TYPE
+{
+    UNKNOWN,
     ACCORDING,
     AGGREGATE,
     ALL,

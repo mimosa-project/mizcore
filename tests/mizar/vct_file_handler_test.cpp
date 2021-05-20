@@ -40,22 +40,22 @@ TEST_CASE("execute vct scanner")
     auto symbols = table->CollectFileSymbols("GROUP_1");
     CHECK(symbols.size() == 9);
 
-    CHECK(0 == strcmp(symbols[0]->GetName(), "unital"));
+    CHECK(0 == strcmp(symbols[0]->GetText(), "unital"));
     CHECK(symbols[0]->GetPriority() == 64);
     CHECK(symbols[0]->GetType() == SYMBOL_TYPE::ATTRIBUTE);
 
-    CHECK(0 == strcmp(symbols[4]->GetName(), "inverse_op"));
+    CHECK(0 == strcmp(symbols[4]->GetText(), "inverse_op"));
     CHECK(symbols[4]->GetPriority() == 124);
     CHECK(symbols[4]->GetType() == SYMBOL_TYPE::FUNCTOR);
 
     symbols = table->CollectFileSymbols("SCMFSA7B");
     CHECK(symbols.size() == 6);
 
-    CHECK(0 == strcmp(symbols[0]->GetName(), "refers"));
+    CHECK(0 == strcmp(symbols[0]->GetText(), "refers"));
     CHECK(symbols[0]->GetPriority() == 64);
     CHECK(symbols[0]->GetType() == SYMBOL_TYPE::PREDICATE);
 
-    CHECK(0 == strcmp(symbols[1]->GetName(), "refer"));
+    CHECK(0 == strcmp(symbols[1]->GetText(), "refer"));
     CHECK(symbols[1]->GetPriority() == 64);
     CHECK(symbols[1]->GetType() == SYMBOL_TYPE::PREDICATE);
 

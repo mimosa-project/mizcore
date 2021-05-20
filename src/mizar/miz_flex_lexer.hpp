@@ -25,10 +25,10 @@ class MizFlexLexer : public yyMizFlexLexer
   private:
     size_t ScanSymbol();
     size_t ScanIdentifier();
-    size_t ScanKeyword(TOKEN_TYPE token_type);
+    size_t ScanKeyword(KEYWORD_TYPE type);
     size_t ScanNumeral();
     size_t ScanFileName();
-    size_t ScanComment(TOKEN_TYPE token_type);
+    size_t ScanComment(COMMENT_TYPE token_type);
     size_t ScanUnknown();
 
   private:
