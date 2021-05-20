@@ -36,3 +36,5 @@
 /build/
 /.vscode/
 spdlog/
+/external/*
+!/external/CMakeLists.txt
