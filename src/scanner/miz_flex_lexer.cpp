@@ -13,7 +13,7 @@
 
 #include "miz_flex_lexer.hpp"
 
-using emcore::mizar::MizFlexLexer;
+using emcore::MizFlexLexer;
 
 MizFlexLexer::MizFlexLexer(std::istream* in,
                            std::shared_ptr<SymbolTable> symbol_table)

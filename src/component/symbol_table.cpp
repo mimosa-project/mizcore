@@ -1,13 +1,14 @@
 #include "symbol_table.hpp"
 #include "symbol.hpp"
 
-using emcore::mizar::Symbol;
-using emcore::mizar::SYMBOL_TYPE;
-using emcore::mizar::SymbolTable;
 using std::make_pair;
 using std::string;
 using std::unique_ptr;
 using std::vector;
+
+using emcore::Symbol;
+using emcore::SYMBOL_TYPE;
+using emcore::SymbolTable;
 
 SymbolTable::SymbolTable()
 {

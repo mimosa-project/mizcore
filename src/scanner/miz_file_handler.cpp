@@ -7,10 +7,10 @@
 #include "miz_file_handler.hpp"
 #include "miz_flex_lexer.hpp"
 
-using emcore::mizar::MizFileHandler;
-using emcore::mizar::MizFlexLexer;
-using emcore::mizar::SymbolTable;
-using emcore::mizar::TokenArray;
+using emcore::MizFileHandler;
+using emcore::MizFlexLexer;
+using emcore::SymbolTable;
+using emcore::TokenArray;
 
 MizFileHandler::MizFileHandler(std::istream* in,
                                std::shared_ptr<SymbolTable> symbol_table)

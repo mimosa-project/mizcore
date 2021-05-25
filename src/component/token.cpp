@@ -9,21 +9,21 @@
 #include "symbol.hpp"
 #include "token.hpp"
 
-using emcore::mizar::COMMENT_TYPE;
-using emcore::mizar::IDENTIFIER_TYPE;
-using emcore::mizar::KEYWORD_TYPE;
-using emcore::mizar::TOKEN_TYPE;
-
-using emcore::mizar::CommentToken;
-using emcore::mizar::IdentifierToken;
-using emcore::mizar::KeywordToken;
-using emcore::mizar::Symbol;
-using emcore::mizar::SymbolToken;
-using emcore::mizar::Token;
-using emcore::mizar::UnknownToken;
-
 using std::map;
 using std::string;
+
+using emcore::COMMENT_TYPE;
+using emcore::IDENTIFIER_TYPE;
+using emcore::KEYWORD_TYPE;
+using emcore::TOKEN_TYPE;
+
+using emcore::CommentToken;
+using emcore::IdentifierToken;
+using emcore::KeywordToken;
+using emcore::Symbol;
+using emcore::SymbolToken;
+using emcore::Token;
+using emcore::UnknownToken;
 
 void
 Token::Dump(std::ostream& os) const

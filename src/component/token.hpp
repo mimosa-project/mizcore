@@ -5,7 +5,7 @@
 
 #include "token_type.hpp"
 
-namespace emcore::mizar {
+namespace emcore {
 
 class Symbol;
 
@@ -196,4 +196,4 @@ class KeywordToken : public Token
     KEYWORD_TYPE keyword_type_;
 };
 
-} // namespace emcore::mizar
+} // namespace emcore

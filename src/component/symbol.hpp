@@ -3,7 +3,7 @@
 #include <cstdint>
 #include <string>
 
-namespace emcore::mizar {
+namespace emcore {
 
 // R - Predicate,
 // O - Functor,
@@ -48,4 +48,4 @@ class Symbol final
     uint8_t priority_;
 };
 
-} // namespace emcore::mizar
+} // namespace emcore

@@ -1,6 +1,6 @@
 #pragma once
 
-namespace emcore::mizar {
+namespace emcore {
 
 enum class TOKEN_TYPE
 {

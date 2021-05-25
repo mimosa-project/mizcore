@@ -7,11 +7,14 @@ if(NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE "Debug")
 endif()
 
+find_package(BISON REQUIRED)
+find_package(FLEX REQUIRED)
+
 # test
 enable_testing()
 
 add_compile_options(-Wall -Wextra -Wpedantic)
-add_compile_definitions(SPDLOG_COMPILED_LIB)
+# add_compile_definitions(SPDLOG_COMPILED_LIB)
 
 add_subdirectory(external)
 add_subdirectory(src)

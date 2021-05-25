@@ -4,8 +4,8 @@
 #include "token.hpp"
 #include "token_array.hpp"
 
-using emcore::mizar::Token;
-using emcore::mizar::TokenArray;
+using emcore::Token;
+using emcore::TokenArray;
 
 void
 TokenArray::AddToken(Token* token)

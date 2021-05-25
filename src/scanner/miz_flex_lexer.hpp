@@ -5,12 +5,11 @@
 
 #include "token_type.hpp"
 
-namespace emcore::mizar {
+namespace emcore {
 
 class SymbolTable;
 class Token;
 class TokenArray;
-using std::istream;
 
 class MizFlexLexer : public yyMizFlexLexer
 {
@@ -41,4 +40,4 @@ class MizFlexLexer : public yyMizFlexLexer
     bool is_in_vocabulary_section_;
 };
 
-} // namespace emcore::mizar
+} // namespace emcore

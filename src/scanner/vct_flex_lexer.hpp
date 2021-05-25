@@ -3,7 +3,7 @@
 #include <memory>
 #include <string>
 
-namespace emcore::mizar {
+namespace emcore {
 
 class Symbol;
 class SymbolTable;
@@ -24,4 +24,4 @@ class VctFlexLexer : public yyVctFlexLexer
     std::string current_mizfile_;
 };
 
-} // namespace emcore::mizar
+} // namespace emcore

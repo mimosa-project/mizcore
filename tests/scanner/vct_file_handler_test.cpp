@@ -15,10 +15,10 @@
 #include "symbol_table.hpp"
 #include "vct_file_handler.hpp"
 
-using emcore::mizar::Symbol;
-using emcore::mizar::SYMBOL_TYPE;
-using emcore::mizar::SymbolTable;
-using emcore::mizar::VctFileHandler;
+using emcore::Symbol;
+using emcore::SYMBOL_TYPE;
+using emcore::SymbolTable;
+using emcore::VctFileHandler;
 using std::cout;
 using std::endl;
 using std::ifstream;

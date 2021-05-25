@@ -1,1 +1,1 @@
-add_subdirectory(mizar)
+add_subdirectory(scanner)

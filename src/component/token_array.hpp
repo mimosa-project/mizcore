@@ -3,7 +3,7 @@
 #include <memory>
 #include <vector>
 
-namespace emcore::mizar {
+namespace emcore {
 
 class Token;
 
@@ -27,4 +27,4 @@ class TokenArray
     std::vector<std::unique_ptr<Token>> tokens_;
 };
 
-} // namespace emcore::mizar
+} // namespace emcore

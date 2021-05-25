@@ -9,11 +9,11 @@
 #include "token_array.hpp"
 #include "vct_file_handler.hpp"
 
-using emcore::mizar::MizFileHandler;
-using emcore::mizar::Symbol;
-using emcore::mizar::SYMBOL_TYPE;
-using emcore::mizar::SymbolTable;
-using emcore::mizar::VctFileHandler;
+using emcore::MizFileHandler;
+using emcore::Symbol;
+using emcore::SYMBOL_TYPE;
+using emcore::SymbolTable;
+using emcore::VctFileHandler;
 using std::string;
 namespace fs = std::filesystem;
 

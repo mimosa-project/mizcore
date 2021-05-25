@@ -3,9 +3,7 @@
 #include <fstream>
 #include <memory>
 
-#include "token_type.hpp"
-
-namespace emcore::mizar {
+namespace emcore {
 
 class SymbolTable;
 class TokenArray;
@@ -24,4 +22,4 @@ class MizFileHandler
     std::shared_ptr<MizFlexLexer> miz_flex_lexer_;
 };
 
-} // namespace emcore::mizar
+} // namespace emcore
