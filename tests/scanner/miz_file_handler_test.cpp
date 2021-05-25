@@ -75,7 +75,7 @@ TEST_CASE("execute miz file handler")
         std::ifstream ifs(miz_file_path);
         MizFileHandler miz_handler(&ifs, symbol_table);
 
-        // Erapsed time: 0.0014 [s]
+        // Erapsed time: 0.00034 [s]
         // clock_t start = clock();
         miz_handler.yylex();
         // clock_t duration = clock() - start;
@@ -98,23 +98,24 @@ TEST_CASE("execute miz file handler")
     }
 
     /*
-    SUBCASE("jgraph_4.miz") {
+    SUBCASE("jgraph_4.miz")
+    {
         fs::path miz_file_path = TEST_DIR / "data" / "jgraph_4.miz";
         std::ifstream ifs(miz_file_path.c_str());
         MizFileHandler miz_handler(&ifs, symbol_table);
 
-        // Erapsed time: 2.29 [s]
+        // Erapsed time: 0.221 [ms]
         // clock_t start = clock();
         miz_handler.yylex();
         // clock_t duration = clock() - start;
         // std::cout << "The elapsed time [s] of MizFileHandler is: "
-        //          << (double)duration / CLOCKS_PER_SEC << std::endl;
+        //           << (double)duration / CLOCKS_PER_SEC << std::endl;
 
         auto token_array = miz_handler.GetTokenArray();
         CHECK(186748 == token_array->GetTokenNum());
 
         // std::cout << "Token Num: " << token_array->GetTokenNum() <<
-    std::endl;
+        // std::endl;
         // token_array->Dump(std::cout);
         // std::cout << std::endl;
     }
