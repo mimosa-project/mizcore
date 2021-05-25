@@ -14,7 +14,6 @@ find_package(FLEX REQUIRED)
 enable_testing()
 
 add_compile_options(-Wall -Wextra -Wpedantic)
-# add_compile_definitions(SPDLOG_COMPILED_LIB)
 
 add_subdirectory(external)
 add_subdirectory(src)

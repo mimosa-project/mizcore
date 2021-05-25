@@ -12,7 +12,4 @@ add_library(emcore::scanner ALIAS emcore_scanner)
 
 target_link_libraries(emcore_scanner PUBLIC emcore::component)
 target_include_directories(emcore_scanner PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
-target_compile_options(emcore_scanner PRIVATE "$<$<CONFIG:RELEASE>:-o3>")
-target_compile_options(emcore_scanner PRIVATE "$<$<CONFIG:DEBUG>:-o0 -g>")
 target_compile_features(emcore_scanner PRIVATE cxx_std_17)
-target_compile_definitions(emcore_scanner PRIVATE "$<$<CONFIG:RELEASE>:NDEBUG>")
