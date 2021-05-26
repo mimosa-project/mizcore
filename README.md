@@ -2,6 +2,13 @@
 
 eco-Mizar Core Library
 
+## Environment
+
+- OS
+  - Linux (Tested on Ubuntu 20.04 LTS)
+- Compiler
+  - GCC (Tested on GCC 9.3.0)
+
 ## Build
 
 ```bash
@@ -21,3 +28,8 @@ make
 cd build
 ctest
 ```
+
+## TODO
+
+- Support rapidjson
+- Parse blocks in tokenize process
