@@ -7,12 +7,12 @@ namespace emcore {
 
 class Token;
 
-class TokenArray
+class TokenTable
 {
   public:
     // ctor, dtor
-    TokenArray() = default;
-    virtual ~TokenArray() = default;
+    TokenTable() = default;
+    virtual ~TokenTable() = default;
 
     // attributes
     void AddToken(Token* token);

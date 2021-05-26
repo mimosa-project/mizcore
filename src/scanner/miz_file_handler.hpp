@@ -6,7 +6,7 @@
 namespace emcore {
 
 class SymbolTable;
-class TokenArray;
+class TokenTable;
 class MizFlexLexer;
 
 class MizFileHandler
@@ -16,7 +16,7 @@ class MizFileHandler
     virtual ~MizFileHandler() = default;
 
     int yylex();
-    std::shared_ptr<TokenArray> GetTokenArray() const;
+    std::shared_ptr<TokenTable> GetTokenTable() const;
 
   private:
     std::shared_ptr<MizFlexLexer> miz_flex_lexer_;

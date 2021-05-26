@@ -6,7 +6,7 @@
 #include "miz_file_handler.hpp"
 #include "symbol.hpp"
 #include "symbol_table.hpp"
-#include "token_array.hpp"
+#include "token_table.hpp"
 #include "vct_file_handler.hpp"
 
 using emcore::MizFileHandler;
@@ -82,7 +82,7 @@ TEST_CASE("execute miz file handler")
         // std::cout << "The elapsed time [s] of VctFileHandler is: "
         //           << (double)duration / CLOCKS_PER_SEC << std::endl;
 
-        auto token_array = miz_handler.GetTokenArray();
+        auto token_array = miz_handler.GetTokenTable();
         CHECK(79 == token_array->GetTokenNum());
 
         fs::path result_file_path =
@@ -111,7 +111,7 @@ TEST_CASE("execute miz file handler")
         // std::cout << "The elapsed time [s] of MizFileHandler is: "
         //           << (double)duration / CLOCKS_PER_SEC << std::endl;
 
-        auto token_array = miz_handler.GetTokenArray();
+        auto token_array = miz_handler.GetTokenTable();
         CHECK(186748 == token_array->GetTokenNum());
 
         // std::cout << "Token Num: " << token_array->GetTokenNum() <<

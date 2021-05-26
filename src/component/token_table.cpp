@@ -2,19 +2,19 @@
 #include <ostream>
 
 #include "token.hpp"
-#include "token_array.hpp"
+#include "token_table.hpp"
 
 using emcore::Token;
-using emcore::TokenArray;
+using emcore::TokenTable;
 
 void
-TokenArray::AddToken(Token* token)
+TokenTable::AddToken(Token* token)
 {
     tokens_.push_back(std::unique_ptr<Token>(token));
 }
 
 void
-TokenArray::Dump(std::ostream& os) const
+TokenTable::Dump(std::ostream& os) const
 {
     for (size_t i = 0; i < tokens_.size(); ++i) {
         os << std::setw(5) << i << ": ";

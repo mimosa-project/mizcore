@@ -6,7 +6,7 @@
 
 #include "symbol_table.hpp"
 #include "token.hpp"
-#include "token_array.hpp"
+#include "token_table.hpp"
 #include "miz_flex_lexer.hpp"
 
 #undef  YY_DECL

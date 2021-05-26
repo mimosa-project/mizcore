@@ -9,7 +9,7 @@ namespace emcore {
 
 class SymbolTable;
 class Token;
-class TokenArray;
+class TokenTable;
 
 class MizFlexLexer : public yyMizFlexLexer
 {
@@ -19,7 +19,7 @@ class MizFlexLexer : public yyMizFlexLexer
 
     virtual int yylex();
 
-    std::shared_ptr<TokenArray> GetTokenArray() const { return token_array_; }
+    std::shared_ptr<TokenTable> GetTokenTable() const { return token_array_; }
 
   private:
     size_t ScanSymbol();
@@ -32,7 +32,7 @@ class MizFlexLexer : public yyMizFlexLexer
 
   private:
     std::shared_ptr<SymbolTable> symbol_table_;
-    std::shared_ptr<TokenArray> token_array_;
+    std::shared_ptr<TokenTable> token_array_;
     size_t line_number_;
     size_t column_number_;
 

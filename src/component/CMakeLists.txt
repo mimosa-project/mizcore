@@ -1,4 +1,4 @@
-add_library(emcore_component symbol_table.cpp token_array.cpp token.cpp)
+add_library(emcore_component symbol_table.cpp token_table.cpp token.cpp)
 add_library(emcore::component ALIAS emcore_component)
 
 target_link_libraries(emcore_component PUBLIC tsl::hat_trie)

@@ -5,7 +5,7 @@
 
 #include "symbol_table.hpp"
 #include "token.hpp"
-#include "token_array.hpp"
+#include "token_table.hpp"
 
 #undef yyFlexLexer
 #define yyFlexLexer yyMizFlexLexer
@@ -19,7 +19,7 @@ MizFlexLexer::MizFlexLexer(std::istream* in,
                            std::shared_ptr<SymbolTable> symbol_table)
   : yyMizFlexLexer(in)
   , symbol_table_(symbol_table)
-  , token_array_(std::make_shared<TokenArray>())
+  , token_array_(std::make_shared<TokenTable>())
   , line_number_(1)
   , column_number_(1)
   , is_in_environ_section_(false)
