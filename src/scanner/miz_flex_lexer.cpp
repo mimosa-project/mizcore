@@ -3,6 +3,8 @@
 #include <memory>
 #include <sstream>
 
+#include "spdlog/spdlog.h"
+
 #include "symbol_table.hpp"
 #include "token.hpp"
 #include "token_table.hpp"
@@ -118,9 +120,8 @@ MizFlexLexer::ScanComment(COMMENT_TYPE type)
 size_t
 MizFlexLexer::ScanUnknown()
 {
-    // [TODO] temporary error message
-    std::cout << "[Error] Unknown token found: [" << line_number_ << ","
-              << column_number_ << "]" << std::endl;
+    spdlog::error(
+      "[Error] Unknown token found: [{},{}]", line_number_, column_number_);
     Token* token = new UnknownToken(line_number_, column_number_, yytext);
     assert(token);
     token_array_->AddToken(token);
