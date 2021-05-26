@@ -91,5 +91,9 @@ SPACES      [[:space:]]+
     current_mizfile_.clear();
     return 0;
 }
+
+    /* others -> ignore */
+. {}
+
 %%
 
