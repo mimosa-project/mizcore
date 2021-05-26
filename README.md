@@ -5,8 +5,7 @@ eco-Mizar Core Library
 ## Build
 
 ```bash
-sudo apt install flex
-sudo apt install bison
+sudo apt install build-essential flex bison
 git clone https://github.com/mimosa-project/emcore.git
 cd emcore
 bash tools/init_environment.sh
