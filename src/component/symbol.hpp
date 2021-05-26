@@ -2,6 +2,7 @@
 
 #include <cstdint>
 #include <string>
+#include <string_view>
 
 namespace emcore {
 
@@ -30,15 +31,14 @@ enum class SYMBOL_TYPE : char
 class Symbol final
 {
   public:
-    Symbol(std::string&& text, SYMBOL_TYPE type, uint8_t priority = 64)
+    Symbol(std::string_view text, SYMBOL_TYPE type, uint8_t priority = 64)
       : text_(text)
       , type_(type)
       , priority_(priority)
     {}
     ~Symbol() = default;
 
-    const char* GetText() const { return text_.c_str(); }
-    size_t GetLength() const { return text_.length(); }
+    std::string_view GetText() const { return text_; }
     SYMBOL_TYPE GetType() const { return type_; }
     uint8_t GetPriority() const { return priority_; }
 

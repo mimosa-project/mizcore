@@ -2,6 +2,7 @@
 
 #include <memory>
 #include <string>
+#include <string_view>
 
 #include "token_type.hpp"
 
@@ -22,15 +23,14 @@ class Token
     // attributes
     int GetLineNumber() const { return line_number_; }
     int GetColumnNumber() const { return column_number_; }
-    virtual const char* GetText() const = 0;
-    virtual size_t GetLength() const = 0;
+    virtual std::string_view GetText() const = 0;
     virtual TOKEN_TYPE GetTokenType() const = 0;
 
     // operations
     virtual void Dump(std::ostream& os) const;
 
     // static
-    static const char* QueryTypeText(TOKEN_TYPE type);
+    static std::string_view QueryTypeText(TOKEN_TYPE type);
 
   private:
     size_t line_number_;
@@ -41,14 +41,15 @@ class UnknownToken : public Token
 {
   public:
     // ctor, dtor
-    UnknownToken(size_t line_number, size_t column_number, const char* text)
+    UnknownToken(size_t line_number,
+                 size_t column_number,
+                 std::string_view text)
       : Token(line_number, column_number)
       , text_(text)
     {}
 
     // attributes
-    const char* GetText() const override { return text_.c_str(); }
-    size_t GetLength() const override { return text_.length(); }
+    std::string_view GetText() const override { return text_; }
     TOKEN_TYPE GetTokenType() const override { return TOKEN_TYPE::UNKNOWN; }
 
   private:
@@ -59,14 +60,15 @@ class NumeralToken : public Token
 {
   public:
     // ctor, dtor
-    NumeralToken(size_t line_number, size_t column_number, const char* text)
+    NumeralToken(size_t line_number,
+                 size_t column_number,
+                 std::string_view text)
       : Token(line_number, column_number)
       , text_(text)
     {}
 
     // attributes
-    const char* GetText() const override { return text_.c_str(); }
-    size_t GetLength() const override { return text_.length(); }
+    std::string_view GetText() const override { return text_; }
     TOKEN_TYPE GetTokenType() const override { return TOKEN_TYPE::NUMERAL; }
 
   private:
@@ -83,8 +85,7 @@ class SymbolToken : public Token
     {}
 
     // attributes
-    const char* GetText() const override;
-    size_t GetLength() const override;
+    std::string_view GetText() const override;
     TOKEN_TYPE GetTokenType() const override { return TOKEN_TYPE::SYMBOL; }
 
     // operations
@@ -100,7 +101,7 @@ class IdentifierToken : public Token
     // ctor, dtor
     IdentifierToken(size_t line_number,
                     size_t column_number,
-                    const char* text,
+                    std::string_view text,
                     IDENTIFIER_TYPE identifier_type = IDENTIFIER_TYPE::UNKNOWN)
       : Token(line_number, column_number)
       , text_(text)
@@ -108,8 +109,7 @@ class IdentifierToken : public Token
     {}
 
     // attributes
-    const char* GetText() const override { return text_.c_str(); }
-    size_t GetLength() const override { return text_.length(); }
+    std::string_view GetText() const override { return text_; }
     TOKEN_TYPE GetTokenType() const override { return TOKEN_TYPE::IDENTIFIER; }
     IDENTIFIER_TYPE GetIdentifierType() const { return identifier_type_; }
     void SetIdentifierType(IDENTIFIER_TYPE identifier_type)
@@ -121,7 +121,7 @@ class IdentifierToken : public Token
     void Dump(std::ostream& os) const override;
 
     // static
-    static const char* QueryIdentifierTypeText(IDENTIFIER_TYPE type);
+    static std::string_view QueryIdentifierTypeText(IDENTIFIER_TYPE type);
 
   private:
     std::string text_;
@@ -134,7 +134,7 @@ class CommentToken : public Token
     // ctor, dtor
     CommentToken(size_t line_number,
                  size_t column_number,
-                 const char* text,
+                 std::string_view text,
                  COMMENT_TYPE comment_type = COMMENT_TYPE::UNKNOWN)
       : Token(line_number, column_number)
       , text_(text)
@@ -142,8 +142,7 @@ class CommentToken : public Token
     {}
 
     // attributes
-    const char* GetText() const override { return text_.c_str(); }
-    size_t GetLength() const override { return text_.length(); }
+    std::string_view GetText() const override { return text_; }
     TOKEN_TYPE GetTokenType() const override { return TOKEN_TYPE::COMMENT; }
     COMMENT_TYPE GetCommentType() const { return comment_type_; }
     void SetCommentType(COMMENT_TYPE comment_type)
@@ -152,7 +151,7 @@ class CommentToken : public Token
     }
 
     // static
-    static const char* QueryCommentTypeText(COMMENT_TYPE type);
+    static std::string_view QueryCommentTypeText(COMMENT_TYPE type);
 
   private:
     std::string text_;
@@ -171,13 +170,9 @@ class KeywordToken : public Token
     {}
 
     // attributes
-    const char* GetText() const override
+    std::string_view GetText() const override
     {
         return QueryKeywordText(keyword_type_);
-    }
-    size_t GetLength() const override
-    {
-        return QueryKeywordLength(keyword_type_);
     }
     TOKEN_TYPE GetTokenType() const override { return TOKEN_TYPE::KEYWORD; }
 
@@ -188,9 +183,8 @@ class KeywordToken : public Token
     }
 
     // static
-    static const char* QueryKeywordText(KEYWORD_TYPE type);
-    static size_t QueryKeywordLength(KEYWORD_TYPE type);
-    static KEYWORD_TYPE QueryKeywordType(const char* text);
+    static std::string_view QueryKeywordText(KEYWORD_TYPE type);
+    static KEYWORD_TYPE QueryKeywordType(std::string_view text);
 
   private:
     KEYWORD_TYPE keyword_type_;

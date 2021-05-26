@@ -49,12 +49,12 @@ SymbolTable::Initialize()
 }
 
 void
-SymbolTable::AddSymbol(const std::string& filename, Symbol* symbol)
+SymbolTable::AddSymbol(std::string_view filename, Symbol* symbol)
 {
-    if (file2symbols_.find(filename) == file2symbols_.end()) {
-        file2symbols_[filename] = vector<unique_ptr<Symbol>>();
+    if (file2symbols_.find(string(filename)) == file2symbols_.end()) {
+        file2symbols_[string(filename)] = vector<unique_ptr<Symbol>>();
     }
-    file2symbols_[filename].push_back(unique_ptr<Symbol>(symbol));
+    file2symbols_[string(filename)].emplace_back(symbol);
 }
 
 void
@@ -64,10 +64,10 @@ SymbolTable::AddSynonym(Symbol* s0, Symbol* s1)
 }
 
 std::vector<Symbol*>
-SymbolTable::CollectFileSymbols(const std::string& filename) const
+SymbolTable::CollectFileSymbols(std::string_view filename) const
 {
     vector<Symbol*> symbols;
-    auto it = file2symbols_.find(filename);
+    auto it = file2symbols_.find(string(filename));
     if (it != file2symbols_.end()) {
         symbols.reserve(it->second.size());
         for (const auto& symbol : it->second) {
@@ -102,7 +102,7 @@ SymbolTable::BuildQueryMap()
 }
 
 Symbol*
-SymbolTable::QueryLongestMatchSymbol(const char* text) const
+SymbolTable::QueryLongestMatchSymbol(std::string_view text) const
 {
     auto longest_prefix = query_map_.longest_prefix(text);
     if (longest_prefix != query_map_.end()) {
@@ -114,9 +114,9 @@ SymbolTable::QueryLongestMatchSymbol(const char* text) const
 }
 
 void
-SymbolTable::BuildQueryMapOne(const std::string& filename)
+SymbolTable::BuildQueryMapOne(std::string_view filename)
 {
-    auto it = file2symbols_.find(filename);
+    auto it = file2symbols_.find(string(filename));
     if (it != file2symbols_.end()) {
         for (const auto& symbol_ptr : it->second) {
             Symbol* symbol = symbol_ptr.get();
@@ -126,10 +126,9 @@ SymbolTable::BuildQueryMapOne(const std::string& filename)
 }
 
 bool
-SymbolTable::IsWordBoundary(const char* text, size_t pos)
+SymbolTable::IsWordBoundary(std::string_view text, size_t pos)
 {
-    size_t len = strlen(text);
-    if (0 < pos && pos < len - 1) {
+    if (0 < pos && pos < text.size() - 1) {
         return !IsWordBoundaryCharacter(text[pos - 1]) ||
                !IsWordBoundaryCharacter(text[pos]);
     } else {

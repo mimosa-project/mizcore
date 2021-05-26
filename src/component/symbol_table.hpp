@@ -3,6 +3,7 @@
 #include <map>
 #include <memory>
 #include <string>
+#include <string_view>
 #include <vector>
 
 #include "tsl/htrie_map.h"
@@ -19,24 +20,24 @@ class SymbolTable
     virtual ~SymbolTable() = default;
 
     // attributes
-    void AddSymbol(const std::string& filename, Symbol* symbol);
+    void AddSymbol(std::string_view filename, Symbol* symbol);
     void AddSynonym(Symbol* s0, Symbol* s1);
-    void AddValidFileName(const std::string& filename)
+    void AddValidFileName(std::string_view filename)
     {
-        valid_filenames_.push_back(filename);
+        valid_filenames_.emplace_back(filename);
     }
-    std::vector<Symbol*> CollectFileSymbols(const std::string& filename) const;
+    std::vector<Symbol*> CollectFileSymbols(std::string_view filename) const;
     const std::vector<std::pair<Symbol*, Symbol*>>& CollectSynonyms() const;
 
     // operations
     void Initialize();
     void BuildQueryMap();
-    Symbol* QueryLongestMatchSymbol(const char* text) const;
+    Symbol* QueryLongestMatchSymbol(std::string_view text) const;
 
   private:
     // implementation
-    void BuildQueryMapOne(const std::string& filename);
-    static bool IsWordBoundary(const char* text, size_t pos);
+    void BuildQueryMapOne(std::string_view filename);
+    static bool IsWordBoundary(std::string_view text, size_t pos);
     static bool IsWordBoundaryCharacter(const char x);
 
     std::map<std::string, std::vector<std::unique_ptr<Symbol>>> file2symbols_;

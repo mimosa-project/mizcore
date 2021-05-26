@@ -33,10 +33,10 @@ MizFlexLexer::ScanSymbol()
     if (symbol) {
         Token* token = new SymbolToken(line_number_, column_number_, symbol);
         token_array_->AddToken(token);
-        size_t length = token->GetLength();
+        size_t length = token->GetText().size();
         column_number_ += length;
 
-        if (0 == strcmp(token->GetText(), ";") && is_in_vocabulary_section_) {
+        if (token->GetText() == ";" && is_in_vocabulary_section_) {
             is_in_vocabulary_section_ = false;
         }
         return length;

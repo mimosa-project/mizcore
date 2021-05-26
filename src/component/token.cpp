@@ -30,41 +30,25 @@ Token::Dump(std::ostream& os) const
 {
     os << "pos: [" << std::right << std::setw(4) << line_number_ << ", "
        << std::setw(4) << column_number_ << "]"
-       << ", length: " << std::setw(2) << GetLength() << ", type: " << std::left
-       << std::setw(12) << string(QueryTypeText(GetTokenType())) + ", "
+       << ", length: " << std::setw(2) << GetText().size()
+       << ", type: " << std::left << std::setw(12)
+       << string(QueryTypeText(GetTokenType())) + ", "
        << "text: \"" << std::setw(20) << string(GetText()) + "\","
        << std::right;
 }
 
-const char*
+std::string_view
 Token::QueryTypeText(TOKEN_TYPE type)
 {
-    switch (type) {
-        case TOKEN_TYPE::NUMERAL:
-            return "numeral";
-        case TOKEN_TYPE::SYMBOL:
-            return "symbol";
-        case TOKEN_TYPE::IDENTIFIER:
-            return "identifier";
-        case TOKEN_TYPE::KEYWORD:
-            return "keyword";
-        case TOKEN_TYPE::COMMENT:
-            return "comment";
-        default:
-            return "unknown";
-    }
+    static string type2text[] = { "unknown",    "numeral", "symbol",
+                                  "identifier", "keyword", "comment" };
+    return type2text[(size_t)type];
 }
 
-const char*
+std::string_view
 SymbolToken::GetText() const
 {
     return symbol_->GetText();
-}
-
-size_t
-SymbolToken::GetLength() const
-{
-    return symbol_->GetLength();
 }
 
 void
@@ -82,35 +66,23 @@ IdentifierToken::Dump(std::ostream& os) const
     os << " identifier_type: " << QueryIdentifierTypeText(identifier_type_);
 }
 
-const char*
+std::string_view
 IdentifierToken::QueryIdentifierTypeText(IDENTIFIER_TYPE type)
 {
-    switch (type) {
-        case IDENTIFIER_TYPE::LABEL:
-            return "label";
-        case IDENTIFIER_TYPE::VARIABLE:
-            return "variable";
-        case IDENTIFIER_TYPE::FILENAME:
-            return "filename";
-        default:
-            return "unknown";
-    }
+    static std::array<string, 4> type2text = {
+        "unknown", "label", "variable", "filename"
+    };
+    return type2text[(size_t)type];
 }
 
-const char*
+std::string_view
 CommentToken::QueryCommentTypeText(COMMENT_TYPE type)
 {
-    switch (type) {
-        case COMMENT_TYPE::DOUBLE:
-            return "double";
-        case COMMENT_TYPE::TRIPLE:
-            return "triple";
-        default:
-            return "unknown";
-    }
+    static string type2text[] = { "unknown", "double", "triple" };
+    return type2text[(size_t)type];
 }
 
-const char*
+std::string_view
 KeywordToken::QueryKeywordText(KEYWORD_TYPE type)
 {
     static string keyword_text[] = {
@@ -232,29 +204,11 @@ KeywordToken::QueryKeywordText(KEYWORD_TYPE type)
         "wrt",
     };
 
-    return keyword_text[size_t(type)].c_str();
-}
-
-size_t
-KeywordToken::QueryKeywordLength(KEYWORD_TYPE type)
-{
-    static size_t length_array[] = {
-        0,  9, 9, 3, 3,  7,  3,  2,  13, 6,  9,  4,  2,  5, 5,  2,  8,
-        4,  5, 7, 9, 13, 13, 13, 8,  11, 12, 13, 11, 3,  7, 6,  10, 11,
-        7,  2, 4, 3, 7,  6,  2,  7,  9,  3,  4,  4,  5,  5, 6,  5,  11,
-        8,  2, 3, 7, 14, 13, 2,  2,  3,  5,  4,  3,  3,  8, 9,  3,  2,
-        2,  9, 4, 3, 4,  6,  12, 5,  8,  3,  10, 6,  12, 8, 11, 12, 13,
-        12, 7, 3, 6, 7,  7,  8,  3,  7,  2,  6,  4,  7,  8, 7,  4,  4,
-        3,  4, 7, 8, 6,  4,  2,  12, 10, 12, 4,  5,  4,  3,
-    };
-
-    assert(size_t(type) < sizeof(length_array) / sizeof(size_t));
-
-    return length_array[(size_t)type];
+    return keyword_text[(size_t)type].c_str();
 }
 
 KEYWORD_TYPE
-KeywordToken::QueryKeywordType(const char* text)
+KeywordToken::QueryKeywordType(std::string_view text)
 {
     static map<string, KEYWORD_TYPE> keyword_map = {
         { "according", KEYWORD_TYPE::ACCORDING },
@@ -374,7 +328,7 @@ KeywordToken::QueryKeywordType(const char* text)
         { "wrt", KEYWORD_TYPE::WRT },
     };
 
-    auto it = keyword_map.find(text);
+    auto it = keyword_map.find(string(text));
     if (it != keyword_map.end()) {
         return it->second;
     } else {

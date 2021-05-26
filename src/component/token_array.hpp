@@ -18,7 +18,6 @@ class TokenArray
     void AddToken(Token* token);
     Token* GetToken(size_t i) const { return tokens_[i].get(); }
     size_t GetTokenNum() const { return tokens_.size(); }
-    std::vector<Token*> CollectTokenArray() const;
 
     // operations
     void Dump(std::ostream& os) const;
