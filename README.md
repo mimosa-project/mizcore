@@ -29,7 +29,22 @@ cd build
 ctest
 ```
 
+## Development
+
+### Installation
+
+All developers are supposed to inspect the source code with clang-tidy and clang-format before committing.
+
+```bash
+sudo apt install clang-tidy clang-format
+```
+
+It is also recommended that VSCode users install the following extensions for on-the-fly inspection.
+
+- [Clang-Format](https://marketplace.visualstudio.com/items?itemName=xaver.clang-format)
+- [Clang-Tidy](https://marketplace.visualstudio.com/items?itemName=notskm.clang-tidy)
+
 ## TODO
 
-- Support rapidjson
+- Support nlohmann/json
 - Parse blocks in tokenize process
