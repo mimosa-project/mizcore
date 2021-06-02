@@ -45,6 +45,4 @@ It is also recommended that VSCode users install the following extensions for on
 - [Clang-Tidy](https://marketplace.visualstudio.com/items?itemName=notskm.clang-tidy)
 
 ## TODO
-
-- Support nlohmann/json
 - Parse blocks in tokenize process
