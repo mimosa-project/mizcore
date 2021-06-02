@@ -31,10 +31,10 @@
 *.out
 *.app
 
-# VScode
-.vscode/
-
-# Build directory
-build/
-bin/
-lib/
+# directories
+/data/
+/build/
+/.vscode/
+spdlog/
+/external/*
+!/external/CMakeLists.txt

@@ -1,1 +1,2 @@
-add_subdirectory(parser)
+add_subdirectory(component)
+add_subdirectory(scanner)

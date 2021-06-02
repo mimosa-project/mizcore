@@ -1,27 +1,26 @@
-cmake_minimum_required(VERSION 3.0)
-project(emcore CXX)
+cmake_minimum_required(VERSION 3.12)
 
-set(CMAKE_CXX_FLAGS "-std=c++17 -Wall -Wextra -pedantic")
-set(CMAKE_CXX_FLAGS_DEBUG "-g3 -O0 -pg")
-set(CMAKE_CXX_FLAGS_RELEASE "-O2 -s -DNDEBUG -march=native")
-set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "-g3 -Og -pg")
-set(CMAKE_CXX_FLAGS_MINSIZEREL "-Os -s -DNDEBUG -march=native")
+project(emcore LANGUAGES CXX)
 
-set(CATCH_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/vendor/Catch2/include)
-set(HAT_TRIE_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/vendor/hat-trie/include)
-set(RAPID_JSON_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/vendor/rapidjson/include)
-set(SPDLOG_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/vendor/spdlog/include)
-set(VENDOR_INCLUDE_DIRS
-    ${CATCH_INCLUDE_DIR}
-    ${HAT_TRIE_INCLUDE_DIR}
-    ${RAPID_JSON_INCLUDE_DIR}
-    ${SPDLOG_INCLUDE_DIR})
+if(NOT CMAKE_BUILD_TYPE)
+  message(STATUS "No build type selected, set to default: Debug")
+  set(CMAKE_BUILD_TYPE "Debug")
+endif()
 
-set(EMCORE_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
-set(EMCORE_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
-set(EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_SOURCE_DIR}/bin)
-set(LIBRARY_OUTPUT_PATH ${CMAKE_CURRENT_SOURCE_DIR}/lib)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-add_subdirectory(vendor/Catch2)
+find_package(BISON REQUIRED)
+find_package(FLEX REQUIRED)
+
+# test
+enable_testing()
+
+add_compile_options(-Wall -Wextra -Wpedantic)
+
+set(JSON_BuildTests
+    OFF
+    CACHE INTERNAL "")
+
+add_subdirectory(external)
 add_subdirectory(src)
-add_subdirectory(test)
+add_subdirectory(tests)

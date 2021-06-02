@@ -1,0 +1,30 @@
+#include <memory>
+
+#undef yyFlexLexer
+#define yyFlexLexer yyMizFlexLexer
+#include <FlexLexer.h>
+
+#include "miz_file_handler.hpp"
+#include "miz_flex_lexer.hpp"
+
+using emcore::MizFileHandler;
+using emcore::MizFlexLexer;
+using emcore::SymbolTable;
+using emcore::TokenTable;
+
+MizFileHandler::MizFileHandler(std::istream* in,
+                               std::shared_ptr<SymbolTable> symbol_table)
+  : miz_flex_lexer_(std::make_shared<MizFlexLexer>(in, symbol_table))
+{}
+
+int
+MizFileHandler::yylex()
+{
+    return miz_flex_lexer_->yylex();
+}
+
+std::shared_ptr<TokenTable>
+MizFileHandler::GetTokenTable() const
+{
+    return miz_flex_lexer_->GetTokenTable();
+}
