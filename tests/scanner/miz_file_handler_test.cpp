@@ -86,6 +86,10 @@ TEST_CASE("execute miz file handler")
         auto token_array = miz_handler.GetTokenTable();
         CHECK(79 == token_array->GetTokenNum());
 
+        if (!fs::exists(TEST_DIR / "result")) {
+            fs::create_directory(TEST_DIR / "result");
+        }
+
         fs::path result_file_path = TEST_DIR / "result" / "numerals_tokens.txt";
         {
             std::ofstream ofs(result_file_path);
