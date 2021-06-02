@@ -6,6 +6,7 @@
 #include "miz_file_handler.hpp"
 #include "symbol.hpp"
 #include "symbol_table.hpp"
+#include "token.hpp"
 #include "token_table.hpp"
 #include "vct_file_handler.hpp"
 
@@ -85,14 +86,18 @@ TEST_CASE("execute miz file handler")
         auto token_array = miz_handler.GetTokenTable();
         CHECK(79 == token_array->GetTokenNum());
 
-        fs::path result_file_path =
-          TEST_DIR / "results" / "numerals_tokens.txt";
-        std::ofstream ofs(result_file_path);
-        token_array->Dump(ofs);
-        ofs.close();
+        fs::path result_file_path = TEST_DIR / "result" / "numerals_tokens.txt";
+        {
+            std::ofstream ofs(result_file_path);
+            for (size_t i = 0; i < token_array->GetTokenNum(); ++i) {
+                ofs << i << ": " << token_array->GetToken(i)->ToJson().dump()
+                    << std::endl;
+            }
+            ofs << std::endl;
+        }
 
         fs::path expected_file_path =
-          TEST_DIR / "results" / "numerals_tokens_expected.txt";
+          TEST_DIR / "expected" / "numerals_tokens.txt";
         CHECK(!check_text_diff(result_file_path, expected_file_path));
         remove(result_file_path.c_str());
     }

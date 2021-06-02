@@ -12,6 +12,8 @@
 using std::map;
 using std::string;
 
+using json = nlohmann::json;
+
 using emcore::COMMENT_TYPE;
 using emcore::IDENTIFIER_TYPE;
 using emcore::KEYWORD_TYPE;
@@ -25,16 +27,14 @@ using emcore::SymbolToken;
 using emcore::Token;
 using emcore::UnknownToken;
 
-void
-Token::Dump(std::ostream& os) const
+json
+Token::ToJson() const
 {
-    os << "pos: [" << std::right << std::setw(4) << line_number_ << ", "
-       << std::setw(4) << column_number_ << "]"
-       << ", length: " << std::setw(2) << GetText().size()
-       << ", type: " << std::left << std::setw(12)
-       << string(QueryTypeText(GetTokenType())) + ", "
-       << "text: \"" << std::setw(20) << string(GetText()) + "\","
-       << std::right;
+    json j = { { "pos", { line_number_, column_number_ } },
+               { "length", GetText().size() },
+               { "type", string(QueryTypeText(GetTokenType())) },
+               { "text", string(GetText()) } };
+    return j;
 }
 
 std::string_view
@@ -51,19 +51,21 @@ SymbolToken::GetText() const
     return symbol_->GetText();
 }
 
-void
-SymbolToken::Dump(std::ostream& os) const
+nlohmann::json
+SymbolToken::ToJson() const
 {
-    Token::Dump(os);
-    os << " symbol_type: " << (char)symbol_->GetType()
-       << ", priority: " << (int)symbol_->GetPriority();
+    json j = Token::ToJson();
+    j["symbol_type"] = symbol_->GetTypeString();
+    j["priority"] = (int)symbol_->GetPriority();
+    return j;
 }
 
-void
-IdentifierToken::Dump(std::ostream& os) const
+nlohmann::json
+IdentifierToken::ToJson() const
 {
-    Token::Dump(os);
-    os << " identifier_type: " << QueryIdentifierTypeText(identifier_type_);
+    json j = Token::ToJson();
+    j["identifier_type"] = QueryIdentifierTypeText(identifier_type_);
+    return j;
 }
 
 std::string_view

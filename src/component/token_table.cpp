@@ -1,8 +1,11 @@
 #include <iomanip>
 #include <ostream>
+#include <sstream>
 
 #include "token.hpp"
 #include "token_table.hpp"
+
+using nlohmann::json;
 
 using emcore::Token;
 using emcore::TokenTable;
@@ -13,12 +16,12 @@ TokenTable::AddToken(Token* token)
     tokens_.push_back(std::unique_ptr<Token>(token));
 }
 
-void
-TokenTable::Dump(std::ostream& os) const
+nlohmann::json
+TokenTable::ToJson() const
 {
-    for (size_t i = 0; i < tokens_.size(); ++i) {
-        os << std::setw(5) << i << ": ";
-        tokens_[i]->Dump(os);
-        os << std::endl;
+    json j;
+    for (const auto& token : tokens_) {
+        j.push_back(token->ToJson());
     }
+    return j;
 }

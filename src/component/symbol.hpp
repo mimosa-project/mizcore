@@ -41,6 +41,7 @@ class Symbol final
     std::string_view GetText() const { return text_; }
     SYMBOL_TYPE GetType() const { return type_; }
     uint8_t GetPriority() const { return priority_; }
+    std::string_view GetTypeString() const;
 
   private:
     std::string text_;

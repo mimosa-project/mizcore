@@ -4,6 +4,7 @@
 #include <string>
 #include <string_view>
 
+#include "nlohmann/json.hpp"
 #include "token_type.hpp"
 
 namespace emcore {
@@ -27,7 +28,7 @@ class Token
     virtual TOKEN_TYPE GetTokenType() const = 0;
 
     // operations
-    virtual void Dump(std::ostream& os) const;
+    virtual nlohmann::json ToJson() const;
 
     // static
     static std::string_view QueryTypeText(TOKEN_TYPE type);
@@ -89,7 +90,7 @@ class SymbolToken : public Token
     TOKEN_TYPE GetTokenType() const override { return TOKEN_TYPE::SYMBOL; }
 
     // operations
-    void Dump(std::ostream& os) const override;
+    nlohmann::json ToJson() const override;
 
   private:
     Symbol* symbol_;
@@ -118,7 +119,7 @@ class IdentifierToken : public Token
     }
 
     // operations
-    void Dump(std::ostream& os) const override;
+    nlohmann::json ToJson() const override;
 
     // static
     static std::string_view QueryIdentifierTypeText(IDENTIFIER_TYPE type);

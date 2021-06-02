@@ -7,6 +7,8 @@ if(NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE "Debug")
 endif()
 
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 find_package(BISON REQUIRED)
 find_package(FLEX REQUIRED)
 
@@ -14,6 +16,10 @@ find_package(FLEX REQUIRED)
 enable_testing()
 
 add_compile_options(-Wall -Wextra -Wpedantic)
+
+set(JSON_BuildTests
+    OFF
+    CACHE INTERNAL "")
 
 add_subdirectory(external)
 add_subdirectory(src)

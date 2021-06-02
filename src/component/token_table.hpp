@@ -3,6 +3,8 @@
 #include <memory>
 #include <vector>
 
+#include "nlohmann/json.hpp"
+
 namespace emcore {
 
 class Token;
@@ -20,7 +22,7 @@ class TokenTable
     size_t GetTokenNum() const { return tokens_.size(); }
 
     // operations
-    void Dump(std::ostream& os) const;
+    nlohmann::json ToJson() const;
 
   private:
     std::vector<std::unique_ptr<Token>> tokens_;
