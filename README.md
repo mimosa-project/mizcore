@@ -45,4 +45,13 @@ It is also recommended that VSCode users install the following extensions for on
 - [Clang-Tidy](https://marketplace.visualstudio.com/items?itemName=notskm.clang-tidy)
 
 ## TODO
+
+- Clear all warnings of clang-tidy
+- Rename project "emcore" -> "mizcore"
 - Parse blocks in tokenize process
+- Resolve reference relationships between variables
+- Resolve reference relationships between labels
+- Make a cross compile environment
+- Python binding (in another project)
+- JavaScript binding (in another project)
+- Support GitHub Actions

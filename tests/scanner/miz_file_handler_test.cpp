@@ -11,8 +11,6 @@
 #include "vct_file_handler.hpp"
 
 using emcore::MizFileHandler;
-using emcore::Symbol;
-using emcore::SYMBOL_TYPE;
 using emcore::SymbolTable;
 using emcore::VctFileHandler;
 using std::string;
@@ -48,7 +46,8 @@ check_text_diff(const fs::path& path1, const fs::path& path2)
     return diff_found;
 }
 
-static fs::path TEST_DIR = fs::path(__FILE__).parent_path();
+const fs::path TEST_DIR = fs::path(__FILE__).parent_path();
+
 TEST_CASE("execute miz file handler")
 {
     std::shared_ptr<SymbolTable> symbol_table;

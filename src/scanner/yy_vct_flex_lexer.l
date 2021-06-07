@@ -56,8 +56,7 @@ SPACES      [[:space:]]+
     int priority;
     iss >> name >> priority;
 
-    Symbol* symbol = new Symbol(std::move(name), type, (uint8_t)priority);
-    symbol_table_->AddSymbol(current_mizfile_, symbol);
+    symbol_table_->AddSymbol(current_mizfile_, name, type, (uint8_t)priority);
 }
 
     /* Definition of two symbols */
@@ -69,19 +68,15 @@ SPACES      [[:space:]]+
     std::string name1;
     iss >> name0 >> name1;
 
-    Symbol* s0 = new Symbol(std::move(name0), type);
-    Symbol* s1 = new Symbol(std::move(name1), type);
-
-    symbol_table_->AddSymbol(current_mizfile_, s0);
-    symbol_table_->AddSymbol(current_mizfile_, s1);
+    Symbol* s0 = symbol_table_->AddSymbol(current_mizfile_, name0, type);
+    Symbol* s1 = symbol_table_->AddSymbol(current_mizfile_, name1, type);
 
     symbol_table_->AddSynonym(s0, s1);
 }
 
     /* Ordinary symbol definition */
 {TYPE}{SYMBOL} {
-    Symbol* symbol = new Symbol(yytext + 1, SYMBOL_TYPE(yytext[0]));
-    symbol_table_->AddSymbol(current_mizfile_, symbol);
+    symbol_table_->AddSymbol(current_mizfile_, yytext + 1, SYMBOL_TYPE(yytext[0]));
 }
 
     /* spaces -> ignore */

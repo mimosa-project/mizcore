@@ -1,7 +1,6 @@
 #include "symbol_table.hpp"
 #include "symbol.hpp"
 
-using std::make_pair;
 using std::string;
 using std::unique_ptr;
 using std::vector;
@@ -18,49 +17,55 @@ SymbolTable::SymbolTable()
 void
 SymbolTable::Initialize()
 {
-    AddSymbol("SPECIAL_", new Symbol(",", SYMBOL_TYPE::SPECIAL));
-    AddSymbol("SPECIAL_", new Symbol(";", SYMBOL_TYPE::SPECIAL));
-    AddSymbol("SPECIAL_", new Symbol(":", SYMBOL_TYPE::SPECIAL));
-    AddSymbol("SPECIAL_", new Symbol("(", SYMBOL_TYPE::SPECIAL));
-    AddSymbol("SPECIAL_", new Symbol(")", SYMBOL_TYPE::SPECIAL));
-    AddSymbol("SPECIAL_", new Symbol("[", SYMBOL_TYPE::SPECIAL));
-    AddSymbol("SPECIAL_", new Symbol("]", SYMBOL_TYPE::SPECIAL));
-    AddSymbol("SPECIAL_", new Symbol("{", SYMBOL_TYPE::SPECIAL));
-    AddSymbol("SPECIAL_", new Symbol("}", SYMBOL_TYPE::SPECIAL));
-    AddSymbol("SPECIAL_", new Symbol("=", SYMBOL_TYPE::SPECIAL));
-    AddSymbol("SPECIAL_", new Symbol("&", SYMBOL_TYPE::SPECIAL));
-    AddSymbol("SPECIAL_", new Symbol("->", SYMBOL_TYPE::SPECIAL));
-    AddSymbol("SPECIAL_", new Symbol(".=", SYMBOL_TYPE::SPECIAL));
-    AddSymbol("SPECIAL_", new Symbol("...", SYMBOL_TYPE::SPECIAL));
-    AddSymbol("SPECIAL_", new Symbol("$1", SYMBOL_TYPE::SPECIAL));
-    AddSymbol("SPECIAL_", new Symbol("$2", SYMBOL_TYPE::SPECIAL));
-    AddSymbol("SPECIAL_", new Symbol("$3", SYMBOL_TYPE::SPECIAL));
-    AddSymbol("SPECIAL_", new Symbol("$4", SYMBOL_TYPE::SPECIAL));
-    AddSymbol("SPECIAL_", new Symbol("$5", SYMBOL_TYPE::SPECIAL));
-    AddSymbol("SPECIAL_", new Symbol("$6", SYMBOL_TYPE::SPECIAL));
-    AddSymbol("SPECIAL_", new Symbol("$7", SYMBOL_TYPE::SPECIAL));
-    AddSymbol("SPECIAL_", new Symbol("$8", SYMBOL_TYPE::SPECIAL));
-    AddSymbol("SPECIAL_", new Symbol("$9", SYMBOL_TYPE::SPECIAL));
-    AddSymbol("SPECIAL_", new Symbol("$10", SYMBOL_TYPE::SPECIAL));
-    AddSymbol("SPECIAL_", new Symbol("(#", SYMBOL_TYPE::SPECIAL));
-    AddSymbol("SPECIAL_", new Symbol("#)", SYMBOL_TYPE::SPECIAL));
+    AddSymbol("SPECIAL_", ",", SYMBOL_TYPE::SPECIAL);
+    AddSymbol("SPECIAL_", ";", SYMBOL_TYPE::SPECIAL);
+    AddSymbol("SPECIAL_", ":", SYMBOL_TYPE::SPECIAL);
+    AddSymbol("SPECIAL_", "(", SYMBOL_TYPE::SPECIAL);
+    AddSymbol("SPECIAL_", ")", SYMBOL_TYPE::SPECIAL);
+    AddSymbol("SPECIAL_", "[", SYMBOL_TYPE::SPECIAL);
+    AddSymbol("SPECIAL_", "]", SYMBOL_TYPE::SPECIAL);
+    AddSymbol("SPECIAL_", "{", SYMBOL_TYPE::SPECIAL);
+    AddSymbol("SPECIAL_", "}", SYMBOL_TYPE::SPECIAL);
+    AddSymbol("SPECIAL_", "=", SYMBOL_TYPE::SPECIAL);
+    AddSymbol("SPECIAL_", "&", SYMBOL_TYPE::SPECIAL);
+    AddSymbol("SPECIAL_", "->", SYMBOL_TYPE::SPECIAL);
+    AddSymbol("SPECIAL_", ".=", SYMBOL_TYPE::SPECIAL);
+    AddSymbol("SPECIAL_", "...", SYMBOL_TYPE::SPECIAL);
+    AddSymbol("SPECIAL_", "$1", SYMBOL_TYPE::SPECIAL);
+    AddSymbol("SPECIAL_", "$2", SYMBOL_TYPE::SPECIAL);
+    AddSymbol("SPECIAL_", "$3", SYMBOL_TYPE::SPECIAL);
+    AddSymbol("SPECIAL_", "$4", SYMBOL_TYPE::SPECIAL);
+    AddSymbol("SPECIAL_", "$5", SYMBOL_TYPE::SPECIAL);
+    AddSymbol("SPECIAL_", "$6", SYMBOL_TYPE::SPECIAL);
+    AddSymbol("SPECIAL_", "$7", SYMBOL_TYPE::SPECIAL);
+    AddSymbol("SPECIAL_", "$8", SYMBOL_TYPE::SPECIAL);
+    AddSymbol("SPECIAL_", "$9", SYMBOL_TYPE::SPECIAL);
+    AddSymbol("SPECIAL_", "$10", SYMBOL_TYPE::SPECIAL);
+    AddSymbol("SPECIAL_", "(#", SYMBOL_TYPE::SPECIAL);
+    AddSymbol("SPECIAL_", "#)", SYMBOL_TYPE::SPECIAL);
 
     BuildQueryMapOne("SPECIAL_");
 }
 
-void
-SymbolTable::AddSymbol(std::string_view filename, Symbol* symbol)
+Symbol*
+SymbolTable::AddSymbol(std::string_view filename,
+                       std::string_view text,
+                       SYMBOL_TYPE type,
+                       uint8_t priority)
 {
     if (file2symbols_.find(string(filename)) == file2symbols_.end()) {
         file2symbols_[string(filename)] = vector<unique_ptr<Symbol>>();
     }
-    file2symbols_[string(filename)].emplace_back(symbol);
+    auto p = std::make_unique<Symbol>(text, type, priority);
+    Symbol* symbol = p.get();
+    file2symbols_[string(filename)].emplace_back(std::move(p));
+    return symbol;
 }
 
 void
 SymbolTable::AddSynonym(Symbol* s0, Symbol* s1)
 {
-    synonyms_.push_back(make_pair(s0, s1));
+    synonyms_.emplace_back(s0, s1);
 }
 
 std::vector<Symbol*>
@@ -131,13 +136,12 @@ SymbolTable::IsWordBoundary(std::string_view text, size_t pos)
     if (0 < pos && pos < text.size() - 1) {
         return !IsWordBoundaryCharacter(text[pos - 1]) ||
                !IsWordBoundaryCharacter(text[pos]);
-    } else {
-        return true;
     }
+    return true;
 }
 
 bool
 SymbolTable::IsWordBoundaryCharacter(const char x)
 {
-    return isalnum(x) || (x == '_');
+    return static_cast<bool>(isalnum(x)) || (x == '_');
 }

@@ -6,6 +6,7 @@
 #include <string_view>
 #include <vector>
 
+#include "symbol_type.hpp"
 #include "tsl/htrie_map.h"
 
 namespace emcore {
@@ -19,8 +20,16 @@ class SymbolTable
     SymbolTable();
     virtual ~SymbolTable() = default;
 
+    SymbolTable(const SymbolTable&) = delete;
+    SymbolTable(SymbolTable&&) = delete;
+    SymbolTable& operator=(const SymbolTable&) = delete;
+    SymbolTable& operator=(SymbolTable&&) = delete;
+
     // attributes
-    void AddSymbol(std::string_view filename, Symbol* symbol);
+    Symbol* AddSymbol(std::string_view filename,
+                      std::string_view text,
+                      SYMBOL_TYPE type,
+                      uint8_t priority = 64);
     void AddSynonym(Symbol* s0, Symbol* s1);
     void AddValidFileName(std::string_view filename)
     {
@@ -38,7 +47,7 @@ class SymbolTable
     // implementation
     void BuildQueryMapOne(std::string_view filename);
     static bool IsWordBoundary(std::string_view text, size_t pos);
-    static bool IsWordBoundaryCharacter(const char x);
+    static bool IsWordBoundaryCharacter(char x);
 
     std::map<std::string, std::vector<std::unique_ptr<Symbol>>> file2symbols_;
     std::vector<std::pair<Symbol*, Symbol*>> synonyms_;

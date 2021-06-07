@@ -1,3 +1,4 @@
+#include <array>
 #include <cassert>
 #include <cstring>
 #include <iomanip>
@@ -22,10 +23,8 @@ using emcore::TOKEN_TYPE;
 using emcore::CommentToken;
 using emcore::IdentifierToken;
 using emcore::KeywordToken;
-using emcore::Symbol;
 using emcore::SymbolToken;
 using emcore::Token;
-using emcore::UnknownToken;
 
 json
 Token::ToJson() const
@@ -40,9 +39,10 @@ Token::ToJson() const
 std::string_view
 Token::QueryTypeText(TOKEN_TYPE type)
 {
-    static string type2text[] = { "unknown",    "numeral", "symbol",
-                                  "identifier", "keyword", "comment" };
-    return type2text[(size_t)type];
+    static std::array<string, 6> type2text = { "unknown", "numeral",
+                                               "symbol",  "identifier",
+                                               "keyword", "comment" };
+    return type2text[static_cast<size_t>(type)];
 }
 
 std::string_view
@@ -56,7 +56,7 @@ SymbolToken::ToJson() const
 {
     json j = Token::ToJson();
     j["symbol_type"] = symbol_->GetTypeString();
-    j["priority"] = (int)symbol_->GetPriority();
+    j["priority"] = static_cast<int>(symbol_->GetPriority());
     return j;
 }
 
@@ -74,20 +74,20 @@ IdentifierToken::QueryIdentifierTypeText(IDENTIFIER_TYPE type)
     static std::array<string, 4> type2text = {
         "unknown", "label", "variable", "filename"
     };
-    return type2text[(size_t)type];
+    return type2text[static_cast<size_t>(type)];
 }
 
 std::string_view
 CommentToken::QueryCommentTypeText(COMMENT_TYPE type)
 {
-    static string type2text[] = { "unknown", "double", "triple" };
-    return type2text[(size_t)type];
+    static std::array<string, 3> type2text = { "unknown", "double", "triple" };
+    return type2text[static_cast<size_t>(type)];
 }
 
 std::string_view
 KeywordToken::QueryKeywordText(KEYWORD_TYPE type)
 {
-    static string keyword_text[] = {
+    static std::array<string, 116> keyword_text = {
         "unknown",
         "according",
         "aggregate",
@@ -206,7 +206,7 @@ KeywordToken::QueryKeywordText(KEYWORD_TYPE type)
         "wrt",
     };
 
-    return keyword_text[(size_t)type].c_str();
+    return keyword_text[static_cast<size_t>(type)].c_str();
 }
 
 KEYWORD_TYPE
@@ -333,7 +333,6 @@ KeywordToken::QueryKeywordType(std::string_view text)
     auto it = keyword_map.find(string(text));
     if (it != keyword_map.end()) {
         return it->second;
-    } else {
-        return KEYWORD_TYPE::UNKNOWN;
     }
+    return KEYWORD_TYPE::UNKNOWN;
 }

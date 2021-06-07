@@ -17,6 +17,11 @@ class MizFlexLexer : public yyMizFlexLexer
     MizFlexLexer(std::istream* in, std::shared_ptr<SymbolTable> symbol_table);
     virtual ~MizFlexLexer() = default;
 
+    MizFlexLexer(const MizFlexLexer&) = delete;
+    MizFlexLexer(MizFlexLexer&&) = delete;
+    MizFlexLexer& operator=(const MizFlexLexer&) = delete;
+    MizFlexLexer& operator=(MizFlexLexer&&) = delete;
+
     virtual int yylex();
 
     std::shared_ptr<TokenTable> GetTokenTable() const { return token_array_; }

@@ -21,6 +21,11 @@ class Token
     {}
     virtual ~Token() = default;
 
+    Token(const Token&) = delete;
+    Token(Token&&) = delete;
+    Token& operator=(const Token&) = delete;
+    Token& operator=(Token&&) = delete;
+
     // attributes
     int GetLineNumber() const { return line_number_; }
     int GetColumnNumber() const { return column_number_; }

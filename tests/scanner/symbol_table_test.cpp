@@ -14,11 +14,8 @@
 #include "symbol_table.hpp"
 #include "vct_file_handler.hpp"
 
-using std::cout;
-using std::endl;
 using std::ifstream;
 using std::string;
-using std::vector;
 namespace fs = std::filesystem;
 
 using emcore::Symbol;
@@ -26,7 +23,8 @@ using emcore::SYMBOL_TYPE;
 using emcore::SymbolTable;
 using emcore::VctFileHandler;
 
-static fs::path TEST_DATA_DIR = fs::path(__FILE__).parent_path() / "data";
+const fs::path TEST_DATA_DIR = fs::path(__FILE__).parent_path() / "data";
+
 TEST_CASE("symbol table test")
 {
     fs::path mml_vct_path = TEST_DATA_DIR / "mml.vct";

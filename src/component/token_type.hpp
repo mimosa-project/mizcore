@@ -147,4 +147,4 @@ enum class KEYWORD_TYPE
     WRT,
 };
 
-}
+} // namespace emcore
