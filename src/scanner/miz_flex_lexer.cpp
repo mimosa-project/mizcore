@@ -20,7 +20,7 @@ using emcore::MizFlexLexer;
 MizFlexLexer::MizFlexLexer(std::istream* in,
                            std::shared_ptr<SymbolTable> symbol_table)
   : yyMizFlexLexer(in)
-  , symbol_table_(symbol_table)
+  , symbol_table_(std::move(symbol_table))
   , token_array_(std::make_shared<TokenTable>())
   , line_number_(1)
   , column_number_(1)
@@ -32,7 +32,7 @@ size_t
 MizFlexLexer::ScanSymbol()
 {
     Symbol* symbol = symbol_table_->QueryLongestMatchSymbol(yytext);
-    if (symbol) {
+    if (symbol != nullptr) {
         Token* token = new SymbolToken(line_number_, column_number_, symbol);
         token_array_->AddToken(token);
         size_t length = token->GetText().size();
@@ -42,9 +42,9 @@ MizFlexLexer::ScanSymbol()
             is_in_vocabulary_section_ = false;
         }
         return length;
-    } else {
-        return 0;
     }
+
+    return 0;
 }
 
 size_t
@@ -102,9 +102,8 @@ MizFlexLexer::ScanFileName()
             symbol_table_->AddValidFileName(token->GetText());
         }
         return yyleng;
-    } else {
-        return 0;
     }
+    return 0;
 }
 
 size_t

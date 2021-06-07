@@ -12,8 +12,14 @@ class MizFlexLexer;
 class MizFileHandler
 {
   public:
-    MizFileHandler(std::istream* in, std::shared_ptr<SymbolTable> symbol_table);
+    MizFileHandler(std::istream* in,
+                   const std::shared_ptr<SymbolTable>& symbol_table);
     virtual ~MizFileHandler() = default;
+
+    MizFileHandler(const MizFileHandler&) = delete;
+    MizFileHandler(MizFileHandler&&) = delete;
+    MizFileHandler& operator=(const MizFileHandler&) = delete;
+    MizFileHandler& operator=(MizFileHandler&&) = delete;
 
     int yylex();
     std::shared_ptr<TokenTable> GetTokenTable() const;

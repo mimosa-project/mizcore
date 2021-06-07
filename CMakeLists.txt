@@ -8,6 +8,7 @@ if(NOT CMAKE_BUILD_TYPE)
 endif()
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+# set(CMAKE_CXX_CLANG_TIDY clang-tidy; -header-filter=.; -checks=*;)
 
 find_package(BISON REQUIRED)
 find_package(FLEX REQUIRED)

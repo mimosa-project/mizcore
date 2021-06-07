@@ -4,29 +4,9 @@
 #include <string>
 #include <string_view>
 
-namespace emcore {
+#include "symbol_type.hpp"
 
-// R - Predicate,
-// O - Functor,
-// M - Mode,
-// G - Structure,
-// U - Selector,
-// V - Attribute,
-// K - Left Functor Bracket,
-// L - Right Functor Bracket.
-enum class SYMBOL_TYPE : char
-{
-    UNKNOWN = '-',
-    PREDICATE = 'R',
-    FUNCTOR = 'O',
-    MODE = 'M',
-    STRUCTURE = 'G',
-    SELECTOR = 'U',
-    ATTRIBUTE = 'V',
-    LEFT_FUNCTOR_BRACKET = 'K',
-    RIGHT_FUNCTOR_BRACKET = 'L',
-    SPECIAL = 'S',
-};
+namespace emcore {
 
 class Symbol final
 {
@@ -36,7 +16,6 @@ class Symbol final
       , type_(type)
       , priority_(priority)
     {}
-    ~Symbol() = default;
 
     std::string_view GetText() const { return text_; }
     SYMBOL_TYPE GetType() const { return type_; }

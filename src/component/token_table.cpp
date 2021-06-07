@@ -13,7 +13,7 @@ using emcore::TokenTable;
 void
 TokenTable::AddToken(Token* token)
 {
-    tokens_.push_back(std::unique_ptr<Token>(token));
+    tokens_.emplace_back(token);
 }
 
 nlohmann::json

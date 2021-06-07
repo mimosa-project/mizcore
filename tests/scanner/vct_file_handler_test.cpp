@@ -15,16 +15,14 @@
 #include "symbol_table.hpp"
 #include "vct_file_handler.hpp"
 
-using emcore::Symbol;
 using emcore::SYMBOL_TYPE;
 using emcore::SymbolTable;
 using emcore::VctFileHandler;
-using std::cout;
-using std::endl;
 using std::ifstream;
 namespace fs = std::filesystem;
 
-static fs::path TEST_DATA_DIR = fs::path(__FILE__).parent_path() / "data";
+const fs::path TEST_DATA_DIR = fs::path(__FILE__).parent_path() / "data";
+
 TEST_CASE("execute vct scanner")
 {
     fs::path mml_vct_path = TEST_DATA_DIR / "mml.vct";

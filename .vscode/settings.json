@@ -67,7 +67,8 @@
         "any": "cpp",
         "forward_list": "cpp",
         "unordered_set": "cpp",
-        "valarray": "cpp"
+        "valarray": "cpp",
+        "pointers": "cpp"
     },
     "editor.formatOnSave": true,
     "clang-tidy.buildPath": "build",

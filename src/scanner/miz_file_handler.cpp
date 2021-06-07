@@ -13,7 +13,7 @@ using emcore::SymbolTable;
 using emcore::TokenTable;
 
 MizFileHandler::MizFileHandler(std::istream* in,
-                               std::shared_ptr<SymbolTable> symbol_table)
+                               const std::shared_ptr<SymbolTable>& symbol_table)
   : miz_flex_lexer_(std::make_shared<MizFlexLexer>(in, symbol_table))
 {}
 
