@@ -1,0 +1,12 @@
+[submodule "external/doctest"]
+	path = external/doctest
+	url = https://github.com/onqtam/doctest.git
+[submodule "external/hat-trie"]
+	path = external/hat-trie
+	url = https://github.com/Tessil/hat-trie.git
+[submodule "external/nlohmann_json"]
+	path = external/nlohmann_json
+	url = https://github.com/nlohmann/json.git
+[submodule "external/spdlog"]
+	path = external/spdlog
+	url = https://github.com/gabime/spdlog.git
