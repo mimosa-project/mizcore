@@ -3,7 +3,7 @@
 #include <fstream>
 #include <memory>
 
-namespace emcore {
+namespace mizcore {
 
 class SymbolTable;
 class TokenTable;
@@ -28,4 +28,4 @@ class MizFileHandler
     std::shared_ptr<MizFlexLexer> miz_flex_lexer_;
 };
 
-} // namespace emcore
+} // namespace mizcore

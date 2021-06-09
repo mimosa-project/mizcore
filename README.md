@@ -1,6 +1,6 @@
 # emcore
 
-eco-Mizar Core Library
+Mizar Core Library
 
 ## Environment
 
@@ -46,12 +46,11 @@ It is also recommended that VSCode users install the following extensions for on
 
 ## TODO
 
-- Clear all warnings of clang-tidy
-- Rename project "emcore" -> "mizcore"
 - Parse blocks in tokenize process
 - Resolve reference relationships between variables
 - Resolve reference relationships between labels
 - Make a cross compile environment
+- Error handling
 - Python binding (in another project)
 - JavaScript binding (in another project)
 - Support GitHub Actions

@@ -1,6 +1,6 @@
 #pragma once
 
-namespace emcore {
+namespace mizcore {
 
 enum class TOKEN_TYPE
 {
@@ -147,4 +147,4 @@ enum class KEYWORD_TYPE
     WRT,
 };
 
-} // namespace emcore
+} // namespace mizcore

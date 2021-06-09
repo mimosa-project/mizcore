@@ -7,9 +7,9 @@
 #include "vct_file_handler.hpp"
 #include "vct_flex_lexer.hpp"
 
-using emcore::SymbolTable;
-using emcore::VctFileHandler;
-using emcore::VctFlexLexer;
+using mizcore::SymbolTable;
+using mizcore::VctFileHandler;
+using mizcore::VctFlexLexer;
 
 VctFileHandler::VctFileHandler(std::istream* in)
   : vct_flex_lexer_(std::make_shared<VctFlexLexer>(in))

@@ -5,7 +5,7 @@
 
 #include "token_type.hpp"
 
-namespace emcore {
+namespace mizcore {
 
 class SymbolTable;
 class Token;
@@ -45,4 +45,4 @@ class MizFlexLexer : public yyMizFlexLexer
     bool is_in_vocabulary_section_;
 };
 
-} // namespace emcore
+} // namespace mizcore

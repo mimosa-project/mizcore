@@ -15,16 +15,16 @@ using std::string;
 
 using json = nlohmann::json;
 
-using emcore::COMMENT_TYPE;
-using emcore::IDENTIFIER_TYPE;
-using emcore::KEYWORD_TYPE;
-using emcore::TOKEN_TYPE;
+using mizcore::COMMENT_TYPE;
+using mizcore::IDENTIFIER_TYPE;
+using mizcore::KEYWORD_TYPE;
+using mizcore::TOKEN_TYPE;
 
-using emcore::CommentToken;
-using emcore::IdentifierToken;
-using emcore::KeywordToken;
-using emcore::SymbolToken;
-using emcore::Token;
+using mizcore::CommentToken;
+using mizcore::IdentifierToken;
+using mizcore::KeywordToken;
+using mizcore::SymbolToken;
+using mizcore::Token;
 
 json
 Token::ToJson() const

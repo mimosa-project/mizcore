@@ -5,9 +5,9 @@ using std::string;
 using std::unique_ptr;
 using std::vector;
 
-using emcore::Symbol;
-using emcore::SYMBOL_TYPE;
-using emcore::SymbolTable;
+using mizcore::Symbol;
+using mizcore::SYMBOL_TYPE;
+using mizcore::SymbolTable;
 
 SymbolTable::SymbolTable()
 {

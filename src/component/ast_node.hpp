@@ -1,7 +1,7 @@
 #pragma once
 #include <vector>
 
-namespace emcore {
+namespace mizcore {
 
 class Token;
 
@@ -15,4 +15,4 @@ class ASTNode
     std::vector<Token*> tokens_;
 };
 
-} // namespace emcore
+} // namespace mizcore

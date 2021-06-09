@@ -2,7 +2,7 @@
 
 #include <memory>
 
-namespace emcore {
+namespace mizcore {
 
 class ASTNode;
 
@@ -12,4 +12,4 @@ class ASTTree
     std::unique_ptr<ASTNode> root_node_;
 };
 
-} // namespace emcore
+} // namespace mizcore
