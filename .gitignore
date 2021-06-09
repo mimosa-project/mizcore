@@ -34,6 +34,3 @@
 # directories
 /data/
 /build/
-spdlog/
-/external/*
-!/external/CMakeLists.txt

@@ -1,4 +1,4 @@
-# emcore
+# mizcore
 
 Mizar Core Library
 
@@ -13,9 +13,8 @@ Mizar Core Library
 
 ```bash
 sudo apt install build-essential flex bison
-git clone https://github.com/mimosa-project/emcore.git
-cd emcore
-bash tools/init_environment.sh
+git clone https://github.com/mimosa-project/mizcore.git --recursive
+cd mizcore
 mkdir build
 cd build
 cmake ..
@@ -46,6 +45,7 @@ It is also recommended that VSCode users install the following extensions for on
 
 ## TODO
 
+- Use git submodule
 - Parse blocks in tokenize process
 - Resolve reference relationships between variables
 - Resolve reference relationships between labels
