@@ -1,6 +1,6 @@
 #pragma once
 
-namespace emcore {
+namespace mizcore {
 
 // R - Predicate,
 // O - Functor,
@@ -24,4 +24,4 @@ enum class SYMBOL_TYPE : char
     SPECIAL = 'S',
 };
 
-} // namespace emcore
+} // namespace mizcore

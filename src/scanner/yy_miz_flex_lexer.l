@@ -10,14 +10,14 @@
 #include "miz_flex_lexer.hpp"
 
 #undef  YY_DECL
-#define YY_DECL int emcore::MizFlexLexer::yylex()
+#define YY_DECL int mizcore::MizFlexLexer::yylex()
 #define YY_NO_UNISTD_H
 
 %}
 
 %option debug
 %option nodefault
-%option yyclass="emcore::MizFlexLexer"
+%option yyclass="mizcore::MizFlexLexer"
 %option noyywrap
 %option c++
 %option prefix="yyMiz"

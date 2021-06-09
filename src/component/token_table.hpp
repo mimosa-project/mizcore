@@ -5,7 +5,7 @@
 
 #include "nlohmann/json.hpp"
 
-namespace emcore {
+namespace mizcore {
 
 class Token;
 
@@ -28,4 +28,4 @@ class TokenTable
     std::vector<std::unique_ptr<Token>> tokens_;
 };
 
-} // namespace emcore
+} // namespace mizcore

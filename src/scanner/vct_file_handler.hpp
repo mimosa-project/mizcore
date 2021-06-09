@@ -2,7 +2,7 @@
 
 #include <memory>
 
-namespace emcore {
+namespace mizcore {
 
 class SymbolTable;
 class VctFlexLexer;
@@ -19,4 +19,4 @@ class VctFileHandler
     std::shared_ptr<VctFlexLexer> vct_flex_lexer_;
 };
 
-} // namespace emcore
+} // namespace mizcore

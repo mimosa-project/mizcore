@@ -10,9 +10,9 @@
 #include "token_table.hpp"
 #include "vct_file_handler.hpp"
 
-using emcore::MizFileHandler;
-using emcore::SymbolTable;
-using emcore::VctFileHandler;
+using mizcore::MizFileHandler;
+using mizcore::SymbolTable;
+using mizcore::VctFileHandler;
 using std::string;
 namespace fs = std::filesystem;
 

@@ -7,13 +7,13 @@
 #include "vct_flex_lexer.hpp"
 
 #undef  YY_DECL
-#define YY_DECL int emcore::VctFlexLexer::yylex()
+#define YY_DECL int mizcore::VctFlexLexer::yylex()
 #define YY_NO_UNISTD_H
 
 using std::vector;
 using std::string;
-using emcore::Symbol;
-using emcore::VctFlexLexer;
+using mizcore::Symbol;
+using mizcore::VctFlexLexer;
 
 VctFlexLexer::VctFlexLexer(std::istream *in)
     : yyVctFlexLexer(in),
@@ -26,7 +26,7 @@ VctFlexLexer::VctFlexLexer(std::istream *in)
 
 %option debug
 %option nodefault
-%option yyclass="emcore::VctFlexLexer"
+%option yyclass="mizcore::VctFlexLexer"
 %option noyywrap
 %option c++
 %option prefix="yyVct"

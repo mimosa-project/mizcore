@@ -1,6 +1,6 @@
 #include "symbol.hpp"
 
-using emcore::Symbol;
+using mizcore::Symbol;
 
 std::string_view
 Symbol::GetTypeString() const

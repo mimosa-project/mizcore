@@ -7,7 +7,7 @@
 #include "nlohmann/json.hpp"
 #include "token_type.hpp"
 
-namespace emcore {
+namespace mizcore {
 
 class Symbol;
 
@@ -196,4 +196,4 @@ class KeywordToken : public Token
     KEYWORD_TYPE keyword_type_;
 };
 
-} // namespace emcore
+} // namespace mizcore

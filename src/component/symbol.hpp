@@ -6,7 +6,7 @@
 
 #include "symbol_type.hpp"
 
-namespace emcore {
+namespace mizcore {
 
 class Symbol final
 {
@@ -28,4 +28,4 @@ class Symbol final
     uint8_t priority_;
 };
 
-} // namespace emcore
+} // namespace mizcore

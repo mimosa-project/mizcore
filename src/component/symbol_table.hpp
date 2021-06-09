@@ -9,7 +9,7 @@
 #include "symbol_type.hpp"
 #include "tsl/htrie_map.h"
 
-namespace emcore {
+namespace mizcore {
 
 class Symbol;
 
@@ -55,4 +55,4 @@ class SymbolTable
     tsl::htrie_map<char, Symbol*> query_map_;
 };
 
-} // namespace emcore
+} // namespace mizcore

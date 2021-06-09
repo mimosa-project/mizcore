@@ -15,9 +15,9 @@
 #include "symbol_table.hpp"
 #include "vct_file_handler.hpp"
 
-using emcore::SYMBOL_TYPE;
-using emcore::SymbolTable;
-using emcore::VctFileHandler;
+using mizcore::SYMBOL_TYPE;
+using mizcore::SymbolTable;
+using mizcore::VctFileHandler;
 using std::ifstream;
 namespace fs = std::filesystem;
 

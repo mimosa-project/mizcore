@@ -18,10 +18,10 @@ using std::ifstream;
 using std::string;
 namespace fs = std::filesystem;
 
-using emcore::Symbol;
-using emcore::SYMBOL_TYPE;
-using emcore::SymbolTable;
-using emcore::VctFileHandler;
+using mizcore::Symbol;
+using mizcore::SYMBOL_TYPE;
+using mizcore::SymbolTable;
+using mizcore::VctFileHandler;
 
 const fs::path TEST_DATA_DIR = fs::path(__FILE__).parent_path() / "data";
 

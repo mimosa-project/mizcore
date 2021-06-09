@@ -7,8 +7,8 @@
 
 using nlohmann::json;
 
-using emcore::Token;
-using emcore::TokenTable;
+using mizcore::Token;
+using mizcore::TokenTable;
 
 void
 TokenTable::AddToken(Token* token)
