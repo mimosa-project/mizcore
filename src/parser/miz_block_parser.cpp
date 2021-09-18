@@ -193,8 +193,7 @@ MizBlockParser::ParseEnvironKeyword(KeywordToken* token)
 
         is_in_environ_ = true;
         if (is_in_section_) {
-            RecordError(
-              token, ERROR_TYPE::ENVIRON_KEYWORD_APPEARED_AFTER_BEGIN_KEYWORD);
+            RecordError(token, ERROR_TYPE::ENVIRON_KEYWORD_AFTER_BEGIN_KEYWORD);
             is_in_section_ = false;
         }
     } else {
@@ -276,8 +275,10 @@ MizBlockParser::ParseProofKeyword(KeywordToken* token, Token* prev_token)
     auto element_type = component->GetElementType();
     if (element_type == ELEMENT_TYPE::BLOCK) {
         auto* parent_block = static_cast<ASTBlock*>(component);
-        // Error will be recorded in CheckAdjacentTokensConsistency()
+        // Error will be recorded in CheckBlockSiblingsConsistency() and
+        // CheckAdjacentTokensConsistency()
         PushBlock(token, parent_block, BLOCK_TYPE::PROOF);
+        ++proof_stack_num_;
     } else {
         PopStatement(prev_token);
         auto* parent_component = ast_component_stack_.top();
@@ -345,15 +346,27 @@ MizBlockParser::PushBlock(Token* token,
         RecordError(token, error);
     }
 
+    error = CheckBlockSiblingsConsistency(raw_block, parent_block);
+    if (error != ERROR_TYPE::SUCCESS) {
+        RecordError(token, error);
+    }
+
     return raw_block;
 }
 
 void
 MizBlockParser::PopBlock()
 {
-    assert(GetCurrentComponent() != nullptr);
-    assert(GetCurrentComponent()->GetElementType() == ELEMENT_TYPE::BLOCK);
+    auto* component = GetCurrentComponent();
+    assert(component != nullptr);
+    assert(component->GetElementType() == ELEMENT_TYPE::BLOCK);
     assert(ast_component_stack_.size() > 1);
+
+    auto* block = static_cast<ASTBlock*>(component);
+    if (block->GetBlockType() == BLOCK_TYPE::PROOF) {
+        assert(proof_stack_num_ > 0);
+        --proof_stack_num_;
+    }
     ast_component_stack_.pop();
 }
 
@@ -374,6 +387,11 @@ MizBlockParser::PushStatement(Token* token,
     auto parent_block_type = parent_block->GetBlockType();
     ERROR_TYPE error =
       CheckStatementInBlockConsistency(statement_type, parent_block_type);
+    if (error != ERROR_TYPE::SUCCESS) {
+        RecordError(token, error);
+    }
+
+    error = CheckStatementSiblingsConsistency(raw_statement, parent_block);
     if (error != ERROR_TYPE::SUCCESS) {
         RecordError(token, error);
     }
@@ -467,6 +485,7 @@ MizBlockParser::ResolveVariableReference(IdentifierToken* variable_token)
 void
 MizBlockParser::RecordError(Token* token, ERROR_TYPE error) const
 {
+    // TODO(nakasho): Change error log report.
     assert(token != nullptr);
     auto error_level = GetErrorLevel(error);
     spdlog::error("[{}] ({%4d},{%3d}): \"{}\": C{}:{}",
@@ -541,49 +560,146 @@ MizBlockParser::GetBlockType(KEYWORD_TYPE keyword_type)
     }
 }
 
-bool
-MizBlockParser::IsBlockStartKeyword(KEYWORD_TYPE keyword_type)
+ERROR_TYPE
+MizBlockParser::CheckBlockInBlockConsistency(BLOCK_TYPE inner_block_type,
+                                             BLOCK_TYPE outer_block_type) const
 {
-    // KEYWORD_TYPE::SCHEME may be a block but also may be a statement,
-    // so it is excluded from here.
-    switch (keyword_type) {
-        case KEYWORD_TYPE::DEFINITION:
-        case KEYWORD_TYPE::REGISTRATION:
-        case KEYWORD_TYPE::NOTATION:
-        case KEYWORD_TYPE::CASE:
-        case KEYWORD_TYPE::SUPPOSE:
-        case KEYWORD_TYPE::HEREBY:
-        case KEYWORD_TYPE::NOW:
-        case KEYWORD_TYPE::PROOF:
-            return true;
+    switch (inner_block_type) {
+        case BLOCK_TYPE::ROOT:
+            return ERROR_TYPE::ROOT_BLOCK_UNDER_BLOCK;
+        case BLOCK_TYPE::DEFINITION:
+            if (outer_block_type != BLOCK_TYPE::ROOT) {
+                return ERROR_TYPE::DEFINITION_BLOCK_NOT_JUST_BELOW_ROOT_BLOCK;
+            } else if (!is_partial_mode_ && !is_in_section_) {
+                return ERROR_TYPE::DEFINITION_BLOCK_NOT_AFTER_BEGIN_KEYWORD;
+            }
+            break;
+        case BLOCK_TYPE::REGISTRATION:
+            if (outer_block_type != BLOCK_TYPE::ROOT) {
+                return ERROR_TYPE::REGISTRATION_BLOCK_NOT_JUST_BELOW_ROOT_BLOCK;
+            } else if (!is_partial_mode_ && !is_in_section_) {
+                return ERROR_TYPE::REGISTRATION_BLOCK_NOT_AFTER_BEGIN_KEYWORD;
+            }
+            break;
+        case BLOCK_TYPE::NOTATION:
+            if (outer_block_type != BLOCK_TYPE::ROOT) {
+                return ERROR_TYPE::NOTATION_BLOCK_NOT_JUST_BELOW_ROOT_BLOCK;
+            } else if (!is_partial_mode_ && !is_in_section_) {
+                return ERROR_TYPE::NOTATION_BLOCK_NOT_AFTER_BEGIN_KEYWORD;
+            }
+            break;
+        case BLOCK_TYPE::SCHEME:
+            if (outer_block_type != BLOCK_TYPE::ROOT) {
+                return ERROR_TYPE::SCHEME_BLOCK_NOT_JUST_BELOW_ROOT_BLOCK;
+            } else if (!is_partial_mode_ && !is_in_section_) {
+                return ERROR_TYPE::SCHEME_BLOCK_NOT_AFTER_BEGIN_KEYWORD;
+            }
+            break;
+        case BLOCK_TYPE::CASE:
+            if (proof_stack_num_ < 1) {
+                return ERROR_TYPE::CASE_BLOCK_NOT_UNDER_PROOF_BLOCK;
+            }
+            break;
+        case BLOCK_TYPE::SUPPOSE:
+            if (proof_stack_num_ < 1) {
+                return ERROR_TYPE::SUPPOSE_BLOCK_NOT_UNDER_PROOF_BLOCK;
+            }
+            break;
+        case BLOCK_TYPE::HEREBY:
+            if (proof_stack_num_ < 1) {
+                return ERROR_TYPE::HEREBY_BLOCK_NOT_UNDER_PROOF_BLOCK;
+            }
+            break;
+        case BLOCK_TYPE::NOW:
+            if (proof_stack_num_ < 1) {
+                return ERROR_TYPE::NOW_BLOCK_NOT_UNDER_PROOF_BLOCK;
+            }
+            break;
         default:
-            return false;
+            break;
     }
+
+    return ERROR_TYPE::SUCCESS;
 }
 
 ERROR_TYPE
-CheckBlockInBlockConsistency(BLOCK_TYPE inner_block_type,
-                             BLOCK_TYPE outer_block_type)
-{
-    // TODO(nakasho): Not implemented yet.
-    // Take care of the partial mode.
-    return ERROR_TYPE::UNKNOWN;
-}
-
-ERROR_TYPE
-CheckStatementInBlockConsistency(STATEMENT_TYPE statement_type,
-                                 BLOCK_TYPE block_type)
+MizBlockParser::CheckStatementInBlockConsistency(STATEMENT_TYPE statement_type,
+                                                 BLOCK_TYPE block_type) const
 {
     // TODO(nakasho): Not implemented yet.
     // Take care of the partial mode.
     if (statement_type == STATEMENT_TYPE::EMPTY) {
         return ERROR_TYPE::STATEMENT_IS_EMPTY;
     }
-    return ERROR_TYPE::UNKNOWN;
+    return ERROR_TYPE::SUCCESS;
 }
 
 ERROR_TYPE
-CheckTokenInStatementConsistency(Token* token, STATEMENT_TYPE statement_type)
+MizBlockParser::CheckBlockSiblingsConsistency(ASTBlock* block,
+                                              ASTBlock* parent_block)
+{
+    auto block_type = block->GetBlockType();
+    switch (block_type) {
+        case BLOCK_TYPE::CASE:
+        case BLOCK_TYPE::SUPPOSE: {
+            size_t child_num = parent_block->GetChildComponentNum();
+            if (child_num < 2) {
+                return ERROR_TYPE::PER_CASES_STATEMENT_MISSING;
+            }
+            auto* first_sibling_statement = parent_block->GetChildStatement(0);
+            if (first_sibling_statement == nullptr ||
+                first_sibling_statement->GetStatementType() !=
+                  STATEMENT_TYPE::PER_CASES) {
+                return ERROR_TYPE::PER_CASES_STATEMENT_MISSING;
+            }
+
+            if (child_num > 2) {
+                auto* prev_sibling_block =
+                  parent_block->GetChildBlock(child_num - 2);
+                if (prev_sibling_block == nullptr ||
+                    prev_sibling_block->GetBlockType() != block_type) {
+                    return (block_type == BLOCK_TYPE::CASE)
+                             ? ERROR_TYPE::
+                                 CASE_BLOCK_PREV_SIBLING_NOT_CASE_BLOCK
+                             : ERROR_TYPE::
+                                 SUPPOSE_BLOCK_PREV_SIBLING_NOT_SUPPOSE_BLOCK;
+                }
+            }
+        } break;
+        case BLOCK_TYPE::PROOF: {
+            size_t child_num = parent_block->GetChildComponentNum();
+            if (child_num < 2) {
+                return ERROR_TYPE::PROOF_START_WITHOUT_PROPOSITION;
+            }
+            auto* prev_sibling_statement =
+              parent_block->GetChildStatement(child_num - 2);
+            if (prev_sibling_statement == nullptr) {
+                return ERROR_TYPE::PROOF_START_WITHOUT_PROPOSITION;
+            }
+            auto prev_sibling_type = prev_sibling_statement->GetStatementType();
+            if (prev_sibling_type != STATEMENT_TYPE::UNKNOWN &&
+                prev_sibling_type != STATEMENT_TYPE::SCHEME &&
+                prev_sibling_type != STATEMENT_TYPE::THEOREM) {
+                return ERROR_TYPE::PROOF_START_WITHOUT_PROPOSITION;
+            }
+        } break;
+        default:
+            break;
+    }
+    return ERROR_TYPE::SUCCESS;
+}
+
+ERROR_TYPE
+MizBlockParser::CheckStatementSiblingsConsistency(ASTStatement* statement,
+                                                  ASTBlock* parent_block)
+{
+    // TODO(nakasho): Not implemented yet.
+    return ERROR_TYPE::SUCCESS;
+}
+
+ERROR_TYPE
+MizBlockParser::CheckTokenInStatementConsistency(Token* token,
+                                                 STATEMENT_TYPE statement_type)
 {
     // TODO(nakasho): Not implemented yet.
     TOKEN_TYPE token_type = token->GetTokenType();
@@ -595,11 +711,12 @@ CheckTokenInStatementConsistency(Token* token, STATEMENT_TYPE statement_type)
         return ERROR_TYPE::END_KEYWORD_WITH_NO_PAIR_BLOCK;
     }
 
-    return ERROR_TYPE::UNKNOWN;
+    return ERROR_TYPE::SUCCESS;
 }
 
 ERROR_TYPE
-CheckAdjacentTokensConsistency(Token* prev_token, Token* current_token)
+MizBlockParser::CheckAdjacentTokensConsistency(Token* prev_token,
+                                               Token* current_token)
 {
     // TODO(nakasho): Not implemented yet.
     // Take care of the partial mode.
@@ -615,5 +732,5 @@ CheckAdjacentTokensConsistency(Token* prev_token, Token* current_token)
             return ERROR_TYPE::PROOF_START_WITHOUT_PROPOSITION;
         }
     }
-    return ERROR_TYPE::UNKNOWN;
+    return ERROR_TYPE::SUCCESS;
 }

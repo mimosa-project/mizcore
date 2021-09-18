@@ -42,6 +42,7 @@ enum class STATEMENT_TYPE
     REQUIREMENTS,
     SCHEME,
     THEOREM,
+    PER_CASES,
 };
 
 } // namespace mizcore

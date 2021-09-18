@@ -75,19 +75,22 @@ class MizBlockParser
         return ast_component_stack_.top();
     }
 
-    static STATEMENT_TYPE GetStatementType(KEYWORD_TYPE keyword_type);
-    static BLOCK_TYPE GetBlockType(KEYWORD_TYPE keyword_type);
-    static bool IsBlockStartKeyword(KEYWORD_TYPE keyword_type);
-    static ERROR_TYPE CheckBlockInBlockConsistency(BLOCK_TYPE inner_block_type,
-                                                   BLOCK_TYPE outer_block_type);
-    static ERROR_TYPE CheckStatementInBlockConsistency(
-      STATEMENT_TYPE statement_type,
-      BLOCK_TYPE block_type);
+    ERROR_TYPE CheckBlockInBlockConsistency(BLOCK_TYPE inner_block_type,
+                                            BLOCK_TYPE outer_block_type) const;
+    ERROR_TYPE CheckStatementInBlockConsistency(STATEMENT_TYPE statement_type,
+                                                BLOCK_TYPE block_type) const;
+    static ERROR_TYPE CheckBlockSiblingsConsistency(ASTBlock* block,
+                                                    ASTBlock* parent_block);
+    static ERROR_TYPE CheckStatementSiblingsConsistency(ASTStatement* statement,
+                                                        ASTBlock* parent_block);
     static ERROR_TYPE CheckTokenInStatementConsistency(
       Token* token,
       STATEMENT_TYPE statement_type);
     static ERROR_TYPE CheckAdjacentTokensConsistency(Token* prev_token,
                                                      Token* current_token);
+
+    static STATEMENT_TYPE GetStatementType(KEYWORD_TYPE keyword_type);
+    static BLOCK_TYPE GetBlockType(KEYWORD_TYPE keyword_type);
 
   private:
     bool is_partial_mode_ = false;
@@ -99,7 +102,7 @@ class MizBlockParser
     // Only for internal use
     bool is_in_environ_ = false;
     bool is_in_section_ = false;
-    Token* scheme_start_token_ = nullptr;
+    int proof_stack_num_ = 0;
 };
 
 } // namespace mizcore

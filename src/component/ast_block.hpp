@@ -11,6 +11,7 @@ namespace mizcore {
 
 class Token;
 class KeywordToken;
+class ASTStatement;
 
 class ASTBlock : public ASTComponent
 {
@@ -47,6 +48,8 @@ class ASTBlock : public ASTComponent
     {
         return child_components_[i].get();
     }
+    ASTBlock* GetChildBlock(size_t i) const;
+    ASTStatement* GetChildStatement(size_t i) const;
     void AddChildComponent(std::unique_ptr<ASTComponent>&& component)
     {
         component->SetParent(this);
