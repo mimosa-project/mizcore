@@ -4,8 +4,8 @@ add_test(
   WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/data/)
 
 add_executable(
-  mizcore_scanner_test.out symbol_table_test.cpp vct_file_handler_test.cpp
-                           miz_file_handler_test.cpp main.cpp)
+  mizcore_scanner_test.out symbol_table_test.cpp vct_lexer_handler_test.cpp
+                           miz_lexer_handler_test.cpp main.cpp)
 
 target_link_libraries(mizcore_scanner_test.out PRIVATE doctest::doctest
                                                        mizcore::scanner)

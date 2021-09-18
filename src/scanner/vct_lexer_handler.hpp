@@ -7,10 +7,10 @@ namespace mizcore {
 class SymbolTable;
 class VctFlexLexer;
 
-class VctFileHandler
+class VctLexerHandler
 {
   public:
-    VctFileHandler(std::istream* in);
+    VctLexerHandler(std::istream* in);
     int yylex();
 
     std::shared_ptr<SymbolTable> GetSymbolTable() const;

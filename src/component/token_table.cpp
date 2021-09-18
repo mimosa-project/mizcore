@@ -13,6 +13,7 @@ using mizcore::TokenTable;
 void
 TokenTable::AddToken(Token* token)
 {
+    token->SetId(tokens_.size());
     tokens_.emplace_back(token);
 }
 

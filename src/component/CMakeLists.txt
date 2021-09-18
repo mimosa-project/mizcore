@@ -1,4 +1,4 @@
-add_library(mizcore_component symbol.cpp symbol_table.cpp token_table.cpp
+add_library(mizcore_component error_def.cpp symbol.cpp symbol_table.cpp token_table.cpp
                               token.cpp)
 add_library(mizcore::component ALIAS mizcore_component)
 

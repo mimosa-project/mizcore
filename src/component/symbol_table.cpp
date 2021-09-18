@@ -17,6 +17,8 @@ SymbolTable::SymbolTable()
 void
 SymbolTable::Initialize()
 {
+    query_map_is_built_ = false;
+
     AddSymbol("SPECIAL_", ",", SYMBOL_TYPE::SPECIAL);
     AddSymbol("SPECIAL_", ";", SYMBOL_TYPE::SPECIAL);
     AddSymbol("SPECIAL_", ":", SYMBOL_TYPE::SPECIAL);
@@ -91,6 +93,9 @@ SymbolTable::CollectSynonyms() const
 void
 SymbolTable::BuildQueryMap()
 {
+    if (query_map_is_built_)
+        return;
+
     BuildQueryMapOne("HIDDEN");
     if (valid_filenames_.empty()) {
         for (const auto& pair : file2symbols_) {
@@ -104,6 +109,7 @@ SymbolTable::BuildQueryMap()
             BuildQueryMapOne(filename);
         }
     }
+    query_map_is_built_ = true;
 }
 
 Symbol*

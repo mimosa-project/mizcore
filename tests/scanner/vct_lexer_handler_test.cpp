@@ -13,11 +13,11 @@
 
 #include "symbol.hpp"
 #include "symbol_table.hpp"
-#include "vct_file_handler.hpp"
+#include "vct_lexer_handler.hpp"
 
 using mizcore::SYMBOL_TYPE;
 using mizcore::SymbolTable;
-using mizcore::VctFileHandler;
+using mizcore::VctLexerHandler;
 using std::ifstream;
 namespace fs = std::filesystem;
 
@@ -31,7 +31,7 @@ TEST_CASE("execute vct scanner")
     // Input file existence
     CHECK(ifs.good());
 
-    VctFileHandler handler(&ifs);
+    VctLexerHandler handler(&ifs);
     handler.yylex();
 
     std::shared_ptr<SymbolTable> table = handler.GetSymbolTable();

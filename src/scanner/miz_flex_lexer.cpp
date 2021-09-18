@@ -17,15 +17,13 @@
 
 using mizcore::MizFlexLexer;
 
+using mizcore::KEYWORD_TYPE;
+
 MizFlexLexer::MizFlexLexer(std::istream* in,
                            std::shared_ptr<SymbolTable> symbol_table)
   : yyMizFlexLexer(in)
   , symbol_table_(std::move(symbol_table))
   , token_table_(std::make_shared<TokenTable>())
-  , line_number_(1)
-  , column_number_(1)
-  , is_in_environ_section_(false)
-  , is_in_vocabulary_section_(false)
 {}
 
 size_t
@@ -60,21 +58,21 @@ size_t
 MizFlexLexer::ScanKeyword(KEYWORD_TYPE type)
 {
     Token* token = new KeywordToken(line_number_, column_number_, type);
-    token_table_->AddToken(token);
-    column_number_ += yyleng;
 
     if (type == KEYWORD_TYPE::ENVIRON) {
         is_in_environ_section_ = true;
-    } else if (type == KEYWORD_TYPE::VOCABULARIES) {
-        if (is_in_environ_section_) {
-            is_in_vocabulary_section_ = true;
-        }
     } else if (type == KEYWORD_TYPE::BEGIN_) {
         is_in_environ_section_ = false;
         is_in_vocabulary_section_ = false;
         symbol_table_->BuildQueryMap();
+    } else if (type == KEYWORD_TYPE::VOCABULARIES) {
+        if (is_in_environ_section_) {
+            is_in_vocabulary_section_ = true;
+        }
     }
 
+    token_table_->AddToken(token);
+    column_number_ += yyleng;
     return yyleng;
 }
 
@@ -119,10 +117,7 @@ MizFlexLexer::ScanComment(COMMENT_TYPE type)
 size_t
 MizFlexLexer::ScanUnknown()
 {
-    spdlog::error(
-      "[Error] Unknown token found: [{},{}]", line_number_, column_number_);
     Token* token = new UnknownToken(line_number_, column_number_, yytext);
-    assert(token);
     token_table_->AddToken(token);
     column_number_ += yyleng;
     return yyleng;

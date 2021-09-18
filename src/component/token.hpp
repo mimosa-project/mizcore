@@ -27,6 +27,8 @@ class Token
     Token& operator=(Token&&) = delete;
 
     // attributes
+    size_t GetId() const { return id_; }
+    void SetId(size_t id) { id_ = id; }
     int GetLineNumber() const { return line_number_; }
     int GetColumnNumber() const { return column_number_; }
     virtual std::string_view GetText() const = 0;
@@ -39,6 +41,7 @@ class Token
     static std::string_view QueryTypeText(TOKEN_TYPE type);
 
   private:
+    size_t id_ = SIZE_MAX;
     size_t line_number_;
     size_t column_number_;
 };

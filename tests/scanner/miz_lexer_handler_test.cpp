@@ -3,16 +3,16 @@
 #include <iostream>
 
 #include "doctest/doctest.h"
-#include "miz_file_handler.hpp"
+#include "miz_lexer_handler.hpp"
 #include "symbol.hpp"
 #include "symbol_table.hpp"
 #include "token.hpp"
 #include "token_table.hpp"
-#include "vct_file_handler.hpp"
+#include "vct_lexer_handler.hpp"
 
-using mizcore::MizFileHandler;
+using mizcore::MizLexerHandler;
 using mizcore::SymbolTable;
-using mizcore::VctFileHandler;
+using mizcore::VctLexerHandler;
 using std::string;
 namespace fs = std::filesystem;
 
@@ -58,13 +58,13 @@ TEST_CASE("execute miz file handler")
         // Input file existence
         CHECK(ifs.good());
 
-        VctFileHandler vct_handler(&ifs);
+        VctLexerHandler vct_handler(&ifs);
 
         // Erapsed time: 0.057 [s]
         // clock_t start = clock();
         vct_handler.yylex();
         // clock_t duration = clock() - start;
-        // std::cout << "The elapsed time [s] of VctFileHandler is: "
+        // std::cout << "The elapsed time [s] of VctLexerHandler is: "
         //           << (double)duration / CLOCKS_PER_SEC << std::endl;
         symbol_table = vct_handler.GetSymbolTable();
     }
@@ -73,13 +73,13 @@ TEST_CASE("execute miz file handler")
     {
         fs::path miz_file_path = TEST_DIR / "data" / "numerals.miz";
         std::ifstream ifs(miz_file_path);
-        MizFileHandler miz_handler(&ifs, symbol_table);
+        MizLexerHandler miz_handler(&ifs, symbol_table);
 
         // Erapsed time: 0.00034 [s]
         // clock_t start = clock();
         miz_handler.yylex();
         // clock_t duration = clock() - start;
-        // std::cout << "The elapsed time [s] of VctFileHandler is: "
+        // std::cout << "The elapsed time [s] of VctLexerHandler is: "
         //           << (double)duration / CLOCKS_PER_SEC << std::endl;
 
         auto token_array = miz_handler.GetTokenTable();
@@ -110,13 +110,13 @@ TEST_CASE("execute miz file handler")
     {
         fs::path miz_file_path = TEST_DIR / "data" / "jgraph_4.miz";
         std::ifstream ifs(miz_file_path.c_str());
-        MizFileHandler miz_handler(&ifs, symbol_table);
+        MizLexerHandler miz_handler(&ifs, symbol_table);
 
         // Erapsed time: 0.221 [ms]
         // clock_t start = clock();
         miz_handler.yylex();
         // clock_t duration = clock() - start;
-        // std::cout << "The elapsed time [s] of MizFileHandler is: "
+        // std::cout << "The elapsed time [s] of MizLexerHandler is: "
         //           << (double)duration / CLOCKS_PER_SEC << std::endl;
 
         auto token_array = miz_handler.GetTokenTable();

@@ -15,6 +15,10 @@ class TokenTable
     // ctor, dtor
     TokenTable() = default;
     virtual ~TokenTable() = default;
+    TokenTable(TokenTable const&) = delete;
+    TokenTable(TokenTable&&) = delete;
+    TokenTable& operator=(TokenTable const&) = delete;
+    TokenTable& operator=(TokenTable&&) = delete;
 
     // attributes
     void AddToken(Token* token);

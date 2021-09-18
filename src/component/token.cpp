@@ -87,7 +87,7 @@ CommentToken::QueryCommentTypeText(COMMENT_TYPE type)
 std::string_view
 KeywordToken::QueryKeywordText(KEYWORD_TYPE type)
 {
-    static std::array<string, 116> keyword_text = {
+    static std::array<string, 118> keyword_text = {
         "unknown",
         "according",
         "aggregate",
@@ -127,10 +127,12 @@ KeywordToken::QueryKeywordText(KEYWORD_TYPE type)
         "does",
         "end",
         "environ",
+        "equalities",
         "equals",
         "ex",
         "exactly",
         "existence",
+        "expansions",
         "for",
         "from",
         "func",
@@ -251,10 +253,12 @@ KeywordToken::QueryKeywordType(std::string_view text)
         { "does", KEYWORD_TYPE::DOES },
         { "end", KEYWORD_TYPE::END },
         { "environ", KEYWORD_TYPE::ENVIRON },
+        { "equalities", KEYWORD_TYPE::EQUALITIES },
         { "equals", KEYWORD_TYPE::EQUALS },
         { "ex", KEYWORD_TYPE::EX },
         { "exactly", KEYWORD_TYPE::EXACTLY },
         { "existence", KEYWORD_TYPE::EXISTENCE },
+        { "expansions", KEYWORD_TYPE::EXPANSIONS },
         { "for", KEYWORD_TYPE::FOR },
         { "from", KEYWORD_TYPE::FROM },
         { "func", KEYWORD_TYPE::FUNC },
