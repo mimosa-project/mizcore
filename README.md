@@ -12,7 +12,7 @@ Mizar Core Library
 ## Build
 
 ```bash
-sudo apt install build-essential flex bison
+sudo apt install build-essential cmake flex bison clang-tidy clang-format
 git clone https://github.com/mimosa-project/mizcore.git --recursive
 cd mizcore
 mkdir build
