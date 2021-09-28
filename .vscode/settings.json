@@ -72,5 +72,6 @@
     },
     "editor.formatOnSave": true,
     "clang-tidy.buildPath": "build",
-    "clang-tidy.lintOnSave": true
+    "clang-tidy.lintOnSave": true,
+    "cmake.configureOnOpen": true
 }
