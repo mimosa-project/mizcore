@@ -61,8 +61,6 @@ class MizBlockParser
                                 ASTBlock* parent_block,
                                 STATEMENT_TYPE statement_type);
     void PopStatement(Token* token);
-    void AddToStatement(Token* token);
-    void AddEmptyStatement(Token* token, ASTBlock* parent_block);
     Token* QueryNextToken(Token* token) const;
 
     void ResolveIdentifierType(IdentifierToken* token);
@@ -77,20 +75,10 @@ class MizBlockParser
 
     ERROR_TYPE CheckBlockInBlockConsistency(BLOCK_TYPE inner_block_type,
                                             BLOCK_TYPE outer_block_type) const;
-    ERROR_TYPE CheckStatementInBlockConsistency(STATEMENT_TYPE statement_type,
-                                                BLOCK_TYPE block_type) const;
     static ERROR_TYPE CheckBlockSiblingsConsistency(ASTBlock* block,
                                                     ASTBlock* parent_block);
-    static ERROR_TYPE CheckStatementSiblingsConsistency(ASTStatement* statement,
-                                                        ASTBlock* parent_block);
-    static ERROR_TYPE CheckTokenInStatementConsistency(
-      Token* token,
-      STATEMENT_TYPE statement_type);
-    static ERROR_TYPE CheckAdjacentTokensConsistency(Token* prev_token,
-                                                     Token* current_token);
-
-    static STATEMENT_TYPE GetStatementType(KEYWORD_TYPE keyword_type);
-    static BLOCK_TYPE GetBlockType(KEYWORD_TYPE keyword_type);
+    static STATEMENT_TYPE QueryStatementType(KEYWORD_TYPE keyword_type);
+    static BLOCK_TYPE QueryBlockType(KEYWORD_TYPE keyword_type);
 
   private:
     bool is_partial_mode_ = false;

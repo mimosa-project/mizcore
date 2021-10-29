@@ -17,8 +17,8 @@ mizcore::GetErrorMessage(ERROR_TYPE error)
             return "Block must be closed by the end of the article.";
         case ERROR_TYPE::BLOCK_NOT_IN_SECTION:
             return "Block must be located after begin keyword.";
-        case ERROR_TYPE::CASE_BLOCK_NOT_UNDER_PROOF_BLOCK:
-            return "Case block must be located under proof block.";
+        case ERROR_TYPE::CASE_BLOCK_PREV_SIBLING_NOT_CASE_BLOCK:
+            return "case blocks must be in sequence.";
         case ERROR_TYPE::END_KEYWORD_WITH_NO_PAIR_BLOCK:
             return "The end keyword must be used in pairs with a block "
                    "keyword.";
@@ -26,18 +26,24 @@ mizcore::GetErrorMessage(ERROR_TYPE error)
             return "The end keyword must be followed by a semicolon.";
         case ERROR_TYPE::ENVIRON_KEYWORD_AFTER_BEGIN_KEYWORD:
             return "The environ keyword must be located before begin keyword.";
-        case ERROR_TYPE::HEREBY_BLOCK_NOT_UNDER_PROOF_BLOCK:
-            return "Hereby block must be located under proof block.";
-        case ERROR_TYPE::NOW_BLOCK_NOT_UNDER_PROOF_BLOCK:
-            return "Now block must be located under proof block.";
+        case ERROR_TYPE::NOT_AFTER_BEGIN_KEYWORD:
+            return "This keyword must be located after begin keyword.";
+        case ERROR_TYPE::NOT_JUST_BELOW_ROOT_BLOCK:
+            return "This keyword must be located on the top level.";
+        case ERROR_TYPE::NOT_UNDER_PROOF_BLOCK:
+            return "This keyword must be located under proof block.";
+        case ERROR_TYPE::PER_CASES_STATEMENT_MISSING:
+            return "per case statement is missed";
         case ERROR_TYPE::PROOF_START_WITHOUT_PROPOSITION:
             return "Proof block must not start without preceding proposition.";
+        case ERROR_TYPE::ROOT_BLOCK_UNDER_BLOCK:
+            return "Root block is located under block (internal error).";
         case ERROR_TYPE::STATEMENT_IS_EMPTY:
             return "Statement must not be empty.";
         case ERROR_TYPE::STATEMENT_NOT_CLOSED_IN_ARTICLE:
             return "Statement must be closed by the end of the article.";
-        case ERROR_TYPE::SUPPOSE_BLOCK_NOT_UNDER_PROOF_BLOCK:
-            return "Suppose block must be located under proof block.";
+        case ERROR_TYPE::SUPPOSE_BLOCK_PREV_SIBLING_NOT_SUPPOSE_BLOCK:
+            return "suppose blocks must be in sequence.";
         case ERROR_TYPE::TOKEN_IS_UNKNOWN:
             return "Unknown token found.";
         default:
