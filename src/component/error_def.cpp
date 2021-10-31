@@ -13,12 +13,18 @@ mizcore::GetErrorMessage(ERROR_TYPE error)
             return "Success.";
         case ERROR_TYPE::UNKNOWN:
             return "Unknown error occured.";
+        case ERROR_TYPE::BEGIN_KEYWORD_IN_STATEMENT:
+            return "begin keyword must not be in the middle of statement";
         case ERROR_TYPE::BLOCK_NOT_CLOSED_IN_ARTICLE:
             return "Block must be closed by the end of the article.";
         case ERROR_TYPE::BLOCK_NOT_IN_SECTION:
             return "Block must be located after begin keyword.";
+        case ERROR_TYPE::BLOCK_START_KEYWORD_IN_STATEMENT:
+            return "Block start keyword must not be in the middle of statement";
         case ERROR_TYPE::CASE_BLOCK_PREV_SIBLING_NOT_CASE_BLOCK:
             return "case blocks must be in sequence.";
+        case ERROR_TYPE::END_KEYWORD_IN_STATEMENT:
+            return "end keyword must not be in the statement";
         case ERROR_TYPE::END_KEYWORD_WITH_NO_PAIR_BLOCK:
             return "The end keyword must be used in pairs with a block "
                    "keyword.";
@@ -26,6 +32,8 @@ mizcore::GetErrorMessage(ERROR_TYPE error)
             return "The end keyword must be followed by a semicolon.";
         case ERROR_TYPE::ENVIRON_KEYWORD_AFTER_BEGIN_KEYWORD:
             return "The environ keyword must be located before begin keyword.";
+        case ERROR_TYPE::ENVIRON_KEYWORD_IN_STATEMENT:
+            return "environ keyword must not be in the middle of statement";
         case ERROR_TYPE::NOT_AFTER_BEGIN_KEYWORD:
             return "This keyword must be located after begin keyword.";
         case ERROR_TYPE::NOT_JUST_BELOW_ROOT_BLOCK:
@@ -38,6 +46,8 @@ mizcore::GetErrorMessage(ERROR_TYPE error)
             return "Proof block must not start without preceding proposition.";
         case ERROR_TYPE::ROOT_BLOCK_UNDER_BLOCK:
             return "Root block is located under block (internal error).";
+        case ERROR_TYPE::SCHEME_KEYWORD_IN_STATEMENT:
+            return "scheme keyword must not be in the middle of statement";
         case ERROR_TYPE::STATEMENT_IS_EMPTY:
             return "Statement must not be empty.";
         case ERROR_TYPE::STATEMENT_NOT_CLOSED_IN_ARTICLE:

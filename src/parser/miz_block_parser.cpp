@@ -107,6 +107,7 @@ MizBlockParser::ParseUnknown(Token* token)
         auto* parent_block = static_cast<ASTBlock*>(component);
         PushStatement(token, parent_block, STATEMENT_TYPE::UNKNOWN);
     }
+    RecordError(token, ERROR_TYPE::TOKEN_IS_UNKNOWN);
 }
 
 void
@@ -213,6 +214,8 @@ MizBlockParser::ParseEnvironKeyword(KeywordToken* token)
             RecordError(token, ERROR_TYPE::ENVIRON_KEYWORD_AFTER_BEGIN_KEYWORD);
             is_in_section_ = false;
         }
+    } else {
+        RecordError(token, ERROR_TYPE::ENVIRON_KEYWORD_IN_STATEMENT);
     }
 }
 
@@ -228,6 +231,8 @@ MizBlockParser::ParseBeginKeyword(KeywordToken* token)
 
         is_in_section_ = true;
         is_in_environ_ = false;
+    } else {
+        RecordError(token, ERROR_TYPE::BEGIN_KEYWORD_IN_STATEMENT);
     }
 }
 
@@ -240,6 +245,8 @@ MizBlockParser::ParseBlockStartKeyword(KeywordToken* token)
         auto* parent_block = static_cast<ASTBlock*>(component);
         auto keyword_type = token->GetKeywordType();
         PushBlock(token, parent_block, QueryBlockType(keyword_type));
+    } else {
+        RecordError(token, ERROR_TYPE::BLOCK_START_KEYWORD_IN_STATEMENT);
     }
 }
 
@@ -270,6 +277,8 @@ MizBlockParser::ParseSchemeKeyword(KeywordToken* token)
             // The error (No closed statement) will be detected in Parse()
             PushStatement(token, parent_block, STATEMENT_TYPE::SCHEME);
         }
+    } else {
+        RecordError(token, ERROR_TYPE::SCHEME_KEYWORD_IN_STATEMENT);
     }
 }
 
@@ -285,6 +294,9 @@ MizBlockParser::ParseProofKeyword(KeywordToken* token, Token* prev_token)
         ++proof_stack_num_;
     } else {
         PopStatement(prev_token);
+        if (prev_token == nullptr || prev_token->GetText() == ";") {
+            RecordError(token, ERROR_TYPE::PROOF_START_WITHOUT_PROPOSITION);
+        }
         auto* parent_component = ast_component_stack_.top();
         assert(parent_component->GetElementType() == ELEMENT_TYPE::BLOCK);
         auto* parent_block = static_cast<ASTBlock*>(parent_component);
@@ -310,6 +322,8 @@ MizBlockParser::ParseEndKeyword(KeywordToken* token)
                 PopBlock();
             }
         }
+    } else {
+        RecordError(token, ERROR_TYPE::END_KEYWORD_IN_STATEMENT);
     }
 }
 
