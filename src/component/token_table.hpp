@@ -24,6 +24,10 @@ class TokenTable
     void AddToken(Token* token);
     Token* GetToken(size_t i) const { return tokens_[i].get(); }
     size_t GetTokenNum() const { return tokens_.size(); }
+    Token* GetLastToken() const
+    {
+        return tokens_.empty() ? nullptr : tokens_.back().get();
+    }
 
     // operations
     nlohmann::json ToJson() const;

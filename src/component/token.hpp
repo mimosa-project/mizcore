@@ -59,6 +59,7 @@ class UnknownToken : public Token
 
     // attributes
     std::string_view GetText() const override { return text_; }
+    void AddText(std::string_view s) { text_ += s; }
     TOKEN_TYPE GetTokenType() const override { return TOKEN_TYPE::UNKNOWN; }
 
   private:

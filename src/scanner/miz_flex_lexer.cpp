@@ -117,8 +117,15 @@ MizFlexLexer::ScanComment(COMMENT_TYPE type)
 size_t
 MizFlexLexer::ScanUnknown()
 {
-    Token* token = new UnknownToken(line_number_, column_number_, yytext);
-    token_table_->AddToken(token);
+    auto* last_token = token_table_->GetLastToken();
+    if ((last_token != nullptr) &&
+        last_token->GetTokenType() == TOKEN_TYPE::UNKNOWN) {
+        auto* unknown_token = static_cast<UnknownToken*>(last_token);
+        unknown_token->AddText(yytext);
+    } else {
+        Token* token = new UnknownToken(line_number_, column_number_, yytext);
+        token_table_->AddToken(token);
+    }
     column_number_ += yyleng;
     return yyleng;
 }

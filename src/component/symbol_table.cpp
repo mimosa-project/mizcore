@@ -93,8 +93,9 @@ SymbolTable::CollectSynonyms() const
 void
 SymbolTable::BuildQueryMap()
 {
-    if (query_map_is_built_)
+    if (query_map_is_built_) {
         return;
+    }
 
     BuildQueryMapOne("HIDDEN");
     if (valid_filenames_.empty()) {
