@@ -427,20 +427,20 @@ MizBlockParser::QueryNextToken(Token* token) const
 }
 
 void
-MizBlockParser::ResolveIdentifierType(IdentifierToken* token)
+MizBlockParser::ResolveIdentifierType(IdentifierToken* /*token*/)
 {
     // TODO(nakasho): Not implemented yet.
 }
 
 Token*
-MizBlockParser::ResolveLabelReference(IdentifierToken* label_token)
+MizBlockParser::ResolveLabelReference(IdentifierToken* /*label_token*/)
 {
     // TODO(nakasho): Not implemented yet.
     return nullptr;
 }
 
 Token*
-MizBlockParser::ResolveVariableReference(IdentifierToken* variable_token)
+MizBlockParser::ResolveVariableReference(IdentifierToken* /*variable_token*/)
 {
     // TODO(nakasho): Not implemented yet.
     return nullptr;

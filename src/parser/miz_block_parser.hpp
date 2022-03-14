@@ -64,8 +64,8 @@ class MizBlockParser
     Token* QueryNextToken(Token* token) const;
 
     void ResolveIdentifierType(IdentifierToken* token);
-    Token* ResolveLabelReference(IdentifierToken* label_token);
-    Token* ResolveVariableReference(IdentifierToken* variable_token);
+    static Token* ResolveLabelReference(IdentifierToken* label_token);
+    static Token* ResolveVariableReference(IdentifierToken* variable_token);
     void RecordError(Token* token, ERROR_TYPE error) const;
 
     ASTComponent* GetCurrentComponent() const
