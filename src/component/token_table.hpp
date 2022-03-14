@@ -30,7 +30,7 @@ class TokenTable
     }
 
     // operations
-    nlohmann::json ToJson() const;
+    void ToJson(nlohmann::json& json) const;
 
   private:
     std::vector<std::unique_ptr<Token>> tokens_;

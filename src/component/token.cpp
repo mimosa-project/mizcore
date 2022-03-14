@@ -26,14 +26,13 @@ using mizcore::KeywordToken;
 using mizcore::SymbolToken;
 using mizcore::Token;
 
-json
-Token::ToJson() const
+void
+Token::ToJson(nlohmann::json& json) const
 {
-    json j = { { "pos", { line_number_, column_number_ } },
-               { "length", GetText().size() },
-               { "type", string(QueryTypeText(GetTokenType())) },
-               { "text", string(GetText()) } };
-    return j;
+    json = { { "pos", { line_number_, column_number_ } },
+             { "length", GetText().size() },
+             { "type", string(QueryTypeText(GetTokenType())) },
+             { "text", string(GetText()) } };
 }
 
 std::string_view
@@ -51,21 +50,19 @@ SymbolToken::GetText() const
     return symbol_->GetText();
 }
 
-nlohmann::json
-SymbolToken::ToJson() const
+void
+SymbolToken::ToJson(nlohmann::json& json) const
 {
-    json j = Token::ToJson();
-    j["symbol_type"] = symbol_->GetTypeString();
-    j["priority"] = static_cast<int>(symbol_->GetPriority());
-    return j;
+    Token::ToJson(json);
+    json["symbol_type"] = symbol_->GetTypeString();
+    json["priority"] = static_cast<int>(symbol_->GetPriority());
 }
 
-nlohmann::json
-IdentifierToken::ToJson() const
+void
+IdentifierToken::ToJson(nlohmann::json& json) const
 {
-    json j = Token::ToJson();
-    j["identifier_type"] = QueryIdentifierTypeText(identifier_type_);
-    return j;
+    Token::ToJson(json);
+    json["identifier_type"] = QueryIdentifierTypeText(identifier_type_);
 }
 
 std::string_view

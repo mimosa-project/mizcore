@@ -17,12 +17,12 @@ TokenTable::AddToken(Token* token)
     tokens_.emplace_back(token);
 }
 
-nlohmann::json
-TokenTable::ToJson() const
+void
+TokenTable::ToJson(nlohmann::json& json) const
 {
-    json j;
     for (const auto& token : tokens_) {
-        j.push_back(token->ToJson());
+        nlohmann::json j;
+        token->ToJson(j);
+        json.push_back(j);
     }
-    return j;
 }

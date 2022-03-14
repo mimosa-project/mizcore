@@ -35,7 +35,7 @@ class Token
     virtual TOKEN_TYPE GetTokenType() const = 0;
 
     // operations
-    virtual nlohmann::json ToJson() const;
+    virtual void ToJson(nlohmann::json& json) const;
 
     // static
     static std::string_view QueryTypeText(TOKEN_TYPE type);
@@ -99,7 +99,7 @@ class SymbolToken : public Token
     TOKEN_TYPE GetTokenType() const override { return TOKEN_TYPE::SYMBOL; }
 
     // operations
-    nlohmann::json ToJson() const override;
+    void ToJson(nlohmann::json& json) const override;
 
   private:
     Symbol* symbol_;
@@ -128,7 +128,7 @@ class IdentifierToken : public Token
     }
 
     // operations
-    nlohmann::json ToJson() const override;
+    void ToJson(nlohmann::json& json) const override;
 
     // static
     static std::string_view QueryIdentifierTypeText(IDENTIFIER_TYPE type);

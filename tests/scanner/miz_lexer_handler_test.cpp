@@ -93,8 +93,9 @@ TEST_CASE("execute miz file handler")
         {
             std::ofstream ofs(result_file_path);
             for (size_t i = 0; i < token_array->GetTokenNum(); ++i) {
-                ofs << i << ": " << token_array->GetToken(i)->ToJson().dump()
-                    << std::endl;
+                nlohmann::json json;
+                token_array->GetToken(i)->ToJson(json);
+                ofs << i << ": " << json.dump() << std::endl;
             }
             ofs << std::endl;
         }
