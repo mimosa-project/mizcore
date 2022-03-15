@@ -7,8 +7,9 @@ flex_target(
   ${CMAKE_CURRENT_BINARY_DIR}/yy_miz_flex_lexer.cpp COMPILE_FLAGS "-Ca")
 
 add_library(
-  mizcore_scanner vct_file_handler.cpp miz_file_handler.cpp miz_flex_lexer.cpp
-                  ${FLEX_miz_scanner_OUTPUTS} ${FLEX_vct_scanner_OUTPUTS})
+  mizcore_scanner
+  vct_lexer_handler.cpp miz_lexer_handler.cpp miz_flex_lexer.cpp
+  ${FLEX_miz_scanner_OUTPUTS} ${FLEX_vct_scanner_OUTPUTS})
 
 add_library(mizcore::scanner ALIAS mizcore_scanner)
 

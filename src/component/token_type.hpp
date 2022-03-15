@@ -1,5 +1,7 @@
 #pragma once
 
+#include <memory>
+
 namespace mizcore {
 
 enum class TOKEN_TYPE
@@ -68,10 +70,12 @@ enum class KEYWORD_TYPE
     DOES,
     END,
     ENVIRON,
+    EQUALITIES,
     EQUALS,
     EX,
     EXACTLY,
     EXISTENCE,
+    EXPANSIONS,
     FOR,
     FROM,
     FUNC,
@@ -146,5 +150,20 @@ enum class KEYWORD_TYPE
     WITH,
     WRT,
 };
+
+KEYWORD_TYPE
+QueryKeywordType(std::string_view text);
+
+std::string_view
+QueryTokenTypeText(TOKEN_TYPE type);
+
+std::string_view
+QueryIdentifierTypeText(IDENTIFIER_TYPE type);
+
+std::string_view
+QueryCommentTypeText(COMMENT_TYPE type);
+
+std::string_view
+QueryKeywordText(KEYWORD_TYPE type);
 
 } // namespace mizcore

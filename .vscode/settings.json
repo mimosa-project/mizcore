@@ -68,11 +68,13 @@
         "forward_list": "cpp",
         "unordered_set": "cpp",
         "valarray": "cpp",
-        "pointers": "cpp"
+        "pointers": "cpp",
+        "cassert": "cpp"
     },
     "editor.formatOnSave": true,
     "clang-tidy.buildPath": "build",
     "clang-tidy.lintOnSave": true,
     "cmake.configureOnOpen": true,
-    "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools"
+    "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
+    "C_Cpp.errorSquiggles": "Disabled"
 }
