@@ -13,6 +13,7 @@ class Token;
 class ASTComponent : public ASTElement
 {
   public:
+    // ctor, dtor
     ASTComponent() = default;
     ~ASTComponent() override = default;
     ASTComponent(ASTComponent const&) = delete;
@@ -21,6 +22,7 @@ class ASTComponent : public ASTElement
     ASTComponent& operator=(ASTComponent&&) = delete;
 
   public:
+    // attributes
     ASTBlock* GetParent() const { return parent_; }
     void SetParent(ASTBlock* parent) { parent_ = parent; }
 
@@ -29,6 +31,9 @@ class ASTComponent : public ASTElement
 
     virtual Token* GetRangeStartToken() const = 0;
     virtual Token* GetRangeEndToken() const = 0;
+
+    // operations
+    void ToJson(nlohmann::json& json) const override = 0;
 
   private:
     ASTBlock* parent_ = nullptr;

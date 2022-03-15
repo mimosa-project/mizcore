@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include "doctest/doctest.h"
+#include "file_handling_tools.hpp"
 #include "miz_lexer_handler.hpp"
 #include "symbol.hpp"
 #include "symbol_table.hpp"
@@ -16,43 +17,22 @@ using mizcore::VctLexerHandler;
 using std::string;
 namespace fs = std::filesystem;
 
-static bool
-check_text_diff(const fs::path& path1, const fs::path& path2)
+namespace {
+
+const fs::path&
+TEST_DIR()
 {
-    bool diff_found = false;
-
-    std::ifstream ifs1(path1);
-    std::ifstream ifs2(path2);
-
-    string line1;
-    string line2;
-    for (size_t i = 1;; ++i) {
-        line1.clear();
-        line2.clear();
-        std::getline(ifs1, line1);
-        std::getline(ifs2, line2);
-        if (line1.empty() && line2.empty()) {
-            break;
-        }
-
-        if (line1 != line2) {
-            diff_found = true;
-            std::cout << "Diff found: line = " << i << ":\n"
-                      << line1 << "\n"
-                      << line2 << std::endl;
-        }
-    }
-
-    return diff_found;
+    static fs::path test_dir = fs::path(__FILE__).parent_path();
+    return test_dir;
 }
 
-const fs::path TEST_DIR = fs::path(__FILE__).parent_path();
+} // namespace
 
 TEST_CASE("execute miz file handler")
 {
     std::shared_ptr<SymbolTable> symbol_table;
     {
-        fs::path mml_vct_path = TEST_DIR / "data" / "mml.vct";
+        fs::path mml_vct_path = TEST_DIR() / "data" / "mml.vct";
         std::ifstream ifs(mml_vct_path);
 
         // Input file existence
@@ -71,62 +51,91 @@ TEST_CASE("execute miz file handler")
 
     SUBCASE("NUMERALS.miz")
     {
-        fs::path miz_file_path = TEST_DIR / "data" / "numerals.miz";
+        fs::path miz_file_path = TEST_DIR() / "data" / "numerals.miz";
         std::ifstream ifs(miz_file_path);
         MizLexerHandler miz_handler(&ifs, symbol_table);
 
         // Erapsed time: 0.00034 [s]
-        // clock_t start = clock();
+        clock_t start = clock();
         miz_handler.yylex();
-        // clock_t duration = clock() - start;
-        // std::cout << "The elapsed time [s] of VctLexerHandler is: "
-        //           << (double)duration / CLOCKS_PER_SEC << std::endl;
+        clock_t duration = clock() - start;
+        std::cout
+          << "The elapsed time [s] of MizLexerHandler for NUMERALS.miz is: "
+          << static_cast<double>(duration) / CLOCKS_PER_SEC << std::endl;
 
-        auto token_array = miz_handler.GetTokenTable();
-        CHECK(79 == token_array->GetTokenNum());
+        auto token_table = miz_handler.GetTokenTable();
+        CHECK(79 == token_table->GetTokenNum());
 
-        if (!fs::exists(TEST_DIR / "result")) {
-            fs::create_directory(TEST_DIR / "result");
+        if (!fs::exists(TEST_DIR() / "result")) {
+            fs::create_directory(TEST_DIR() / "result");
         }
 
-        fs::path result_file_path = TEST_DIR / "result" / "numerals_tokens.txt";
+        fs::path result_file_path =
+          TEST_DIR() / "result" / "numerals_tokens.json";
         {
-            std::ofstream ofs(result_file_path);
-            for (size_t i = 0; i < token_array->GetTokenNum(); ++i) {
-                nlohmann::json json;
-                token_array->GetToken(i)->ToJson(json);
-                ofs << i << ": " << json.dump() << std::endl;
-            }
-            ofs << std::endl;
+            nlohmann::json json;
+            token_table->ToJson(json);
+            mizcore::write_json_file(json, result_file_path);
         }
 
         fs::path expected_file_path =
-          TEST_DIR / "expected" / "numerals_tokens.txt";
-        CHECK(!check_text_diff(result_file_path, expected_file_path));
-        remove(result_file_path.c_str());
+          TEST_DIR() / "expected" / "numerals_tokens.json";
+
+        auto json_diff =
+          mizcore::json_file_diff(result_file_path, expected_file_path);
+        CHECK(json_diff.empty());
+
+        if (!json_diff.empty()) {
+            fs::path diff_file_path =
+              TEST_DIR() / "result" / "numerals_tokens_diff.json";
+            mizcore::write_json_file(json_diff, diff_file_path);
+        } else {
+            remove(result_file_path.c_str());
+        }
     }
 
-    /*
     SUBCASE("jgraph_4.miz")
     {
-        fs::path miz_file_path = TEST_DIR / "data" / "jgraph_4.miz";
-        std::ifstream ifs(miz_file_path.c_str());
+        fs::path miz_file_path = TEST_DIR() / "data" / "jgraph_4.miz";
+        std::ifstream ifs(miz_file_path);
         MizLexerHandler miz_handler(&ifs, symbol_table);
 
-        // Erapsed time: 0.221 [ms]
-        // clock_t start = clock();
+        // Erapsed time: 1.05308 [s]
+        clock_t start = clock();
         miz_handler.yylex();
-        // clock_t duration = clock() - start;
-        // std::cout << "The elapsed time [s] of MizLexerHandler is: "
-        //           << (double)duration / CLOCKS_PER_SEC << std::endl;
+        clock_t duration = clock() - start;
+        std::cout
+          << "The elapsed time [s] of MizLexerHandler for jgraph_4.miz is: "
+          << static_cast<double>(duration) / CLOCKS_PER_SEC << std::endl;
 
-        auto token_array = miz_handler.GetTokenTable();
-        CHECK(186748 == token_array->GetTokenNum());
+        auto token_table = miz_handler.GetTokenTable();
+        CHECK(186748 == token_table->GetTokenNum());
 
-        // std::cout << "Token Num: " << token_array->GetTokenNum() <<
-        // std::endl;
-        // token_array->Dump(std::cout);
-        // std::cout << std::endl;
+        if (!fs::exists(TEST_DIR() / "result")) {
+            fs::create_directory(TEST_DIR() / "result");
+        }
+
+        fs::path result_file_path =
+          TEST_DIR() / "result" / "jgraph_4_tokens.json";
+        {
+            nlohmann::json json;
+            token_table->ToJson(json);
+            mizcore::write_json_file(json, result_file_path);
+        }
+
+        fs::path expected_file_path =
+          TEST_DIR() / "expected" / "jgraph_4_tokens.json";
+
+        auto json_diff =
+          mizcore::json_file_diff(result_file_path, expected_file_path);
+        CHECK(json_diff.empty());
+
+        if (!json_diff.empty()) {
+            fs::path diff_file_path =
+              TEST_DIR() / "result" / "jgraph_4_tokens_diff.json";
+            mizcore::write_json_file(json_diff, diff_file_path);
+        } else {
+            remove(result_file_path.c_str());
+        }
     }
-    */
 }

@@ -37,9 +37,6 @@ class Token
     // operations
     virtual void ToJson(nlohmann::json& json) const;
 
-    // static
-    static std::string_view QueryTypeText(TOKEN_TYPE type);
-
   private:
     size_t id_ = SIZE_MAX;
     size_t line_number_;
@@ -130,9 +127,6 @@ class IdentifierToken : public Token
     // operations
     void ToJson(nlohmann::json& json) const override;
 
-    // static
-    static std::string_view QueryIdentifierTypeText(IDENTIFIER_TYPE type);
-
   private:
     std::string text_;
     IDENTIFIER_TYPE identifier_type_;
@@ -159,9 +153,6 @@ class CommentToken : public Token
     {
         comment_type_ = comment_type;
     }
-
-    // static
-    static std::string_view QueryCommentTypeText(COMMENT_TYPE type);
 
   private:
     std::string text_;
@@ -191,10 +182,6 @@ class KeywordToken : public Token
     {
         keyword_type_ = keyword_type;
     }
-
-    // static
-    static std::string_view QueryKeywordText(KEYWORD_TYPE type);
-    static KEYWORD_TYPE QueryKeywordType(std::string_view text);
 
   private:
     KEYWORD_TYPE keyword_type_;

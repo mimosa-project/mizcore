@@ -45,7 +45,6 @@ It is also recommended that VSCode users install the following extensions for on
 
 ## TODO
 
-- Parse blocks in tokenize process
 - Resolve reference relationships between variables
 - Resolve reference relationships between labels
 - Make a cross compile environment

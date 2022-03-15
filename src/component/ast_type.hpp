@@ -1,4 +1,6 @@
 #pragma once
+#include "token_type.hpp"
+#include <memory>
 
 namespace mizcore {
 
@@ -88,5 +90,20 @@ enum class STATEMENT_TYPE
     UNIQUENESS,
     VOCABULARIES,
 };
+
+std::string_view
+QueryElementTypeText(ELEMENT_TYPE type);
+
+BLOCK_TYPE
+QueryBlockType(KEYWORD_TYPE keyword_type);
+
+std::string_view
+QueryBlockTypeText(BLOCK_TYPE type);
+
+STATEMENT_TYPE
+QueryStatementType(KEYWORD_TYPE keyword_type);
+
+std::string_view
+QueryStatementTypeText(STATEMENT_TYPE type);
 
 } // namespace mizcore

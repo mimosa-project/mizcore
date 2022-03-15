@@ -16,6 +16,7 @@ class ASTStatement;
 class ASTBlock : public ASTComponent
 {
   public:
+    // ctor, dtor
     ASTBlock(BLOCK_TYPE type)
       : block_type_(type)
     {}
@@ -25,19 +26,20 @@ class ASTBlock : public ASTComponent
     ASTBlock& operator=(ASTBlock const&) = delete;
     ASTBlock& operator=(ASTBlock&&) = delete;
 
+    // attributes
     ELEMENT_TYPE GetElementType() const override { return ELEMENT_TYPE::BLOCK; }
 
     BLOCK_TYPE GetBlockType() const { return block_type_; }
     void SetBlockType(BLOCK_TYPE block_type) { block_type_ = block_type; }
 
-    Token* GetFirstToken() const { return first_token_; }
-    void SetFirstToken(Token* token) { first_token_ = token; }
+    Token* GetStartToken() const { return start_token_; }
+    void SetStartToken(Token* token) { start_token_ = token; }
     Token* GetEndToken() const { return end_token_; }
     void SetEndToken(Token* token) { end_token_ = token; }
     Token* GetSemicolonToken() const { return semicolon_token_; }
     void SetSemicolonToken(Token* token) { semicolon_token_ = token; }
 
-    Token* GetRangeStartToken() const override { return first_token_; }
+    Token* GetRangeStartToken() const override { return start_token_; }
     Token* GetRangeEndToken() const override
     {
         return semicolon_token_ == nullptr ? end_token_ : semicolon_token_;
@@ -56,9 +58,12 @@ class ASTBlock : public ASTComponent
         child_components_.push_back(std::move(component));
     }
 
+    // operations
+    void ToJson(nlohmann::json& json) const override;
+
   private:
     BLOCK_TYPE block_type_ = BLOCK_TYPE::UNKNOWN;
-    Token* first_token_ = nullptr;
+    Token* start_token_ = nullptr;
     Token* end_token_ = nullptr;
     Token* semicolon_token_ = nullptr;
     std::vector<std::unique_ptr<ASTComponent>> child_components_;

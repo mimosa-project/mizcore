@@ -25,3 +25,14 @@ ASTBlock::GetChildStatement(size_t i) const
              ? static_cast<ASTStatement*>(component)
              : nullptr;
 }
+
+void
+ASTBlock::ToJson(nlohmann::json& json) const
+{
+    ASTComponent::ToJson(json);
+    for (const auto& child_component : child_components_) {
+        nlohmann::json child_json;
+        child_component->ToJson(child_json);
+        json["children"].push_back(child_json);
+    }
+}

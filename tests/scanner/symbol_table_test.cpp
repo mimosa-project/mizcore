@@ -23,11 +23,16 @@ using mizcore::SYMBOL_TYPE;
 using mizcore::SymbolTable;
 using mizcore::VctLexerHandler;
 
-const fs::path TEST_DATA_DIR = fs::path(__FILE__).parent_path() / "data";
+const fs::path&
+TEST_DATA_DIR()
+{
+    static fs::path test_data_dir = fs::path(__FILE__).parent_path() / "data";
+    return test_data_dir;
+}
 
 TEST_CASE("symbol table test")
 {
-    fs::path mml_vct_path = TEST_DATA_DIR / "mml.vct";
+    fs::path mml_vct_path = TEST_DATA_DIR() / "mml.vct";
     ifstream ifs(mml_vct_path.c_str());
 
     // Input file existence

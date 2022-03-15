@@ -77,8 +77,6 @@ class MizBlockParser
                                             BLOCK_TYPE outer_block_type) const;
     static ERROR_TYPE CheckBlockSiblingsConsistency(ASTBlock* block,
                                                     ASTBlock* parent_block);
-    static STATEMENT_TYPE QueryStatementType(KEYWORD_TYPE keyword_type);
-    static BLOCK_TYPE QueryBlockType(KEYWORD_TYPE keyword_type);
 
   private:
     bool is_partial_mode_ = false;
