@@ -12,7 +12,7 @@
 #include "doctest/doctest.h"
 #include "symbol.hpp"
 #include "symbol_table.hpp"
-#include "vct_file_handler.hpp"
+#include "vct_lexer_handler.hpp"
 
 using std::ifstream;
 using std::string;
@@ -21,19 +21,24 @@ namespace fs = std::filesystem;
 using mizcore::Symbol;
 using mizcore::SYMBOL_TYPE;
 using mizcore::SymbolTable;
-using mizcore::VctFileHandler;
+using mizcore::VctLexerHandler;
 
-const fs::path TEST_DATA_DIR = fs::path(__FILE__).parent_path() / "data";
+const fs::path&
+TEST_DATA_DIR()
+{
+    static fs::path test_data_dir = fs::path(__FILE__).parent_path() / "data";
+    return test_data_dir;
+}
 
 TEST_CASE("symbol table test")
 {
-    fs::path mml_vct_path = TEST_DATA_DIR / "mml.vct";
+    fs::path mml_vct_path = TEST_DATA_DIR() / "mml.vct";
     ifstream ifs(mml_vct_path.c_str());
 
     // Input file existence
     CHECK(ifs.good());
 
-    VctFileHandler handler(&ifs);
+    VctLexerHandler handler(&ifs);
     handler.yylex();
 
     std::shared_ptr<SymbolTable> table = handler.GetSymbolTable();

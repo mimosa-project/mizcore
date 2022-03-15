@@ -53,6 +53,7 @@ class SymbolTable
     std::vector<std::pair<Symbol*, Symbol*>> synonyms_;
     std::vector<std::string> valid_filenames_;
     tsl::htrie_map<char, Symbol*> query_map_;
+    bool query_map_is_built_ = false;
 };
 
 } // namespace mizcore

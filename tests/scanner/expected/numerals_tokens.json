@@ -1,0 +1,770 @@
+[
+    {
+        "length": 26,
+        "pos": [
+            1,
+            1
+        ],
+        "text": ":: Numerals - Requirements",
+        "type": "comment"
+    },
+    {
+        "length": 24,
+        "pos": [
+            2,
+            1
+        ],
+        "text": "::  by Library Committee",
+        "type": "comment"
+    },
+    {
+        "length": 2,
+        "pos": [
+            3,
+            1
+        ],
+        "text": "::",
+        "type": "comment"
+    },
+    {
+        "length": 29,
+        "pos": [
+            4,
+            1
+        ],
+        "text": ":: Received February 27, 2003",
+        "type": "comment"
+    },
+    {
+        "length": 53,
+        "pos": [
+            5,
+            1
+        ],
+        "text": ":: Copyright (c) 2003-2021 Association of Mizar Users",
+        "type": "comment"
+    },
+    {
+        "length": 69,
+        "pos": [
+            6,
+            1
+        ],
+        "text": "::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).",
+        "type": "comment"
+    },
+    {
+        "length": 68,
+        "pos": [
+            7,
+            1
+        ],
+        "text": ":: This code can be distributed under the GNU General Public Licence",
+        "type": "comment"
+    },
+    {
+        "length": 71,
+        "pos": [
+            8,
+            1
+        ],
+        "text": ":: version 3.0 or later, or the Creative Commons Attribution-ShareAlike",
+        "type": "comment"
+    },
+    {
+        "length": 70,
+        "pos": [
+            9,
+            1
+        ],
+        "text": ":: License version 3.0 or later, subject to the binding interpretation",
+        "type": "comment"
+    },
+    {
+        "length": 43,
+        "pos": [
+            10,
+            1
+        ],
+        "text": ":: detailed in file COPYING.interpretation.",
+        "type": "comment"
+    },
+    {
+        "length": 66,
+        "pos": [
+            11,
+            1
+        ],
+        "text": ":: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these",
+        "type": "comment"
+    },
+    {
+        "length": 60,
+        "pos": [
+            12,
+            1
+        ],
+        "text": ":: licenses, or see http://www.gnu.org/licenses/gpl.html and",
+        "type": "comment"
+    },
+    {
+        "length": 50,
+        "pos": [
+            13,
+            1
+        ],
+        "text": ":: http://creativecommons.org/licenses/by-sa/3.0/.",
+        "type": "comment"
+    },
+    {
+        "length": 7,
+        "pos": [
+            15,
+            1
+        ],
+        "text": "environ",
+        "type": "keyword"
+    },
+    {
+        "length": 12,
+        "pos": [
+            17,
+            2
+        ],
+        "text": "vocabularies",
+        "type": "keyword"
+    },
+    {
+        "identifier_type": "filename",
+        "length": 8,
+        "pos": [
+            17,
+            15
+        ],
+        "text": "XBOOLE_0",
+        "type": "identifier"
+    },
+    {
+        "length": 1,
+        "pos": [
+            17,
+            23
+        ],
+        "priority": 64,
+        "symbol_type": "S",
+        "text": ",",
+        "type": "symbol"
+    },
+    {
+        "identifier_type": "filename",
+        "length": 8,
+        "pos": [
+            17,
+            25
+        ],
+        "text": "SUBSET_1",
+        "type": "identifier"
+    },
+    {
+        "length": 1,
+        "pos": [
+            17,
+            33
+        ],
+        "priority": 64,
+        "symbol_type": "S",
+        "text": ",",
+        "type": "symbol"
+    },
+    {
+        "identifier_type": "filename",
+        "length": 8,
+        "pos": [
+            17,
+            35
+        ],
+        "text": "ORDINAL1",
+        "type": "identifier"
+    },
+    {
+        "length": 1,
+        "pos": [
+            17,
+            43
+        ],
+        "priority": 64,
+        "symbol_type": "S",
+        "text": ";",
+        "type": "symbol"
+    },
+    {
+        "length": 9,
+        "pos": [
+            18,
+            2
+        ],
+        "text": "notations",
+        "type": "keyword"
+    },
+    {
+        "identifier_type": "filename",
+        "length": 8,
+        "pos": [
+            18,
+            12
+        ],
+        "text": "XBOOLE_0",
+        "type": "identifier"
+    },
+    {
+        "length": 1,
+        "pos": [
+            18,
+            20
+        ],
+        "priority": 64,
+        "symbol_type": "S",
+        "text": ",",
+        "type": "symbol"
+    },
+    {
+        "identifier_type": "filename",
+        "length": 8,
+        "pos": [
+            18,
+            22
+        ],
+        "text": "SUBSET_1",
+        "type": "identifier"
+    },
+    {
+        "length": 1,
+        "pos": [
+            18,
+            30
+        ],
+        "priority": 64,
+        "symbol_type": "S",
+        "text": ",",
+        "type": "symbol"
+    },
+    {
+        "identifier_type": "filename",
+        "length": 8,
+        "pos": [
+            18,
+            32
+        ],
+        "text": "ORDINAL1",
+        "type": "identifier"
+    },
+    {
+        "length": 1,
+        "pos": [
+            18,
+            40
+        ],
+        "priority": 64,
+        "symbol_type": "S",
+        "text": ";",
+        "type": "symbol"
+    },
+    {
+        "length": 12,
+        "pos": [
+            19,
+            2
+        ],
+        "text": "constructors",
+        "type": "keyword"
+    },
+    {
+        "identifier_type": "filename",
+        "length": 8,
+        "pos": [
+            19,
+            15
+        ],
+        "text": "SUBSET_1",
+        "type": "identifier"
+    },
+    {
+        "length": 1,
+        "pos": [
+            19,
+            23
+        ],
+        "priority": 64,
+        "symbol_type": "S",
+        "text": ",",
+        "type": "symbol"
+    },
+    {
+        "identifier_type": "filename",
+        "length": 8,
+        "pos": [
+            19,
+            25
+        ],
+        "text": "ORDINAL1",
+        "type": "identifier"
+    },
+    {
+        "length": 1,
+        "pos": [
+            19,
+            33
+        ],
+        "priority": 64,
+        "symbol_type": "S",
+        "text": ";",
+        "type": "symbol"
+    },
+    {
+        "length": 12,
+        "pos": [
+            20,
+            2
+        ],
+        "text": "requirements",
+        "type": "keyword"
+    },
+    {
+        "identifier_type": "filename",
+        "length": 5,
+        "pos": [
+            20,
+            15
+        ],
+        "text": "BOOLE",
+        "type": "identifier"
+    },
+    {
+        "length": 1,
+        "pos": [
+            20,
+            20
+        ],
+        "priority": 64,
+        "symbol_type": "S",
+        "text": ";",
+        "type": "symbol"
+    },
+    {
+        "length": 8,
+        "pos": [
+            21,
+            2
+        ],
+        "text": "theorems",
+        "type": "keyword"
+    },
+    {
+        "identifier_type": "filename",
+        "length": 8,
+        "pos": [
+            21,
+            11
+        ],
+        "text": "SUBSET_1",
+        "type": "identifier"
+    },
+    {
+        "length": 1,
+        "pos": [
+            21,
+            19
+        ],
+        "priority": 64,
+        "symbol_type": "S",
+        "text": ",",
+        "type": "symbol"
+    },
+    {
+        "identifier_type": "filename",
+        "length": 8,
+        "pos": [
+            21,
+            21
+        ],
+        "text": "ORDINAL1",
+        "type": "identifier"
+    },
+    {
+        "length": 1,
+        "pos": [
+            21,
+            29
+        ],
+        "priority": 64,
+        "symbol_type": "S",
+        "text": ";",
+        "type": "symbol"
+    },
+    {
+        "length": 5,
+        "pos": [
+            23,
+            1
+        ],
+        "text": "begin",
+        "type": "keyword"
+    },
+    {
+        "length": 71,
+        "pos": [
+            25,
+            1
+        ],
+        "text": ":: This file contains statements which are obvious for Mizar checker if",
+        "type": "comment"
+    },
+    {
+        "length": 69,
+        "pos": [
+            26,
+            1
+        ],
+        "text": ":: \"requirements NUMERALS\" is included in the environment description",
+        "type": "comment"
+    },
+    {
+        "length": 63,
+        "pos": [
+            27,
+            1
+        ],
+        "text": ":: of an article. They are published for testing purposes only.",
+        "type": "comment"
+    },
+    {
+        "length": 67,
+        "pos": [
+            28,
+            1
+        ],
+        "text": ":: Users should use appropriate requirements instead of referencing",
+        "type": "comment"
+    },
+    {
+        "length": 21,
+        "pos": [
+            29,
+            1
+        ],
+        "text": ":: to these theorems.",
+        "type": "comment"
+    },
+    {
+        "length": 68,
+        "pos": [
+            30,
+            1
+        ],
+        "text": ":: Some of these items need also other requirements for proper work.",
+        "type": "comment"
+    },
+    {
+        "length": 76,
+        "pos": [
+            31,
+            1
+        ],
+        "text": ":: Statements which cannot be expressed in Mizar language are commented out.",
+        "type": "comment"
+    },
+    {
+        "length": 7,
+        "pos": [
+            33,
+            1
+        ],
+        "text": "theorem",
+        "type": "keyword"
+    },
+    {
+        "length": 2,
+        "pos": [
+            34,
+            3
+        ],
+        "priority": 128,
+        "symbol_type": "O",
+        "text": "{}",
+        "type": "symbol"
+    },
+    {
+        "length": 2,
+        "pos": [
+            34,
+            6
+        ],
+        "text": "is",
+        "type": "keyword"
+    },
+    {
+        "length": 7,
+        "pos": [
+            34,
+            9
+        ],
+        "priority": 64,
+        "symbol_type": "M",
+        "text": "Element",
+        "type": "symbol"
+    },
+    {
+        "length": 2,
+        "pos": [
+            34,
+            17
+        ],
+        "text": "of",
+        "type": "keyword"
+    },
+    {
+        "length": 5,
+        "pos": [
+            34,
+            20
+        ],
+        "priority": 128,
+        "symbol_type": "O",
+        "text": "omega",
+        "type": "symbol"
+    },
+    {
+        "length": 5,
+        "pos": [
+            35,
+            1
+        ],
+        "text": "proof",
+        "type": "keyword"
+    },
+    {
+        "length": 2,
+        "pos": [
+            36,
+            3
+        ],
+        "priority": 128,
+        "symbol_type": "O",
+        "text": "{}",
+        "type": "symbol"
+    },
+    {
+        "length": 2,
+        "pos": [
+            36,
+            6
+        ],
+        "priority": 64,
+        "symbol_type": "R",
+        "text": "in",
+        "type": "symbol"
+    },
+    {
+        "length": 5,
+        "pos": [
+            36,
+            9
+        ],
+        "priority": 128,
+        "symbol_type": "O",
+        "text": "omega",
+        "type": "symbol"
+    },
+    {
+        "length": 2,
+        "pos": [
+            36,
+            15
+        ],
+        "text": "by",
+        "type": "keyword"
+    },
+    {
+        "identifier_type": "unknown",
+        "length": 8,
+        "pos": [
+            36,
+            18
+        ],
+        "text": "ORDINAL1",
+        "type": "identifier"
+    },
+    {
+        "length": 1,
+        "pos": [
+            36,
+            26
+        ],
+        "priority": 64,
+        "symbol_type": "S",
+        "text": ":",
+        "type": "symbol"
+    },
+    {
+        "length": 3,
+        "pos": [
+            36,
+            27
+        ],
+        "text": "def",
+        "type": "keyword"
+    },
+    {
+        "length": 2,
+        "pos": [
+            36,
+            31
+        ],
+        "text": "11",
+        "type": "numeral"
+    },
+    {
+        "length": 1,
+        "pos": [
+            36,
+            33
+        ],
+        "priority": 64,
+        "symbol_type": "S",
+        "text": ";",
+        "type": "symbol"
+    },
+    {
+        "length": 5,
+        "pos": [
+            37,
+            3
+        ],
+        "text": "hence",
+        "type": "keyword"
+    },
+    {
+        "length": 6,
+        "pos": [
+            37,
+            9
+        ],
+        "text": "thesis",
+        "type": "keyword"
+    },
+    {
+        "length": 2,
+        "pos": [
+            37,
+            16
+        ],
+        "text": "by",
+        "type": "keyword"
+    },
+    {
+        "identifier_type": "unknown",
+        "length": 8,
+        "pos": [
+            37,
+            19
+        ],
+        "text": "SUBSET_1",
+        "type": "identifier"
+    },
+    {
+        "length": 1,
+        "pos": [
+            37,
+            27
+        ],
+        "priority": 64,
+        "symbol_type": "S",
+        "text": ":",
+        "type": "symbol"
+    },
+    {
+        "length": 3,
+        "pos": [
+            37,
+            28
+        ],
+        "text": "def",
+        "type": "keyword"
+    },
+    {
+        "length": 1,
+        "pos": [
+            37,
+            32
+        ],
+        "text": "1",
+        "type": "numeral"
+    },
+    {
+        "length": 1,
+        "pos": [
+            37,
+            33
+        ],
+        "priority": 64,
+        "symbol_type": "S",
+        "text": ";",
+        "type": "symbol"
+    },
+    {
+        "length": 3,
+        "pos": [
+            38,
+            1
+        ],
+        "text": "end",
+        "type": "keyword"
+    },
+    {
+        "length": 1,
+        "pos": [
+            38,
+            4
+        ],
+        "priority": 64,
+        "symbol_type": "S",
+        "text": ";",
+        "type": "symbol"
+    },
+    {
+        "length": 9,
+        "pos": [
+            40,
+            1
+        ],
+        "text": "::theorem",
+        "type": "comment"
+    },
+    {
+        "length": 45,
+        "pos": [
+            41,
+            1
+        ],
+        "text": "::  numeral(X) implies X is Element of omega;",
+        "type": "comment"
+    },
+    {
+        "length": 9,
+        "pos": [
+            42,
+            1
+        ],
+        "text": "::theorem",
+        "type": "comment"
+    },
+    {
+        "length": 39,
+        "pos": [
+            43,
+            1
+        ],
+        "text": "::  numeral(X) implies succ(X) = X + 1;",
+        "type": "comment"
+    }
+]

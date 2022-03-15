@@ -27,18 +27,18 @@ class Token
     Token& operator=(Token&&) = delete;
 
     // attributes
+    size_t GetId() const { return id_; }
+    void SetId(size_t id) { id_ = id; }
     int GetLineNumber() const { return line_number_; }
     int GetColumnNumber() const { return column_number_; }
     virtual std::string_view GetText() const = 0;
     virtual TOKEN_TYPE GetTokenType() const = 0;
 
     // operations
-    virtual nlohmann::json ToJson() const;
-
-    // static
-    static std::string_view QueryTypeText(TOKEN_TYPE type);
+    virtual void ToJson(nlohmann::json& json) const;
 
   private:
+    size_t id_ = SIZE_MAX;
     size_t line_number_;
     size_t column_number_;
 };
@@ -56,6 +56,7 @@ class UnknownToken : public Token
 
     // attributes
     std::string_view GetText() const override { return text_; }
+    void AddText(std::string_view s) { text_ += s; }
     TOKEN_TYPE GetTokenType() const override { return TOKEN_TYPE::UNKNOWN; }
 
   private:
@@ -95,7 +96,7 @@ class SymbolToken : public Token
     TOKEN_TYPE GetTokenType() const override { return TOKEN_TYPE::SYMBOL; }
 
     // operations
-    nlohmann::json ToJson() const override;
+    void ToJson(nlohmann::json& json) const override;
 
   private:
     Symbol* symbol_;
@@ -124,10 +125,7 @@ class IdentifierToken : public Token
     }
 
     // operations
-    nlohmann::json ToJson() const override;
-
-    // static
-    static std::string_view QueryIdentifierTypeText(IDENTIFIER_TYPE type);
+    void ToJson(nlohmann::json& json) const override;
 
   private:
     std::string text_;
@@ -155,9 +153,6 @@ class CommentToken : public Token
     {
         comment_type_ = comment_type;
     }
-
-    // static
-    static std::string_view QueryCommentTypeText(COMMENT_TYPE type);
 
   private:
     std::string text_;
@@ -187,10 +182,6 @@ class KeywordToken : public Token
     {
         keyword_type_ = keyword_type;
     }
-
-    // static
-    static std::string_view QueryKeywordText(KEYWORD_TYPE type);
-    static KEYWORD_TYPE QueryKeywordType(std::string_view text);
 
   private:
     KEYWORD_TYPE keyword_type_;

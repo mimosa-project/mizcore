@@ -7,6 +7,9 @@
 
 namespace mizcore {
 
+class ASTComponent;
+class ASTBlock;
+class ASTStatement;
 class SymbolTable;
 class Token;
 class TokenTable;
@@ -24,7 +27,11 @@ class MizFlexLexer : public yyMizFlexLexer
 
     virtual int yylex();
 
-    std::shared_ptr<TokenTable> GetTokenTable() const { return token_array_; }
+    std::shared_ptr<TokenTable> GetTokenTable() const { return token_table_; }
+    std::shared_ptr<SymbolTable> GetSymbolTable() const
+    {
+        return symbol_table_;
+    }
 
   private:
     size_t ScanSymbol();
@@ -37,12 +44,12 @@ class MizFlexLexer : public yyMizFlexLexer
 
   private:
     std::shared_ptr<SymbolTable> symbol_table_;
-    std::shared_ptr<TokenTable> token_array_;
-    size_t line_number_;
-    size_t column_number_;
+    std::shared_ptr<TokenTable> token_table_;
+    size_t line_number_ = 1;
+    size_t column_number_ = 1;
 
-    bool is_in_environ_section_;
-    bool is_in_vocabulary_section_;
+    bool is_in_environ_section_ = false;
+    bool is_in_vocabulary_section_ = false;
 };
 
 } // namespace mizcore
