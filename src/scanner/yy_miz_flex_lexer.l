@@ -25,9 +25,10 @@
 SYMBOL      [[:graph:]]+
 NUMERAL     "0"|[1-9][0-9]*
 FILENAME    [[:upper:]][[:upper:][:digit:]_]{4,7}
-IDENTIFIER  [[:alpha:][:digit:]_'z]+
+IDENTIFIER  [[:alpha:][:digit:]_']+
 RETURN      "\r\n"|"\r"|"\n"
 SPACES      [[:blank:]]+
+NON_SPACES  [^[:space:]]+
 
 %%
 
@@ -93,10 +94,12 @@ do              ScanKeyword(KEYWORD_TYPE::DO);
 does            ScanKeyword(KEYWORD_TYPE::DOES);
 end             ScanKeyword(KEYWORD_TYPE::END);
 environ         ScanKeyword(KEYWORD_TYPE::ENVIRON);
+equalities      ScanKeyword(KEYWORD_TYPE::EQUALITIES);
 equals          ScanKeyword(KEYWORD_TYPE::EQUALS);
 ex              ScanKeyword(KEYWORD_TYPE::EX);
 exactly         ScanKeyword(KEYWORD_TYPE::EXACTLY);
 existence       ScanKeyword(KEYWORD_TYPE::EXISTENCE);
+expansions      ScanKeyword(KEYWORD_TYPE::EXPANSIONS);
 for             ScanKeyword(KEYWORD_TYPE::FOR);
 from            ScanKeyword(KEYWORD_TYPE::FROM);
 func            ScanKeyword(KEYWORD_TYPE::FUNC);
