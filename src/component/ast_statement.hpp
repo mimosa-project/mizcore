@@ -7,7 +7,7 @@
 
 namespace mizcore {
 
-class Token;
+class ASTToken;
 
 class ASTStatement : public ASTComponent
 {
@@ -34,18 +34,18 @@ class ASTStatement : public ASTComponent
         statement_type_ = statement_type;
     }
 
-    Token* GetRangeStartToken() const override { return range_start_token_; }
-    Token* GetRangeEndToken() const override { return range_end_token_; }
-    void SetRangeStartToken(Token* token) { range_start_token_ = token; }
-    void SetRangeEndToken(Token* token) { range_end_token_ = token; }
+    ASTToken* GetRangeStartToken() const override { return range_start_token_; }
+    ASTToken* GetRangeEndToken() const override { return range_end_token_; }
+    void SetRangeStartToken(ASTToken* token) { range_start_token_ = token; }
+    void SetRangeEndToken(ASTToken* token) { range_end_token_ = token; }
 
     // operations
     void ToJson(nlohmann::json& json) const override;
 
   private:
     STATEMENT_TYPE statement_type_ = STATEMENT_TYPE::UNKNOWN;
-    Token* range_start_token_ = nullptr;
-    Token* range_end_token_ = nullptr;
+    ASTToken* range_start_token_ = nullptr;
+    ASTToken* range_end_token_ = nullptr;
 };
 
 } // namespace mizcore

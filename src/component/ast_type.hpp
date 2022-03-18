@@ -1,5 +1,5 @@
 #pragma once
-#include "token_type.hpp"
+#include "ast_type.hpp"
 #include <memory>
 
 namespace mizcore {
@@ -9,6 +9,7 @@ enum class ELEMENT_TYPE
     UNKNOWN,
     BLOCK,
     STATEMENT,
+    TOKEN,
 };
 
 enum class BLOCK_TYPE
@@ -34,7 +35,7 @@ enum class STATEMENT_TYPE
     ASSUME,
     ASYMMETRY,
     ATTR,
-    BEGIN,
+    BEGIN_,
     CLUSTER,
     COHERENCE,
     COMMUTATIVITY,
@@ -91,6 +92,153 @@ enum class STATEMENT_TYPE
     VOCABULARIES,
 };
 
+enum class TOKEN_TYPE
+{
+    UNKNOWN,
+    NUMERAL,
+    SYMBOL,
+    IDENTIFIER,
+    KEYWORD,
+    COMMENT,
+};
+
+enum class IDENTIFIER_TYPE
+{
+    UNKNOWN,
+    LABEL,
+    VARIABLE,
+    FILENAME,
+};
+
+enum class COMMENT_TYPE
+{
+    UNKNOWN,
+    DOUBLE,
+    TRIPLE,
+};
+
+enum class KEYWORD_TYPE
+{
+    UNKNOWN,
+    ACCORDING,
+    AGGREGATE,
+    ALL,
+    AND,
+    ANTONYM,
+    ARE,
+    AS,
+    ASSOCIATIVITY,
+    ASSUME,
+    ASYMMETRY,
+    ATTR,
+    BE,
+    BEGIN_,
+    BEING,
+    BY,
+    CANCELED,
+    CASE,
+    CASES,
+    CLUSTER,
+    COHERENCE,
+    COMMUTATIVITY,
+    COMPATIBILITY,
+    CONNECTEDNESS,
+    CONSIDER,
+    CONSISTENCY,
+    CONSTRUCTORS,
+    CONTRADICTION,
+    CORRECTNESS,
+    DEF,
+    DEFFUNC,
+    DEFINE,
+    DEFINITION,
+    DEFINITIONS,
+    DEFPRED,
+    DO,
+    DOES,
+    END,
+    ENVIRON,
+    EQUALITIES,
+    EQUALS,
+    EX,
+    EXACTLY,
+    EXISTENCE,
+    EXPANSIONS,
+    FOR,
+    FROM,
+    FUNC,
+    GIVEN,
+    HENCE,
+    HEREBY,
+    HOLDS,
+    IDEMPOTENCE,
+    IDENTIFY,
+    IF,
+    IFF,
+    IMPLIES,
+    INVOLUTIVENESS,
+    IRREFLEXIVITY,
+    IS,
+    IT,
+    LET,
+    MEANS,
+    MODE,
+    NON,
+    NOT,
+    NOTATION,
+    NOTATIONS,
+    NOW,
+    OF,
+    OR,
+    OTHERWISE,
+    OVER,
+    PER,
+    PRED,
+    PREFIX,
+    PROJECTIVITY,
+    PROOF,
+    PROVIDED,
+    QUA,
+    RECONSIDER,
+    REDUCE,
+    REDUCIBILITY,
+    REDEFINE,
+    REFLEXIVITY,
+    REGISTRATION,
+    REGISTRATIONS,
+    REQUIREMENTS,
+    RESERVE,
+    SCH,
+    SCHEME,
+    SCHEMES,
+    SECTION,
+    SELECTOR,
+    SET,
+    SETHOOD,
+    ST,
+    STRUCT,
+    SUCH,
+    SUPPOSE,
+    SYMMETRY,
+    SYNONYM,
+    TAKE,
+    THAT,
+    THE,
+    THEN,
+    THEOREM,
+    THEOREMS,
+    THESIS,
+    THUS,
+    TO,
+    TRANSITIVITY,
+    UNIQUENESS,
+    VOCABULARIES,
+    WHEN,
+    WHERE,
+    WITH,
+    WRT,
+};
+
 std::string_view
 QueryElementTypeText(ELEMENT_TYPE type);
 
@@ -105,5 +253,20 @@ QueryStatementType(KEYWORD_TYPE keyword_type);
 
 std::string_view
 QueryStatementTypeText(STATEMENT_TYPE type);
+
+KEYWORD_TYPE
+QueryKeywordType(std::string_view text);
+
+std::string_view
+QueryTokenTypeText(TOKEN_TYPE type);
+
+std::string_view
+QueryIdentifierTypeText(IDENTIFIER_TYPE type);
+
+std::string_view
+QueryCommentTypeText(COMMENT_TYPE type);
+
+std::string_view
+QueryKeywordText(KEYWORD_TYPE type);
 
 } // namespace mizcore

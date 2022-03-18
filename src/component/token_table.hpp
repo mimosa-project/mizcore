@@ -7,7 +7,7 @@
 
 namespace mizcore {
 
-class Token;
+class ASTToken;
 
 class TokenTable
 {
@@ -21,10 +21,10 @@ class TokenTable
     TokenTable& operator=(TokenTable&&) = delete;
 
     // attributes
-    void AddToken(Token* token);
-    Token* GetToken(size_t i) const { return tokens_[i].get(); }
+    void AddToken(ASTToken* token);
+    ASTToken* GetToken(size_t i) const { return tokens_[i].get(); }
     size_t GetTokenNum() const { return tokens_.size(); }
-    Token* GetLastToken() const
+    ASTToken* GetLastToken() const
     {
         return tokens_.empty() ? nullptr : tokens_.back().get();
     }
@@ -33,7 +33,7 @@ class TokenTable
     void ToJson(nlohmann::json& json) const;
 
   private:
-    std::vector<std::unique_ptr<Token>> tokens_;
+    std::vector<std::unique_ptr<ASTToken>> tokens_;
 };
 
 } // namespace mizcore

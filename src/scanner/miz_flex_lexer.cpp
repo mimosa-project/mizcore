@@ -5,8 +5,8 @@
 
 #include "spdlog/spdlog.h"
 
+#include "ast_token.hpp"
 #include "symbol_table.hpp"
-#include "token.hpp"
 #include "token_table.hpp"
 
 #undef yyFlexLexer
@@ -31,7 +31,7 @@ MizFlexLexer::ScanSymbol()
 {
     Symbol* symbol = symbol_table_->QueryLongestMatchSymbol(yytext);
     if (symbol != nullptr) {
-        Token* token = new SymbolToken(line_number_, column_number_, symbol);
+        ASTToken* token = new SymbolToken(line_number_, column_number_, symbol);
         token_table_->AddToken(token);
         size_t length = token->GetText().size();
         column_number_ += length;
@@ -48,7 +48,7 @@ MizFlexLexer::ScanSymbol()
 size_t
 MizFlexLexer::ScanIdentifier()
 {
-    Token* token = new IdentifierToken(line_number_, column_number_, yytext);
+    ASTToken* token = new IdentifierToken(line_number_, column_number_, yytext);
     token_table_->AddToken(token);
     column_number_ += yyleng;
     return yyleng;
@@ -57,7 +57,7 @@ MizFlexLexer::ScanIdentifier()
 size_t
 MizFlexLexer::ScanKeyword(KEYWORD_TYPE type)
 {
-    Token* token = new KeywordToken(line_number_, column_number_, type);
+    ASTToken* token = new KeywordToken(line_number_, column_number_, type);
 
     if (type == KEYWORD_TYPE::ENVIRON) {
         is_in_environ_section_ = true;
@@ -79,7 +79,7 @@ MizFlexLexer::ScanKeyword(KEYWORD_TYPE type)
 size_t
 MizFlexLexer::ScanNumeral()
 {
-    Token* token = new NumeralToken(line_number_, column_number_, yytext);
+    ASTToken* token = new NumeralToken(line_number_, column_number_, yytext);
     assert(token);
     token_table_->AddToken(token);
     column_number_ += yyleng;
@@ -90,7 +90,7 @@ size_t
 MizFlexLexer::ScanFileName()
 {
     if (is_in_environ_section_) {
-        Token* token = new IdentifierToken(
+        ASTToken* token = new IdentifierToken(
           line_number_, column_number_, yytext, IDENTIFIER_TYPE::FILENAME);
         assert(token);
         token_table_->AddToken(token);
@@ -107,7 +107,8 @@ MizFlexLexer::ScanFileName()
 size_t
 MizFlexLexer::ScanComment(COMMENT_TYPE type)
 {
-    Token* token = new CommentToken(line_number_, column_number_, yytext, type);
+    ASTToken* token =
+      new CommentToken(line_number_, column_number_, yytext, type);
     assert(token);
     token_table_->AddToken(token);
     column_number_ += yyleng;
@@ -123,7 +124,8 @@ MizFlexLexer::ScanUnknown()
         auto* unknown_token = static_cast<UnknownToken*>(last_token);
         unknown_token->AddText(yytext);
     } else {
-        Token* token = new UnknownToken(line_number_, column_number_, yytext);
+        ASTToken* token =
+          new UnknownToken(line_number_, column_number_, yytext);
         token_table_->AddToken(token);
     }
     column_number_ += yyleng;

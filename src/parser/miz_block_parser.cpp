@@ -7,14 +7,14 @@
 
 #include "ast_block.hpp"
 #include "ast_statement.hpp"
+#include "ast_token.hpp"
 #include "miz_block_parser.hpp"
-#include "token.hpp"
 #include "token_table.hpp"
 
 using mizcore::ASTBlock;
 using mizcore::ASTStatement;
+using mizcore::ASTToken;
 using mizcore::MizBlockParser;
-using mizcore::Token;
 
 using mizcore::BLOCK_TYPE;
 using mizcore::ELEMENT_TYPE;
@@ -52,7 +52,7 @@ MizBlockParser::MizBlockParser(std::shared_ptr<TokenTable> token_table)
 void
 MizBlockParser::Parse()
 {
-    Token* prev_token = nullptr;
+    ASTToken* prev_token = nullptr;
     size_t token_num = token_table_->GetTokenNum();
     for (size_t i = 0; i < token_num; ++i) {
         auto* token = token_table_->GetToken(i);
@@ -97,7 +97,7 @@ MizBlockParser::Parse()
 }
 
 void
-MizBlockParser::ParseUnknown(Token* token)
+MizBlockParser::ParseUnknown(ASTToken* token)
 {
     // The error will be detected in StatementParser.
     auto* component = GetCurrentComponent();
@@ -111,7 +111,7 @@ MizBlockParser::ParseUnknown(Token* token)
 }
 
 void
-MizBlockParser::ParseNumeral(Token* token)
+MizBlockParser::ParseNumeral(ASTToken* token)
 {
     auto* component = GetCurrentComponent();
     assert(component != nullptr);
@@ -123,7 +123,7 @@ MizBlockParser::ParseNumeral(Token* token)
 }
 
 void
-MizBlockParser::ParseSymbol(Token* token, Token* prev_token)
+MizBlockParser::ParseSymbol(ASTToken* token, ASTToken* prev_token)
 {
     auto* component = GetCurrentComponent();
     assert(component != nullptr);
@@ -151,7 +151,7 @@ MizBlockParser::ParseSymbol(Token* token, Token* prev_token)
 }
 
 void
-MizBlockParser::ParseIdentifier(Token* token)
+MizBlockParser::ParseIdentifier(ASTToken* token)
 {
     auto* component = GetCurrentComponent();
     assert(component != nullptr);
@@ -163,7 +163,7 @@ MizBlockParser::ParseIdentifier(Token* token)
 }
 
 void
-MizBlockParser::ParseKeyword(Token* token, Token* prev_token)
+MizBlockParser::ParseKeyword(ASTToken* token, ASTToken* prev_token)
 {
     auto* keyword_token = static_cast<KeywordToken*>(token);
     auto keyword_type = keyword_token->GetKeywordType();
@@ -262,7 +262,7 @@ MizBlockParser::ParseSchemeKeyword(KeywordToken* token)
         size_t token_num = token_table_->GetTokenNum();
         size_t id = token->GetId() + 1;
         for (; id < token_num; ++id) {
-            Token* current_token = token_table_->GetToken(id);
+            ASTToken* current_token = token_table_->GetToken(id);
             if (current_token->GetText() == ";") {
                 PushBlock(token, parent_block, BLOCK_TYPE::SCHEME);
                 break;
@@ -283,7 +283,7 @@ MizBlockParser::ParseSchemeKeyword(KeywordToken* token)
 }
 
 void
-MizBlockParser::ParseProofKeyword(KeywordToken* token, Token* prev_token)
+MizBlockParser::ParseProofKeyword(KeywordToken* token, ASTToken* prev_token)
 {
     auto* component = GetCurrentComponent();
     auto element_type = component->GetElementType();
@@ -315,7 +315,7 @@ MizBlockParser::ParseEndKeyword(KeywordToken* token)
             PushStatement(token, block, STATEMENT_TYPE::UNKNOWN);
         } else {
             block->SetEndToken(token);
-            Token* next_token = QueryNextToken(token);
+            ASTToken* next_token = QueryNextToken(token);
             if (next_token == nullptr || next_token->GetText() != ";") {
                 RecordError(token, ERROR_TYPE::END_KEYWORD_WITHOUT_SEMICOLON);
                 PopBlock();
@@ -339,7 +339,7 @@ MizBlockParser::ParseKeywordDefault(KeywordToken* token)
 }
 
 ASTBlock*
-MizBlockParser::PushBlock(Token* token,
+MizBlockParser::PushBlock(ASTToken* token,
                           ASTBlock* parent_block,
                           BLOCK_TYPE block_type)
 {
@@ -387,7 +387,7 @@ MizBlockParser::PopBlock()
 }
 
 ASTStatement*
-MizBlockParser::PushStatement(Token* token,
+MizBlockParser::PushStatement(ASTToken* token,
                               ASTBlock* parent_block,
                               STATEMENT_TYPE statement_type)
 {
@@ -404,7 +404,7 @@ MizBlockParser::PushStatement(Token* token,
 }
 
 void
-MizBlockParser::PopStatement(Token* token)
+MizBlockParser::PopStatement(ASTToken* token)
 {
     auto* component = GetCurrentComponent();
     assert(GetCurrentComponent() != nullptr);
@@ -416,8 +416,8 @@ MizBlockParser::PopStatement(Token* token)
     ast_component_stack_.pop();
 }
 
-Token*
-MizBlockParser::QueryNextToken(Token* token) const
+ASTToken*
+MizBlockParser::QueryNextToken(ASTToken* token) const
 {
     size_t token_num = token_table_->GetTokenNum();
     for (size_t i = token->GetId(); i < token_num; ++i) {
@@ -435,14 +435,14 @@ MizBlockParser::ResolveIdentifierType(IdentifierToken* /*token*/)
     // TODO(nakasho): Not implemented yet.
 }
 
-Token*
+ASTToken*
 MizBlockParser::ResolveLabelReference(IdentifierToken* /*label_token*/)
 {
     // TODO(nakasho): Not implemented yet.
     return nullptr;
 }
 
-Token*
+ASTToken*
 MizBlockParser::ResolveVariableReference(IdentifierToken* /*variable_token*/)
 {
     // TODO(nakasho): Not implemented yet.
@@ -450,7 +450,7 @@ MizBlockParser::ResolveVariableReference(IdentifierToken* /*variable_token*/)
 }
 
 void
-MizBlockParser::RecordError(Token* token, ERROR_TYPE error) const
+MizBlockParser::RecordError(ASTToken* token, ERROR_TYPE error) const
 {
     // TODO(nakasho): Change error log report.
     assert(token != nullptr);

@@ -4,29 +4,31 @@
 #include <string>
 #include <string_view>
 
+#include "ast_element.hpp"
+#include "ast_type.hpp"
 #include "nlohmann/json.hpp"
-#include "token_type.hpp"
 
 namespace mizcore {
 
 class Symbol;
 
-class Token
+class ASTToken : ASTElement
 {
   public:
     // ctor, dtor
-    Token(size_t line_number, size_t column_number)
+    ASTToken(size_t line_number, size_t column_number)
       : line_number_(line_number)
       , column_number_(column_number)
     {}
-    virtual ~Token() = default;
+    virtual ~ASTToken() = default;
 
-    Token(const Token&) = delete;
-    Token(Token&&) = delete;
-    Token& operator=(const Token&) = delete;
-    Token& operator=(Token&&) = delete;
+    ASTToken(const ASTToken&) = delete;
+    ASTToken(ASTToken&&) = delete;
+    ASTToken& operator=(const ASTToken&) = delete;
+    ASTToken& operator=(ASTToken&&) = delete;
 
     // attributes
+    ELEMENT_TYPE GetElementType() const override { return ELEMENT_TYPE::TOKEN; }
     size_t GetId() const { return id_; }
     void SetId(size_t id) { id_ = id; }
     int GetLineNumber() const { return line_number_; }
@@ -35,7 +37,7 @@ class Token
     virtual TOKEN_TYPE GetTokenType() const = 0;
 
     // operations
-    virtual void ToJson(nlohmann::json& json) const;
+    void ToJson(nlohmann::json& json) const override;
 
   private:
     size_t id_ = SIZE_MAX;
@@ -43,14 +45,14 @@ class Token
     size_t column_number_;
 };
 
-class UnknownToken : public Token
+class UnknownToken : public ASTToken
 {
   public:
     // ctor, dtor
     UnknownToken(size_t line_number,
                  size_t column_number,
                  std::string_view text)
-      : Token(line_number, column_number)
+      : ASTToken(line_number, column_number)
       , text_(text)
     {}
 
@@ -63,14 +65,14 @@ class UnknownToken : public Token
     std::string text_;
 };
 
-class NumeralToken : public Token
+class NumeralToken : public ASTToken
 {
   public:
     // ctor, dtor
     NumeralToken(size_t line_number,
                  size_t column_number,
                  std::string_view text)
-      : Token(line_number, column_number)
+      : ASTToken(line_number, column_number)
       , text_(text)
     {}
 
@@ -82,12 +84,12 @@ class NumeralToken : public Token
     std::string text_;
 };
 
-class SymbolToken : public Token
+class SymbolToken : public ASTToken
 {
   public:
     // ctor, dtor
     SymbolToken(size_t line_number, size_t column_number, Symbol* symbol)
-      : Token(line_number, column_number)
+      : ASTToken(line_number, column_number)
       , symbol_(symbol)
     {}
 
@@ -102,7 +104,7 @@ class SymbolToken : public Token
     Symbol* symbol_;
 };
 
-class IdentifierToken : public Token
+class IdentifierToken : public ASTToken
 {
   public:
     // ctor, dtor
@@ -110,7 +112,7 @@ class IdentifierToken : public Token
                     size_t column_number,
                     std::string_view text,
                     IDENTIFIER_TYPE identifier_type = IDENTIFIER_TYPE::UNKNOWN)
-      : Token(line_number, column_number)
+      : ASTToken(line_number, column_number)
       , text_(text)
       , identifier_type_(identifier_type)
     {}
@@ -132,7 +134,7 @@ class IdentifierToken : public Token
     IDENTIFIER_TYPE identifier_type_;
 };
 
-class CommentToken : public Token
+class CommentToken : public ASTToken
 {
   public:
     // ctor, dtor
@@ -140,7 +142,7 @@ class CommentToken : public Token
                  size_t column_number,
                  std::string_view text,
                  COMMENT_TYPE comment_type = COMMENT_TYPE::UNKNOWN)
-      : Token(line_number, column_number)
+      : ASTToken(line_number, column_number)
       , text_(text)
       , comment_type_(comment_type)
     {}
@@ -159,14 +161,14 @@ class CommentToken : public Token
     COMMENT_TYPE comment_type_;
 };
 
-class KeywordToken : public Token
+class KeywordToken : public ASTToken
 {
   public:
     // ctor, dtor
     KeywordToken(size_t line_number,
                  size_t column_number,
                  KEYWORD_TYPE keyword_type = KEYWORD_TYPE::UNKNOWN)
-      : Token(line_number, column_number)
+      : ASTToken(line_number, column_number)
       , keyword_type_(keyword_type)
     {}
 

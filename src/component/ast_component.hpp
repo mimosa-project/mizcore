@@ -8,7 +8,7 @@
 namespace mizcore {
 
 class ASTBlock;
-class Token;
+class ASTToken;
 
 class ASTComponent : public ASTElement
 {
@@ -29,8 +29,8 @@ class ASTComponent : public ASTElement
     bool IsError() const { return is_error_; }
     void SetError(bool is_error) { is_error_ = is_error; }
 
-    virtual Token* GetRangeStartToken() const = 0;
-    virtual Token* GetRangeEndToken() const = 0;
+    virtual ASTToken* GetRangeStartToken() const = 0;
+    virtual ASTToken* GetRangeEndToken() const = 0;
 
     // operations
     void ToJson(nlohmann::json& json) const override = 0;

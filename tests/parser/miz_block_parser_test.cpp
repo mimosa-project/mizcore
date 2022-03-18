@@ -3,13 +3,13 @@
 #include <iostream>
 
 #include "ast_block.hpp"
+#include "ast_token.hpp"
 #include "doctest/doctest.h"
 #include "file_handling_tools.hpp"
 #include "miz_block_parser.hpp"
 #include "miz_lexer_handler.hpp"
 #include "symbol.hpp"
 #include "symbol_table.hpp"
-#include "token.hpp"
 #include "token_table.hpp"
 #include "vct_lexer_handler.hpp"
 

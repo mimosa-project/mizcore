@@ -5,7 +5,7 @@
 #include <memory>
 
 #include "symbol_table.hpp"
-#include "token.hpp"
+#include "ast_token.hpp"
 #include "token_table.hpp"
 #include "miz_flex_lexer.hpp"
 

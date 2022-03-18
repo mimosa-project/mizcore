@@ -3,7 +3,7 @@
 #include <string>
 
 #include "ast_statement.hpp"
-#include "token.hpp"
+#include "ast_token.hpp"
 
 using std::string;
 

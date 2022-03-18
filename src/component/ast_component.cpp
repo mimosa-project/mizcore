@@ -1,5 +1,5 @@
 #include "ast_component.hpp"
-#include "token.hpp"
+#include "ast_token.hpp"
 
 using mizcore::ASTComponent;
 
