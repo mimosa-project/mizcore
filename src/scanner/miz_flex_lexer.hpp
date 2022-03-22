@@ -3,7 +3,7 @@
 #include <memory>
 #include <stack>
 
-#include "token_type.hpp"
+#include "ast_type.hpp"
 
 namespace mizcore {
 
@@ -11,7 +11,7 @@ class ASTComponent;
 class ASTBlock;
 class ASTStatement;
 class SymbolTable;
-class Token;
+class ASTToken;
 class TokenTable;
 
 class MizFlexLexer : public yyMizFlexLexer

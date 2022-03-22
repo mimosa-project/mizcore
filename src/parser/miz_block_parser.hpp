@@ -5,7 +5,6 @@
 
 #include "ast_type.hpp"
 #include "error_def.hpp"
-#include "token_type.hpp"
 
 namespace mizcore {
 
@@ -13,14 +12,16 @@ class ASTBlock;
 class ASTComponent;
 class ASTStatement;
 class IdentifierToken;
-class Token;
+class ASTToken;
 class KeywordToken;
 class TokenTable;
+class ErrorTable;
 
 class MizBlockParser
 {
   public:
-    MizBlockParser(std::shared_ptr<TokenTable> token_table);
+    MizBlockParser(std::shared_ptr<TokenTable> token_table,
+                   std::shared_ptr<ErrorTable> error_table);
     virtual ~MizBlockParser() = default;
     MizBlockParser(MizBlockParser const&) = delete;
     MizBlockParser(MizBlockParser&&) = delete;
@@ -39,34 +40,34 @@ class MizBlockParser
     void Parse();
 
   private:
-    void ParseUnknown(Token* token);
-    void ParseNumeral(Token* token);
-    void ParseSymbol(Token* token, Token* prev_token);
-    void ParseIdentifier(Token* token);
-    void ParseKeyword(Token* token, Token* prev_token);
+    void ParseUnknown(ASTToken* token);
+    void ParseNumeral(ASTToken* token);
+    void ParseSymbol(ASTToken* token, ASTToken* prev_token);
+    void ParseIdentifier(ASTToken* token);
+    void ParseKeyword(ASTToken* token, ASTToken* prev_token);
 
     void ParseEnvironKeyword(KeywordToken* token);
     void ParseBeginKeyword(KeywordToken* token);
     void ParseBlockStartKeyword(KeywordToken* token);
     void ParseSchemeKeyword(KeywordToken* token);
-    void ParseProofKeyword(KeywordToken* token, Token* prev_token);
+    void ParseProofKeyword(KeywordToken* token, ASTToken* prev_token);
     void ParseEndKeyword(KeywordToken* token);
     void ParseKeywordDefault(KeywordToken* token);
 
-    ASTBlock* PushBlock(Token* token,
+    ASTBlock* PushBlock(ASTToken* token,
                         ASTBlock* parent_block,
                         BLOCK_TYPE block_type);
     void PopBlock();
-    ASTStatement* PushStatement(Token* token,
+    ASTStatement* PushStatement(ASTToken* token,
                                 ASTBlock* parent_block,
                                 STATEMENT_TYPE statement_type);
-    void PopStatement(Token* token);
-    Token* QueryNextToken(Token* token) const;
+    void PopStatement(ASTToken* token);
+    ASTToken* QueryNextToken(ASTToken* token) const;
 
     void ResolveIdentifierType(IdentifierToken* token);
-    static Token* ResolveLabelReference(IdentifierToken* label_token);
-    static Token* ResolveVariableReference(IdentifierToken* variable_token);
-    void RecordError(Token* token, ERROR_TYPE error) const;
+    static ASTToken* ResolveLabelReference(IdentifierToken* label_token);
+    static ASTToken* ResolveVariableReference(IdentifierToken* variable_token);
+    void RecordError(ASTToken* token, ERROR_TYPE error_type) const;
 
     ASTComponent* GetCurrentComponent() const
     {
@@ -84,6 +85,7 @@ class MizBlockParser
     std::shared_ptr<ASTBlock> ast_root_ =
       std::make_shared<ASTBlock>(BLOCK_TYPE::ROOT);
     std::stack<ASTComponent*> ast_component_stack_;
+    std::shared_ptr<ErrorTable> error_table_;
 
     // Only for internal use
     bool is_in_environ_ = false;

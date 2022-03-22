@@ -1,16 +1,16 @@
-#include "token.hpp"
+#include "ast_token.hpp"
 #include "symbol.hpp"
 
 using std::string;
 
 using json = nlohmann::json;
 
+using mizcore::ASTToken;
 using mizcore::IdentifierToken;
 using mizcore::SymbolToken;
-using mizcore::Token;
 
 void
-Token::ToJson(nlohmann::json& json) const
+ASTToken::ToJson(nlohmann::json& json) const
 {
     json = { { "pos", { line_number_, column_number_ } },
              { "length", GetText().size() },
@@ -27,7 +27,7 @@ SymbolToken::GetText() const
 void
 SymbolToken::ToJson(nlohmann::json& json) const
 {
-    Token::ToJson(json);
+    ASTToken::ToJson(json);
     json["symbol_type"] = symbol_->GetTypeString();
     json["priority"] = static_cast<int>(symbol_->GetPriority());
 }
@@ -35,6 +35,6 @@ SymbolToken::ToJson(nlohmann::json& json) const
 void
 IdentifierToken::ToJson(nlohmann::json& json) const
 {
-    Token::ToJson(json);
+    ASTToken::ToJson(json);
     json["identifier_type"] = QueryIdentifierTypeText(identifier_type_);
 }

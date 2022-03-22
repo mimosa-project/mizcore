@@ -1,18 +1,21 @@
 #include <filesystem>
 #include <fstream>
 #include <iostream>
+#include <memory>
 
 #include "ast_block.hpp"
+#include "ast_token.hpp"
 #include "doctest/doctest.h"
+#include "error_table.hpp"
 #include "file_handling_tools.hpp"
 #include "miz_block_parser.hpp"
 #include "miz_lexer_handler.hpp"
 #include "symbol.hpp"
 #include "symbol_table.hpp"
-#include "token.hpp"
 #include "token_table.hpp"
 #include "vct_lexer_handler.hpp"
 
+using mizcore::ErrorTable;
 using mizcore::MizBlockParser;
 using mizcore::MizLexerHandler;
 using mizcore::SymbolTable;
@@ -53,8 +56,9 @@ TEST_CASE("execute miz file handler")
         MizLexerHandler miz_handler(&ifs, symbol_table);
         miz_handler.yylex();
         auto token_table = miz_handler.GetTokenTable();
+        auto error_table = std::make_shared<ErrorTable>();
 
-        MizBlockParser miz_block_parser(token_table);
+        MizBlockParser miz_block_parser(token_table, error_table);
 
         // Erapsed time: 0.000168 [s]
         clock_t start = clock();
@@ -101,8 +105,9 @@ TEST_CASE("execute miz file handler")
         MizLexerHandler miz_handler(&ifs, symbol_table);
         miz_handler.yylex();
         auto token_table = miz_handler.GetTokenTable();
+        auto error_table = std::make_shared<ErrorTable>();
 
-        MizBlockParser miz_block_parser(token_table);
+        MizBlockParser miz_block_parser(token_table, error_table);
 
         // Erapsed time: 0.021594 [s]
         clock_t start = clock();

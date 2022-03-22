@@ -2,16 +2,16 @@
 #include <ostream>
 #include <sstream>
 
-#include "token.hpp"
+#include "ast_token.hpp"
 #include "token_table.hpp"
 
 using nlohmann::json;
 
-using mizcore::Token;
+using mizcore::ASTToken;
 using mizcore::TokenTable;
 
 void
-TokenTable::AddToken(Token* token)
+TokenTable::AddToken(ASTToken* token)
 {
     token->SetId(tokens_.size());
     tokens_.emplace_back(token);

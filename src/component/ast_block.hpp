@@ -9,7 +9,7 @@
 
 namespace mizcore {
 
-class Token;
+class ASTToken;
 class KeywordToken;
 class ASTStatement;
 
@@ -32,15 +32,15 @@ class ASTBlock : public ASTComponent
     BLOCK_TYPE GetBlockType() const { return block_type_; }
     void SetBlockType(BLOCK_TYPE block_type) { block_type_ = block_type; }
 
-    Token* GetStartToken() const { return start_token_; }
-    void SetStartToken(Token* token) { start_token_ = token; }
-    Token* GetEndToken() const { return end_token_; }
-    void SetEndToken(Token* token) { end_token_ = token; }
-    Token* GetSemicolonToken() const { return semicolon_token_; }
-    void SetSemicolonToken(Token* token) { semicolon_token_ = token; }
+    ASTToken* GetStartToken() const { return start_token_; }
+    void SetStartToken(ASTToken* token) { start_token_ = token; }
+    ASTToken* GetEndToken() const { return end_token_; }
+    void SetEndToken(ASTToken* token) { end_token_ = token; }
+    ASTToken* GetSemicolonToken() const { return semicolon_token_; }
+    void SetSemicolonToken(ASTToken* token) { semicolon_token_ = token; }
 
-    Token* GetRangeStartToken() const override { return start_token_; }
-    Token* GetRangeEndToken() const override
+    ASTToken* GetRangeStartToken() const override { return start_token_; }
+    ASTToken* GetRangeEndToken() const override
     {
         return semicolon_token_ == nullptr ? end_token_ : semicolon_token_;
     }
@@ -63,9 +63,9 @@ class ASTBlock : public ASTComponent
 
   private:
     BLOCK_TYPE block_type_ = BLOCK_TYPE::UNKNOWN;
-    Token* start_token_ = nullptr;
-    Token* end_token_ = nullptr;
-    Token* semicolon_token_ = nullptr;
+    ASTToken* start_token_ = nullptr;
+    ASTToken* end_token_ = nullptr;
+    ASTToken* semicolon_token_ = nullptr;
     std::vector<std::unique_ptr<ASTComponent>> child_components_;
 };
 
