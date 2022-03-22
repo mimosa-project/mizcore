@@ -45,15 +45,15 @@ It is also recommended that VSCode users install the following extensions for on
 
 ## TODO
 
-- Create error report function and output log.
 - Create token replace function for TokenTable.
 - Create arity table function.
+- Create all-in-one class.
 - Collect arity information during tokenizer processing.
 - Resolve reference relationships between variables.
 - Replace token type from SYMBOL to VARIABLE in partial mode.
 - Resolve reference relationships between labels.
 - Make a cross compile environment.
-- Error handling.
+  - Build on clang-LLVM
 - Python binding (in another project).
 - JavaScript binding (in another project).
 - Support GitHub Actions.

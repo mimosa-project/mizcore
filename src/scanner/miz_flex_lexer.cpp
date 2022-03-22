@@ -3,8 +3,6 @@
 #include <memory>
 #include <sstream>
 
-#include "spdlog/spdlog.h"
-
 #include "ast_token.hpp"
 #include "symbol_table.hpp"
 #include "token_table.hpp"

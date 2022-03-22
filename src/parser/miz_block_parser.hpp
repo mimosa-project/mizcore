@@ -15,11 +15,13 @@ class IdentifierToken;
 class ASTToken;
 class KeywordToken;
 class TokenTable;
+class ErrorTable;
 
 class MizBlockParser
 {
   public:
-    MizBlockParser(std::shared_ptr<TokenTable> token_table);
+    MizBlockParser(std::shared_ptr<TokenTable> token_table,
+                   std::shared_ptr<ErrorTable> error_table);
     virtual ~MizBlockParser() = default;
     MizBlockParser(MizBlockParser const&) = delete;
     MizBlockParser(MizBlockParser&&) = delete;
@@ -65,7 +67,7 @@ class MizBlockParser
     void ResolveIdentifierType(IdentifierToken* token);
     static ASTToken* ResolveLabelReference(IdentifierToken* label_token);
     static ASTToken* ResolveVariableReference(IdentifierToken* variable_token);
-    void RecordError(ASTToken* token, ERROR_TYPE error) const;
+    void RecordError(ASTToken* token, ERROR_TYPE error_type) const;
 
     ASTComponent* GetCurrentComponent() const
     {
@@ -83,6 +85,7 @@ class MizBlockParser
     std::shared_ptr<ASTBlock> ast_root_ =
       std::make_shared<ASTBlock>(BLOCK_TYPE::ROOT);
     std::stack<ASTComponent*> ast_component_stack_;
+    std::shared_ptr<ErrorTable> error_table_;
 
     // Only for internal use
     bool is_in_environ_ = false;

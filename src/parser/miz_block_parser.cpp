@@ -8,6 +8,8 @@
 #include "ast_block.hpp"
 #include "ast_statement.hpp"
 #include "ast_token.hpp"
+#include "error_object.hpp"
+#include "error_table.hpp"
 #include "miz_block_parser.hpp"
 #include "token_table.hpp"
 
@@ -43,8 +45,10 @@ using mizcore::TOKEN_TYPE;
 // [TODO]
 //  - Detect obvious errors before calling StatementParser
 
-MizBlockParser::MizBlockParser(std::shared_ptr<TokenTable> token_table)
+MizBlockParser::MizBlockParser(std::shared_ptr<TokenTable> token_table,
+                               std::shared_ptr<ErrorTable> error_table)
   : token_table_(std::move(token_table))
+  , error_table_(std::move(error_table))
 {
     ast_component_stack_.push(ast_root_.get());
 }
@@ -450,18 +454,14 @@ MizBlockParser::ResolveVariableReference(IdentifierToken* /*variable_token*/)
 }
 
 void
-MizBlockParser::RecordError(ASTToken* token, ERROR_TYPE error) const
+MizBlockParser::RecordError(ASTToken* token, ERROR_TYPE error_type) const
 {
-    // TODO(nakasho): Change error log report.
     assert(token != nullptr);
-    auto error_level = GetErrorLevel(error);
-    spdlog::error("[{}] ({%4d},{%3d}): \"{}\": C{}:{}",
-                  GetErrorLevelText(error_level),
-                  token->GetLineNumber(),
-                  token->GetColumnNumber(),
-                  token->GetText(),
-                  GetErrorCode(error),
-                  GetErrorMessage(error));
+
+    auto* error = new ErrorObject(error_type, token);
+    error_table_->AddError(error);
+
+    auto error_level = GetErrorLevel(error_type);
     if (error_level == ERROR_LEVEL::ERROR) {
         GetCurrentComponent()->SetError(true);
     }

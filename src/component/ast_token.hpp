@@ -20,7 +20,7 @@ class ASTToken : ASTElement
       : line_number_(line_number)
       , column_number_(column_number)
     {}
-    virtual ~ASTToken() = default;
+    ~ASTToken() override = default;
 
     ASTToken(const ASTToken&) = delete;
     ASTToken(ASTToken&&) = delete;
