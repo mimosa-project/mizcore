@@ -105,6 +105,11 @@ TEST_CASE("symbol table test")
         CHECK(symbol);
         CHECK(symbol->GetText() == "&");
         CHECK(symbol->GetType() == SYMBOL_TYPE('S'));
+
+        symbol = table->QueryLongestMatchSymbol("lim-infinity");
+        CHECK(symbol);
+        CHECK(symbol->GetText() == "lim");
+        CHECK(symbol->GetType() == SYMBOL_TYPE('O'));
     }
 
     SUBCASE("build query map for a few vocabulary files")

@@ -116,20 +116,15 @@ SymbolTable::BuildQueryMap()
 Symbol*
 SymbolTable::QueryLongestMatchSymbol(std::string_view text) const
 {
-    size_t current_length = text.length() + 1;
-    while (current_length > 1) {
-        size_t pos = current_length - 1;
-        if (!IsWordBoundary(text, pos)) {
-            --current_length;
-            continue;
-        }
-
+    size_t pos = text.length();
+    while (pos > 0) {
         auto longest_prefix = query_map_.longest_prefix(text.substr(0, pos));
         if (longest_prefix != query_map_.end()) {
-            current_length = longest_prefix.key().length();
-            if (IsWordBoundary(text, current_length)) {
+            pos = longest_prefix.key().length();
+            if (IsWordBoundary(text, pos)) {
                 return longest_prefix.value();
             }
+            --pos;
         } else {
             break;
         }
