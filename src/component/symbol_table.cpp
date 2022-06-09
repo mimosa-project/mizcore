@@ -116,12 +116,20 @@ SymbolTable::BuildQueryMap()
 Symbol*
 SymbolTable::QueryLongestMatchSymbol(std::string_view text) const
 {
-    auto longest_prefix = query_map_.longest_prefix(text);
-    if (longest_prefix != query_map_.end()) {
-        if (IsWordBoundary(text, longest_prefix.key().length())) {
-            return longest_prefix.value();
+    size_t pos = text.length();
+    while (pos > 0) {
+        auto longest_prefix = query_map_.longest_prefix(text.substr(0, pos));
+        if (longest_prefix != query_map_.end()) {
+            pos = longest_prefix.key().length();
+            if (IsWordBoundary(text, pos)) {
+                return longest_prefix.value();
+            }
+            --pos;
+        } else {
+            break;
         }
     }
+
     return nullptr;
 }
 
@@ -140,9 +148,9 @@ SymbolTable::BuildQueryMapOne(std::string_view filename)
 bool
 SymbolTable::IsWordBoundary(std::string_view text, size_t pos)
 {
-    if (0 < pos && pos < text.size() - 1) {
-        return !IsWordBoundaryCharacter(text[pos - 1]) ||
-               !IsWordBoundaryCharacter(text[pos]);
+    if (0 < pos && pos < text.length()) {
+        return IsWordBoundaryCharacter(text[pos - 1]) ||
+               IsWordBoundaryCharacter(text[pos]);
     }
     return true;
 }
@@ -150,5 +158,5 @@ SymbolTable::IsWordBoundary(std::string_view text, size_t pos)
 bool
 SymbolTable::IsWordBoundaryCharacter(const char x)
 {
-    return static_cast<bool>(isalnum(x)) || (x == '_');
+    return !(static_cast<bool>(isalnum(x)) || (x == '_'));
 }
