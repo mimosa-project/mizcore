@@ -1,0 +1,47 @@
+#include <filesystem>
+#include <fstream>
+#include <iostream>
+
+#include "all_in_one.hpp"
+#include "ast_block.hpp"
+#include "ast_token.hpp"
+#include "error_table.hpp"
+#include "miz_block_parser.hpp"
+#include "miz_lexer_handler.hpp"
+#include "symbol.hpp"
+#include "symbol_table.hpp"
+#include "token_table.hpp"
+#include "vct_lexer_handler.hpp"
+
+using mizcore::AllInOne;
+using mizcore::ErrorTable;
+using mizcore::MizBlockParser;
+using mizcore::MizLexerHandler;
+using mizcore::VctLexerHandler;
+
+namespace fs = std::filesystem;
+
+void
+AllInOne::Exec(const char* mizpath)
+{
+    fs::path mml_vct_path =
+      fs::path(__FILE__).parent_path().parent_path() / "data" / "mml.vct";
+    std::ifstream ifs_vct(mml_vct_path);
+    if (!ifs_vct) {
+        std::cout << "failed to open vct file" << std::endl;
+    }
+    VctLexerHandler vct_handler(&ifs_vct);
+    vct_handler.yylex();
+    auto symbol_table = vct_handler.GetSymbolTable();
+    std::ifstream ifs_miz(mizpath);
+    if (!ifs_miz) {
+        std::cout << "failed to open miz file" << std::endl;
+    }
+    MizLexerHandler miz_handler(&ifs_miz, symbol_table);
+    miz_handler.yylex();
+    token_table_ = miz_handler.GetTokenTable();
+    error_table_ = std::make_shared<ErrorTable>();
+    MizBlockParser miz_block_parser(token_table_, error_table_);
+    miz_block_parser.Parse();
+    ast_root_ = miz_block_parser.GetASTRoot();
+}
