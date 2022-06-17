@@ -9,6 +9,7 @@
 #include "miz_block_parser.hpp"
 #include "miz_controller.hpp"
 #include "miz_lexer_handler.hpp"
+#include "spdlog/spdlog.h"
 #include "symbol.hpp"
 #include "symbol_table.hpp"
 #include "token_table.hpp"
@@ -26,14 +27,16 @@ MizController::Exec(const char* mizpath)
 {
     std::ifstream ifs_vct(VctPath());
     if (!ifs_vct) {
-        std::cout << "failed to open vct file" << std::endl;
+        spdlog::error("Failed to open vct file. The specified path: \"{}\"",
+                      VctPath().string());
     }
     VctLexerHandler vct_handler(&ifs_vct);
     vct_handler.yylex();
     auto symbol_table = vct_handler.GetSymbolTable();
     std::ifstream ifs_miz(mizpath);
     if (!ifs_miz) {
-        std::cout << "failed to open miz file" << std::endl;
+        spdlog::error("Failed to open miz file. The specified path: \"{}\"",
+                      mizpath);
     }
     MizLexerHandler miz_handler(&ifs_miz, symbol_table);
     miz_handler.yylex();
