@@ -11,6 +11,13 @@ class ErrorTable;
 class MizController
 {
   public:
+    MizController() = default;
+    virtual ~MizController() = default;
+    MizController(MizController const&) = delete;
+    MizController(MizController&&) = delete;
+    MizController& operator=(MizController const&) = delete;
+    MizController& operator=(MizController&&) = delete;
+
     void Exec(const char* mizpath);
     std::shared_ptr<TokenTable> GetTokenTable() const { return token_table_; }
     std::shared_ptr<ASTBlock> GetASTRoot() const { return ast_root_; }
