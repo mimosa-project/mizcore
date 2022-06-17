@@ -8,7 +8,7 @@ class ASTBlock;
 class TokenTable;
 class ErrorTable;
 
-class AllInOne
+class MizController
 {
   public:
     void Exec(const char* mizpath);

@@ -2,7 +2,7 @@
 #include <fstream>
 #include <iostream>
 
-#include "all_in_one.hpp"
+#include "miz_controller.hpp"
 #include "ast_block.hpp"
 #include "ast_token.hpp"
 #include "error_table.hpp"
@@ -13,7 +13,7 @@
 #include "token_table.hpp"
 #include "vct_lexer_handler.hpp"
 
-using mizcore::AllInOne;
+using mizcore::MizController;
 using mizcore::ErrorTable;
 using mizcore::MizBlockParser;
 using mizcore::MizLexerHandler;
@@ -22,7 +22,7 @@ using mizcore::VctLexerHandler;
 namespace fs = std::filesystem;
 
 void
-AllInOne::Exec(const char* mizpath)
+MizController::Exec(const char* mizpath)
 {
     fs::path mml_vct_path =
       fs::path(__FILE__).parent_path().parent_path() / "data" / "mml.vct";
