@@ -7,26 +7,26 @@ void
 ASTComponent::ToJson(nlohmann::json& json) const
 {
     ASTElement::ToJson(json);
-    const auto* start_token = GetRangeStartToken();
-    const auto* end_token = GetRangeEndToken();
+    const auto* first_token = GetRangeFirstToken();
+    const auto* last_token = GetRangeLastToken();
 
-    if (start_token != nullptr && end_token != nullptr) {
-        size_t start_token_id = start_token->GetId();
-        size_t end_token_id = end_token->GetId();
+    if (first_token != nullptr && last_token != nullptr) {
+        size_t first_token_id = first_token->GetId();
+        size_t last_token_id = last_token->GetId();
 
-        int start_line_no = start_token->GetLineNumber();
-        int start_column_no = start_token->GetColumnNumber();
-        int end_line_no = end_token->GetLineNumber();
-        int end_column_no = end_token->GetColumnNumber();
+        int first_line_no = first_token->GetLineNumber();
+        int first_column_no = first_token->GetColumnNumber();
+        int last_line_no = last_token->GetLineNumber();
+        int last_column_no = last_token->GetColumnNumber();
 
-        if (start_token_id != SIZE_MAX && end_token_id != SIZE_MAX) {
-            if (start_token_id == end_token_id) {
-                json["token_id"] = start_token_id;
-                json["pos"] = { start_line_no, start_column_no };
+        if (first_token_id != SIZE_MAX && last_token_id != SIZE_MAX) {
+            if (first_token_id == last_token_id) {
+                json["token_id"] = first_token_id;
+                json["pos"] = { first_line_no, first_column_no };
             } else {
-                json["token_id"] = { start_token_id, end_token_id };
-                json["pos"] = { { start_line_no, start_column_no },
-                                { end_line_no, end_column_no } };
+                json["token_id"] = { first_token_id, last_token_id };
+                json["pos"] = { { first_line_no, first_column_no },
+                                { last_line_no, last_column_no } };
             }
         }
     }

@@ -32,17 +32,17 @@ class ASTBlock : public ASTComponent
     BLOCK_TYPE GetBlockType() const { return block_type_; }
     void SetBlockType(BLOCK_TYPE block_type) { block_type_ = block_type; }
 
-    ASTToken* GetStartToken() const { return start_token_; }
-    void SetStartToken(ASTToken* token) { start_token_ = token; }
-    ASTToken* GetEndToken() const { return end_token_; }
-    void SetEndToken(ASTToken* token) { end_token_ = token; }
+    ASTToken* GetFirstToken() const { return first_token_; }
+    void SetFirstToken(ASTToken* token) { first_token_ = token; }
+    ASTToken* GetLastToken() const { return last_token_; }
+    void SetLastToken(ASTToken* token) { last_token_ = token; }
     ASTToken* GetSemicolonToken() const { return semicolon_token_; }
     void SetSemicolonToken(ASTToken* token) { semicolon_token_ = token; }
 
-    ASTToken* GetRangeStartToken() const override { return start_token_; }
-    ASTToken* GetRangeEndToken() const override
+    ASTToken* GetRangeFirstToken() const override { return first_token_; }
+    ASTToken* GetRangeLastToken() const override
     {
-        return semicolon_token_ == nullptr ? end_token_ : semicolon_token_;
+        return semicolon_token_ == nullptr ? last_token_ : semicolon_token_;
     }
 
     size_t GetChildComponentNum() const { return child_components_.size(); }
@@ -63,8 +63,8 @@ class ASTBlock : public ASTComponent
 
   private:
     BLOCK_TYPE block_type_ = BLOCK_TYPE::UNKNOWN;
-    ASTToken* start_token_ = nullptr;
-    ASTToken* end_token_ = nullptr;
+    ASTToken* first_token_ = nullptr;
+    ASTToken* last_token_ = nullptr;
     ASTToken* semicolon_token_ = nullptr;
     std::vector<std::unique_ptr<ASTComponent>> child_components_;
 };

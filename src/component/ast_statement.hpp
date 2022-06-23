@@ -34,18 +34,18 @@ class ASTStatement : public ASTComponent
         statement_type_ = statement_type;
     }
 
-    ASTToken* GetRangeStartToken() const override { return range_start_token_; }
-    ASTToken* GetRangeEndToken() const override { return range_end_token_; }
-    void SetRangeStartToken(ASTToken* token) { range_start_token_ = token; }
-    void SetRangeEndToken(ASTToken* token) { range_end_token_ = token; }
+    ASTToken* GetRangeFirstToken() const override { return range_first_token_; }
+    ASTToken* GetRangeLastToken() const override { return range_last_token_; }
+    void SetRangeFirstToken(ASTToken* token) { range_first_token_ = token; }
+    void SetRangeLastToken(ASTToken* token) { range_last_token_ = token; }
 
     // operations
     void ToJson(nlohmann::json& json) const override;
 
   private:
     STATEMENT_TYPE statement_type_ = STATEMENT_TYPE::UNKNOWN;
-    ASTToken* range_start_token_ = nullptr;
-    ASTToken* range_end_token_ = nullptr;
+    ASTToken* range_first_token_ = nullptr;
+    ASTToken* range_last_token_ = nullptr;
 };
 
 } // namespace mizcore

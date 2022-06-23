@@ -45,10 +45,9 @@ It is also recommended that VSCode users install the following extensions for on
 
 ## TODO
 
-- Create token replace function for TokenTable.
 - Create arity table function.
-- Create all-in-one class.
 - Collect arity information during tokenizer processing.
+- Create token replace function for TokenTable.
 - Resolve reference relationships between variables.
 - Replace token type from SYMBOL to VARIABLE in partial mode.
 - Resolve reference relationships between labels.
