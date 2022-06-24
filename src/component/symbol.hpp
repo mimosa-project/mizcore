@@ -4,7 +4,7 @@
 #include <string>
 #include <string_view>
 
-#include "symbol_type.hpp"
+#include "ast_type.hpp"
 
 namespace mizcore {
 

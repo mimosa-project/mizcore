@@ -5,6 +5,8 @@ using std::string;
 
 using json = nlohmann::json;
 
+using mizcore::SYMBOL_TYPE;
+
 using mizcore::ASTToken;
 using mizcore::IdentifierToken;
 using mizcore::SymbolToken;
@@ -22,6 +24,12 @@ std::string_view
 SymbolToken::GetText() const
 {
     return symbol_->GetText();
+}
+
+SYMBOL_TYPE
+SymbolToken::GetSymbolType() const
+{
+    return symbol_->GetType();
 }
 
 void
