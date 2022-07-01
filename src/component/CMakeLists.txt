@@ -9,6 +9,8 @@ add_library(
   error_def.cpp
   error_object.cpp
   error_table.cpp
+  pattern_element.cpp
+  pattern_table.cpp
   symbol.cpp
   symbol_table.cpp
   token_table.cpp)

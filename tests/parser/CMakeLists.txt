@@ -3,7 +3,8 @@ add_test(
   COMMAND ${CMAKE_CURRENT_BINARY_DIR}/mizcore_parser_test.out
   WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/data/)
 
-add_executable(mizcore_parser_test.out miz_block_parser_test.cpp main.cpp)
+add_executable(mizcore_parser_test.out miz_block_parser_test.cpp
+                                       miz_pattern_parser_test.cpp main.cpp)
 
 target_link_libraries(
   mizcore_parser_test.out PRIVATE doctest::doctest mizcore::scanner

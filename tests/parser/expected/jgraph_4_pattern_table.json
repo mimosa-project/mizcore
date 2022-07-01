@@ -1,0 +1,101 @@
+[
+    {
+        "arities": [
+            1,
+            0
+        ],
+        "filename": "JGRAPH_4",
+        "symbols": [
+            "NormF"
+        ],
+        "type": "func"
+    },
+    {
+        "arities": [
+            0,
+            2
+        ],
+        "filename": "JGRAPH_4",
+        "symbols": [
+            "FanW"
+        ],
+        "type": "func"
+    },
+    {
+        "arities": [
+            1,
+            0
+        ],
+        "filename": "JGRAPH_4",
+        "symbols": [
+            "-FanMorphW"
+        ],
+        "type": "func"
+    },
+    {
+        "arities": [
+            0,
+            2
+        ],
+        "filename": "JGRAPH_4",
+        "symbols": [
+            "FanN"
+        ],
+        "type": "func"
+    },
+    {
+        "arities": [
+            1,
+            0
+        ],
+        "filename": "JGRAPH_4",
+        "symbols": [
+            "-FanMorphN"
+        ],
+        "type": "func"
+    },
+    {
+        "arities": [
+            0,
+            2
+        ],
+        "filename": "JGRAPH_4",
+        "symbols": [
+            "FanE"
+        ],
+        "type": "func"
+    },
+    {
+        "arities": [
+            1,
+            0
+        ],
+        "filename": "JGRAPH_4",
+        "symbols": [
+            "-FanMorphE"
+        ],
+        "type": "func"
+    },
+    {
+        "arities": [
+            0,
+            2
+        ],
+        "filename": "JGRAPH_4",
+        "symbols": [
+            "FanS"
+        ],
+        "type": "func"
+    },
+    {
+        "arities": [
+            1,
+            0
+        ],
+        "filename": "JGRAPH_4",
+        "symbols": [
+            "-FanMorphS"
+        ],
+        "type": "func"
+    }
+]

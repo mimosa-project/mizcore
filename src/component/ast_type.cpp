@@ -9,6 +9,8 @@ using mizcore::COMMENT_TYPE;
 using mizcore::ELEMENT_TYPE;
 using mizcore::IDENTIFIER_TYPE;
 using mizcore::KEYWORD_TYPE;
+using mizcore::PATTERN_TYPE;
+using mizcore::SPECIAL_SYMBOL_TYPE;
 using mizcore::STATEMENT_TYPE;
 using mizcore::TOKEN_TYPE;
 using std::map;
@@ -217,7 +219,7 @@ mizcore::QueryStatementTypeText(STATEMENT_TYPE type)
 KEYWORD_TYPE
 mizcore::QueryKeywordType(std::string_view text)
 {
-    static map<string, KEYWORD_TYPE> keyword_map = {
+    static map<string, KEYWORD_TYPE> text2type = {
         { "according", KEYWORD_TYPE::ACCORDING },
         { "aggregate", KEYWORD_TYPE::AGGREGATE },
         { "all", KEYWORD_TYPE::ALL },
@@ -337,8 +339,8 @@ mizcore::QueryKeywordType(std::string_view text)
         { "wrt", KEYWORD_TYPE::WRT },
     };
 
-    auto it = keyword_map.find(string(text));
-    if (it != keyword_map.end()) {
+    auto it = text2type.find(string(text));
+    if (it != text2type.end()) {
         return it->second;
     }
     return KEYWORD_TYPE::UNKNOWN;
@@ -372,7 +374,7 @@ mizcore::QueryCommentTypeText(COMMENT_TYPE type)
 std::string_view
 mizcore::QueryKeywordText(KEYWORD_TYPE type)
 {
-    static std::array<string, 118> keyword_text = {
+    static std::array<string, 118> type2text = {
         "unknown",
         "according",
         "aggregate",
@@ -493,5 +495,83 @@ mizcore::QueryKeywordText(KEYWORD_TYPE type)
         "wrt",
     };
 
-    return keyword_text[static_cast<size_t>(type)].c_str();
+    return type2text[static_cast<size_t>(type)];
+}
+
+SPECIAL_SYMBOL_TYPE
+mizcore::QuerySpecialSymbolType(std::string_view text)
+{
+    static map<string, SPECIAL_SYMBOL_TYPE> text2type = {
+        { ",", SPECIAL_SYMBOL_TYPE::COMMA },
+        { ";", SPECIAL_SYMBOL_TYPE::SEMICOLON },
+        { ":", SPECIAL_SYMBOL_TYPE::COLON },
+        { "(", SPECIAL_SYMBOL_TYPE::LEFT_PARENTHESIS },
+        { ")", SPECIAL_SYMBOL_TYPE::RIGHT_PARENTHESIS },
+        { "[", SPECIAL_SYMBOL_TYPE::LEFT_BRACKET },
+        { "]", SPECIAL_SYMBOL_TYPE::RIGHT_BRACKET },
+        { "{", SPECIAL_SYMBOL_TYPE::LEFT_BRACE },
+        { "}", SPECIAL_SYMBOL_TYPE::RIGHT_BRACE },
+        { "=", SPECIAL_SYMBOL_TYPE::EQUAL },
+        { "&", SPECIAL_SYMBOL_TYPE::AND },
+        { "->", SPECIAL_SYMBOL_TYPE::ARROW },
+        { ".=", SPECIAL_SYMBOL_TYPE::DOT_EQUAL },
+        { "...", SPECIAL_SYMBOL_TYPE::THREE_DOTS },
+        { "$1", SPECIAL_SYMBOL_TYPE::DOLLAR_1 },
+        { "$2", SPECIAL_SYMBOL_TYPE::DOLLAR_2 },
+        { "$3", SPECIAL_SYMBOL_TYPE::DOLLAR_3 },
+        { "$4", SPECIAL_SYMBOL_TYPE::DOLLAR_4 },
+        { "$5", SPECIAL_SYMBOL_TYPE::DOLLAR_5 },
+        { "$6", SPECIAL_SYMBOL_TYPE::DOLLAR_6 },
+        { "$7", SPECIAL_SYMBOL_TYPE::DOLLAR_7 },
+        { "$8", SPECIAL_SYMBOL_TYPE::DOLLAR_8 },
+        { "$9", SPECIAL_SYMBOL_TYPE::DOLLAR_9 },
+        { "$10", SPECIAL_SYMBOL_TYPE::DOLLAR_10 },
+        { "(#", SPECIAL_SYMBOL_TYPE::LEFT_FIELD },
+        { "#)", SPECIAL_SYMBOL_TYPE::RIGHT_FIELD },
+    };
+
+    auto it = text2type.find(string(text));
+    if (it != text2type.end()) {
+        return it->second;
+    }
+    return SPECIAL_SYMBOL_TYPE::UNKNOWN;
+}
+
+std::string_view
+mizcore::QuerySpecialSymbolText(SPECIAL_SYMBOL_TYPE type)
+{
+    static std::array<string, 27> type2text = {
+        "unknown", ",",  ";",  ":",  "(",  ")",   "[",   "]",  "{",
+        "}",       "=",  "&",  "->", ".=", "...", "$1",  "$2", "$3",
+        "$4",      "$5", "$6", "$7", "$8", "$9",  "$10", "(#", "#)",
+    };
+    return type2text[static_cast<size_t>(type)];
+}
+
+PATTERN_TYPE
+mizcore::QueryPatternType(std::string_view text)
+{
+    static map<string, PATTERN_TYPE> text2type = {
+        { "unknown", PATTERN_TYPE::UNKNOWN },
+        { "func", PATTERN_TYPE::FUNCTOR },
+        { "bracket_func", PATTERN_TYPE::BRACKET_FUNCTOR },
+        { "attr", PATTERN_TYPE::ATTRIBUTE },
+        { "pred", PATTERN_TYPE::PREDICATE },
+        { "mode", PATTERN_TYPE::MODE },
+    };
+
+    auto it = text2type.find(string(text));
+    if (it != text2type.end()) {
+        return it->second;
+    }
+    return PATTERN_TYPE::UNKNOWN;
+}
+
+std::string_view
+mizcore::QueryPatternTypeText(PATTERN_TYPE type)
+{
+    static std::array<string, 6> type2text = {
+        "unknown", "func", "bracket_func", "attr", "pred", "mode",
+    };
+    return type2text[static_cast<size_t>(type)];
 }

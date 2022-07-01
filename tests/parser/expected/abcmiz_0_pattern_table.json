@@ -1,0 +1,330 @@
+[
+    {
+        "arities": [
+            1
+        ],
+        "filename": "ABCMIZ_0",
+        "symbols": [
+            "type"
+        ],
+        "type": "mode"
+    },
+    {
+        "arities": [
+            0
+        ],
+        "filename": "ABCMIZ_0",
+        "symbols": [
+            "Noetherian"
+        ],
+        "type": "attr"
+    },
+    {
+        "arities": [
+            0
+        ],
+        "filename": "ABCMIZ_0",
+        "symbols": [
+            "Mizar-widening-like"
+        ],
+        "type": "attr"
+    },
+    {
+        "arities": [
+            0
+        ],
+        "filename": "ABCMIZ_0",
+        "symbols": [
+            "void"
+        ],
+        "type": "attr"
+    },
+    {
+        "arities": [
+            1
+        ],
+        "filename": "ABCMIZ_0",
+        "symbols": [
+            "adjective"
+        ],
+        "type": "mode"
+    },
+    {
+        "arities": [
+            0,
+            1
+        ],
+        "filename": "ABCMIZ_0",
+        "symbols": [
+            "non-"
+        ],
+        "type": "func"
+    },
+    {
+        "arities": [
+            0
+        ],
+        "filename": "ABCMIZ_0",
+        "symbols": [
+            "involutive"
+        ],
+        "type": "attr"
+    },
+    {
+        "arities": [
+            0
+        ],
+        "filename": "ABCMIZ_0",
+        "symbols": [
+            "without_fixpoints"
+        ],
+        "type": "attr"
+    },
+    {
+        "arities": [
+            0,
+            1
+        ],
+        "filename": "ABCMIZ_0",
+        "symbols": [
+            "adjs"
+        ],
+        "type": "func"
+    },
+    {
+        "arities": [
+            0
+        ],
+        "filename": "ABCMIZ_0",
+        "symbols": [
+            "consistent"
+        ],
+        "type": "attr"
+    },
+    {
+        "arities": [
+            0
+        ],
+        "filename": "ABCMIZ_0",
+        "symbols": [
+            "adj-structured"
+        ],
+        "type": "attr"
+    },
+    {
+        "arities": [
+            0,
+            1
+        ],
+        "filename": "ABCMIZ_0",
+        "symbols": [
+            "types"
+        ],
+        "type": "func"
+    },
+    {
+        "arities": [
+            0,
+            1
+        ],
+        "filename": "ABCMIZ_0",
+        "symbols": [
+            "types"
+        ],
+        "type": "func"
+    },
+    {
+        "arities": [
+            0
+        ],
+        "filename": "ABCMIZ_0",
+        "symbols": [
+            "adjs-typed"
+        ],
+        "type": "attr"
+    },
+    {
+        "arities": [
+            1,
+            1
+        ],
+        "filename": "ABCMIZ_0",
+        "symbols": [
+            "is_applicable_to"
+        ],
+        "type": "pred"
+    },
+    {
+        "arities": [
+            1,
+            1
+        ],
+        "filename": "ABCMIZ_0",
+        "symbols": [
+            "is_applicable_to"
+        ],
+        "type": "pred"
+    },
+    {
+        "arities": [
+            1,
+            1
+        ],
+        "filename": "ABCMIZ_0",
+        "symbols": [
+            "ast"
+        ],
+        "type": "func"
+    },
+    {
+        "arities": [
+            1,
+            1
+        ],
+        "filename": "ABCMIZ_0",
+        "symbols": [
+            "ast"
+        ],
+        "type": "func"
+    },
+    {
+        "arities": [
+            0,
+            2
+        ],
+        "filename": "ABCMIZ_0",
+        "symbols": [
+            "apply"
+        ],
+        "type": "func"
+    },
+    {
+        "arities": [
+            1,
+            1
+        ],
+        "filename": "ABCMIZ_0",
+        "symbols": [
+            "ast"
+        ],
+        "type": "func"
+    },
+    {
+        "arities": [
+            1,
+            1
+        ],
+        "filename": "ABCMIZ_0",
+        "symbols": [
+            "is_applicable_to"
+        ],
+        "type": "pred"
+    },
+    {
+        "arities": [
+            0,
+            1
+        ],
+        "filename": "ABCMIZ_0",
+        "symbols": [
+            "sub"
+        ],
+        "type": "func"
+    },
+    {
+        "arities": [
+            0,
+            1
+        ],
+        "filename": "ABCMIZ_0",
+        "symbols": [
+            "sub"
+        ],
+        "type": "func"
+    },
+    {
+        "arities": [
+            0
+        ],
+        "filename": "ABCMIZ_0",
+        "symbols": [
+            "non-absorbing"
+        ],
+        "type": "attr"
+    },
+    {
+        "arities": [
+            0
+        ],
+        "filename": "ABCMIZ_0",
+        "symbols": [
+            "subjected"
+        ],
+        "type": "attr"
+    },
+    {
+        "arities": [
+            1,
+            1
+        ],
+        "filename": "ABCMIZ_0",
+        "symbols": [
+            "is_properly_applicable_to"
+        ],
+        "type": "pred"
+    },
+    {
+        "arities": [
+            1,
+            1
+        ],
+        "filename": "ABCMIZ_0",
+        "symbols": [
+            "is_properly_applicable_to"
+        ],
+        "type": "pred"
+    },
+    {
+        "arities": [
+            1,
+            1
+        ],
+        "filename": "ABCMIZ_0",
+        "symbols": [
+            "is_properly_applicable_to"
+        ],
+        "type": "pred"
+    },
+    {
+        "arities": [
+            0
+        ],
+        "filename": "ABCMIZ_0",
+        "symbols": [
+            "commutative"
+        ],
+        "type": "attr"
+    },
+    {
+        "arities": [
+            1,
+            0
+        ],
+        "filename": "ABCMIZ_0",
+        "symbols": [
+            "@-->"
+        ],
+        "type": "func"
+    },
+    {
+        "arities": [
+            0,
+            1
+        ],
+        "filename": "ABCMIZ_0",
+        "symbols": [
+            "radix"
+        ],
+        "type": "func"
+    }
+]
