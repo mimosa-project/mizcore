@@ -2,6 +2,18 @@
 
 using mizcore::Symbol;
 
+Symbol::Symbol(std::string_view text, SYMBOL_TYPE type, uint8_t priority)
+  : text_(text)
+  , type_(type)
+  , priority_(priority)
+{
+    if (type == SYMBOL_TYPE::SPECIAL) {
+        special_type_ = QuerySpecialSymbolType(text);
+    } else {
+        special_type_ = SPECIAL_SYMBOL_TYPE::UNKNOWN;
+    }
+}
+
 std::string_view
 Symbol::GetTypeString() const
 {

@@ -2,4 +2,5 @@
 BasedOnStyle: Mozilla
 IndentWidth: '4'
 
+ReflowComments: false
 ...

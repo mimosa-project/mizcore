@@ -96,6 +96,8 @@ class SymbolToken : public ASTToken
     // attributes
     std::string_view GetText() const override;
     TOKEN_TYPE GetTokenType() const override { return TOKEN_TYPE::SYMBOL; }
+    SYMBOL_TYPE GetSymbolType() const;
+    SPECIAL_SYMBOL_TYPE GetSpecialSymbolType() const;
 
     // operations
     void ToJson(nlohmann::json& json) const override;

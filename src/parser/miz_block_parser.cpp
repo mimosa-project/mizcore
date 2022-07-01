@@ -318,7 +318,7 @@ MizBlockParser::ParseEndKeyword(KeywordToken* token)
             // The error will be detected in StatementParser.
             PushStatement(token, block, STATEMENT_TYPE::UNKNOWN);
         } else {
-            block->SetEndToken(token);
+            block->SetLastToken(token);
             ASTToken* next_token = QueryNextToken(token);
             if (next_token == nullptr || next_token->GetText() != ";") {
                 RecordError(token, ERROR_TYPE::END_KEYWORD_WITHOUT_SEMICOLON);
@@ -349,7 +349,7 @@ MizBlockParser::PushBlock(ASTToken* token,
 {
     // Create a new block and set it to a parent.
     std::unique_ptr<ASTBlock> block = std::make_unique<ASTBlock>(block_type);
-    block->SetStartToken(token);
+    block->SetFirstToken(token);
     ast_component_stack_.push(block.get());
 
     ASTBlock* raw_block = block.get();
@@ -398,7 +398,7 @@ MizBlockParser::PushStatement(ASTToken* token,
     // Create a new statement and set it to a parent block.
     std::unique_ptr<ASTStatement> statement =
       std::make_unique<ASTStatement>(statement_type);
-    statement->SetRangeStartToken(token);
+    statement->SetRangeFirstToken(token);
     ast_component_stack_.push(statement.get());
 
     ASTStatement* raw_statement = statement.get();
@@ -414,7 +414,7 @@ MizBlockParser::PopStatement(ASTToken* token)
     assert(GetCurrentComponent() != nullptr);
     assert(GetCurrentComponent()->GetElementType() == ELEMENT_TYPE::STATEMENT);
     auto* statement = static_cast<ASTStatement*>(component);
-    statement->SetRangeEndToken(token);
+    statement->SetRangeLastToken(token);
 
     assert(ast_component_stack_.size() > 1);
     ast_component_stack_.pop();
@@ -547,7 +547,7 @@ MizBlockParser::CheckBlockSiblingsConsistency(ASTBlock* block,
                 prev_sibling_type != STATEMENT_TYPE::THEOREM) {
                 return ERROR_TYPE::PROOF_START_WITHOUT_PROPOSITION;
             }
-            const auto* token = prev_sibling_statement->GetRangeEndToken();
+            const auto* token = prev_sibling_statement->GetRangeLastToken();
             if (token->GetText() == ";") {
                 return ERROR_TYPE::PROOF_START_WITHOUT_PROPOSITION;
             }

@@ -239,6 +239,69 @@ enum class KEYWORD_TYPE
     WRT,
 };
 
+// R - Predicate,
+// O - Functor,
+// M - Mode,
+// G - Structure,
+// U - Selector,
+// V - Attribute,
+// K - Left Functor Bracket,
+// L - Right Functor Bracket.
+enum class SYMBOL_TYPE : char
+{
+    UNKNOWN = '-',
+    PREDICATE = 'R',
+    FUNCTOR = 'O',
+    MODE = 'M',
+    STRUCTURE = 'G',
+    SELECTOR = 'U',
+    ATTRIBUTE = 'V',
+    LEFT_FUNCTOR_BRACKET = 'K',
+    RIGHT_FUNCTOR_BRACKET = 'L',
+    SPECIAL = 'S',
+};
+
+enum class SPECIAL_SYMBOL_TYPE
+{
+    UNKNOWN,
+    COMMA,
+    SEMICOLON,
+    COLON,
+    LEFT_PARENTHESIS,
+    RIGHT_PARENTHESIS,
+    LEFT_BRACKET,
+    RIGHT_BRACKET,
+    LEFT_BRACE,
+    RIGHT_BRACE,
+    EQUAL,
+    AND,
+    ARROW,
+    DOT_EQUAL,
+    THREE_DOTS,
+    DOLLAR_1,
+    DOLLAR_2,
+    DOLLAR_3,
+    DOLLAR_4,
+    DOLLAR_5,
+    DOLLAR_6,
+    DOLLAR_7,
+    DOLLAR_8,
+    DOLLAR_9,
+    DOLLAR_10,
+    LEFT_FIELD,
+    RIGHT_FIELD,
+};
+
+enum class PATTERN_TYPE
+{
+    UNKNOWN,
+    FUNCTOR,
+    BRACKET_FUNCTOR,
+    ATTRIBUTE,
+    PREDICATE,
+    MODE
+};
+
 std::string_view
 QueryElementTypeText(ELEMENT_TYPE type);
 
@@ -268,5 +331,17 @@ QueryCommentTypeText(COMMENT_TYPE type);
 
 std::string_view
 QueryKeywordText(KEYWORD_TYPE type);
+
+SPECIAL_SYMBOL_TYPE
+QuerySpecialSymbolType(std::string_view text);
+
+std::string_view
+QuerySpecialSymbolText(SPECIAL_SYMBOL_TYPE type);
+
+PATTERN_TYPE
+QueryPatternType(std::string_view text);
+
+std::string_view
+QueryPatternTypeText(PATTERN_TYPE type);
 
 } // namespace mizcore

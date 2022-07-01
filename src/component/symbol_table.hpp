@@ -6,7 +6,7 @@
 #include <string_view>
 #include <vector>
 
-#include "symbol_type.hpp"
+#include "ast_type.hpp"
 #include "tsl/htrie_map.h"
 
 namespace mizcore {

@@ -1,0 +1,260 @@
+[
+    {
+        "arities": [
+            1
+        ],
+        "filename": "ALTCAT_1",
+        "symbols": [
+            "Object"
+        ],
+        "type": "mode"
+    },
+    {
+        "arities": [
+            2
+        ],
+        "filename": "ALTCAT_1",
+        "symbols": [
+            "<^",
+            "^>"
+        ],
+        "type": "bracket_func"
+    },
+    {
+        "arities": [
+            2
+        ],
+        "filename": "ALTCAT_1",
+        "symbols": [
+            "Morphism"
+        ],
+        "type": "mode"
+    },
+    {
+        "arities": [
+            0
+        ],
+        "filename": "ALTCAT_1",
+        "symbols": [
+            "transitive"
+        ],
+        "type": "attr"
+    },
+    {
+        "arities": [
+            1
+        ],
+        "filename": "ALTCAT_1",
+        "symbols": [
+            "{|",
+            "|}"
+        ],
+        "type": "bracket_func"
+    },
+    {
+        "arities": [
+            2
+        ],
+        "filename": "ALTCAT_1",
+        "symbols": [
+            "{|",
+            "|}"
+        ],
+        "type": "bracket_func"
+    },
+    {
+        "arities": [
+            1
+        ],
+        "filename": "ALTCAT_1",
+        "symbols": [
+            "BinComp"
+        ],
+        "type": "mode"
+    },
+    {
+        "arities": [
+            0
+        ],
+        "filename": "ALTCAT_1",
+        "symbols": [
+            "associative"
+        ],
+        "type": "attr"
+    },
+    {
+        "arities": [
+            0
+        ],
+        "filename": "ALTCAT_1",
+        "symbols": [
+            "with_right_units"
+        ],
+        "type": "attr"
+    },
+    {
+        "arities": [
+            0
+        ],
+        "filename": "ALTCAT_1",
+        "symbols": [
+            "with_left_units"
+        ],
+        "type": "attr"
+    },
+    {
+        "arities": [
+            1,
+            1
+        ],
+        "filename": "ALTCAT_1",
+        "symbols": [
+            "*"
+        ],
+        "type": "func"
+    },
+    {
+        "arities": [
+            0
+        ],
+        "filename": "ALTCAT_1",
+        "symbols": [
+            "compositional"
+        ],
+        "type": "attr"
+    },
+    {
+        "arities": [
+            0,
+            2
+        ],
+        "filename": "ALTCAT_1",
+        "symbols": [
+            "FuncComp"
+        ],
+        "type": "func"
+    },
+    {
+        "arities": [
+            0
+        ],
+        "filename": "ALTCAT_1",
+        "symbols": [
+            "quasi-functional"
+        ],
+        "type": "attr"
+    },
+    {
+        "arities": [
+            0
+        ],
+        "filename": "ALTCAT_1",
+        "symbols": [
+            "semi-functional"
+        ],
+        "type": "attr"
+    },
+    {
+        "arities": [
+            0
+        ],
+        "filename": "ALTCAT_1",
+        "symbols": [
+            "pseudo-functional"
+        ],
+        "type": "attr"
+    },
+    {
+        "arities": [
+            0,
+            1
+        ],
+        "filename": "ALTCAT_1",
+        "symbols": [
+            "EnsCat"
+        ],
+        "type": "func"
+    },
+    {
+        "arities": [
+            0
+        ],
+        "filename": "ALTCAT_1",
+        "symbols": [
+            "associative"
+        ],
+        "type": "attr"
+    },
+    {
+        "arities": [
+            0
+        ],
+        "filename": "ALTCAT_1",
+        "symbols": [
+            "with_units"
+        ],
+        "type": "attr"
+    },
+    {
+        "arities": [
+            0
+        ],
+        "filename": "ALTCAT_1",
+        "symbols": [
+            "category"
+        ],
+        "type": "mode"
+    },
+    {
+        "arities": [
+            0,
+            1
+        ],
+        "filename": "ALTCAT_1",
+        "symbols": [
+            "idm"
+        ],
+        "type": "func"
+    },
+    {
+        "arities": [
+            0
+        ],
+        "filename": "ALTCAT_1",
+        "symbols": [
+            "quasi-discrete"
+        ],
+        "type": "attr"
+    },
+    {
+        "arities": [
+            0
+        ],
+        "filename": "ALTCAT_1",
+        "symbols": [
+            "pseudo-discrete"
+        ],
+        "type": "attr"
+    },
+    {
+        "arities": [
+            0
+        ],
+        "filename": "ALTCAT_1",
+        "symbols": [
+            "discrete_category"
+        ],
+        "type": "mode"
+    },
+    {
+        "arities": [
+            0,
+            1
+        ],
+        "filename": "ALTCAT_1",
+        "symbols": [
+            "DiscrCat"
+        ],
+        "type": "func"
+    }
+]
