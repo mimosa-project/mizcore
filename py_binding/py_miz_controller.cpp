@@ -26,11 +26,14 @@ using mizcore::KEYWORD_TYPE;
 using mizcore::SYMBOL_TYPE;
 using mizcore::IDENTIFIER_TYPE;
 using mizcore::Symbol;
+using mizcore::QueryTokenTypeText;
 
 namespace py = pybind11;
 
 PYBIND11_MODULE(py_miz_controller, m)
 {
+    m.def("query_token_type_text", &QueryTokenTypeText);
+
     py::class_<TOKEN_TYPE, std::shared_ptr<TOKEN_TYPE>>(m, "TOKEN_TYPE")
     .def(py::init<>());
 
