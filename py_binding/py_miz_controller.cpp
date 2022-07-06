@@ -31,7 +31,9 @@ namespace py = pybind11;
 
 PYBIND11_MODULE(py_miz_controller, m)
 {
-    py::class_<TOKEN_TYPE, std::shared_ptr<TOKEN_TYPE>>(m, "TOKEN_TYPE");
+    py::class_<TOKEN_TYPE, std::shared_ptr<TOKEN_TYPE>>(m, "TOKEN_TYPE")
+    .def(py::init<>());
+
     py::class_<Symbol, std::shared_ptr<Symbol>>(m, "Symbol")
       .def(py::init<std::string_view, SYMBOL_TYPE, uint8_t>());
 
