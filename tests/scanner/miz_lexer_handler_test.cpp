@@ -90,7 +90,7 @@ TEST_CASE("execute miz file handler")
               TEST_DIR() / "result" / "numerals_tokens_diff.json";
             mizcore::write_json_file(json_diff, diff_file_path);
         } else {
-            remove(result_file_path.c_str());
+            remove(result_file_path.string().c_str());
         }
     }
 
@@ -135,7 +135,7 @@ TEST_CASE("execute miz file handler")
               TEST_DIR() / "result" / "jgraph_4_tokens_diff.json";
             mizcore::write_json_file(json_diff, diff_file_path);
         } else {
-            remove(result_file_path.c_str());
+            remove(result_file_path.string().c_str());
         }
     }
 }
