@@ -20,7 +20,12 @@ cd build
 cmake ..
 make
 ```
-
+### Cross compile for windows
+```bash
+docker build -t llvm-mingw ./x86_64-w64-mingw/
+docker run -it --rm -v $(pwd):/mizcore llvm-mingw sh /mizcore/x86_64-w64-mingw/build.sh
+```
+Note: You need to put `libc++.dll`, `libunwind.dll` in the same directory as the executable. Refer to `/x86_64-w64-mingw/build.sh`
 ## Test
 
 ```bash
