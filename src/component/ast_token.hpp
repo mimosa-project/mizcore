@@ -12,7 +12,7 @@ namespace mizcore {
 
 class Symbol;
 
-class ASTToken : ASTElement
+class ASTToken : public ASTElement
 {
   public:
     // ctor, dtor
