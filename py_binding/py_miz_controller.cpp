@@ -7,6 +7,7 @@
 #include "symbol.hpp"
 #include "py_ast_element.hpp"
 #include "py_ast_token.hpp"
+#include "py_symbol_token.hpp"
 
 #include <string_view>
 #include <pybind11/pybind11.h>
@@ -24,14 +25,15 @@ using mizcore::UnknownToken;
 using mizcore::TOKEN_TYPE;
 using mizcore::COMMENT_TYPE;
 using mizcore::KEYWORD_TYPE;
-using mizcore::SYMBOL_TYPE;
 using mizcore::IDENTIFIER_TYPE;
-using mizcore::Symbol;
+// using mizcore::SYMBOL_TYPE;
+// using mizcore::Symbol;
 using mizcore::QueryTokenTypeText;
 using mizcore::ASTElement;
 using mizcore::ASTToken;
 using mizcore::PyASTElement;
 using mizcore::PyASTToken;
+using mizcore::PySymbolToken;
 
 namespace py = pybind11;
 
@@ -58,11 +60,9 @@ PYBIND11_MODULE(py_miz_controller, m)
       .def("get_text", &ASTToken::GetText)
       .def("get_token_type", &ASTToken::GetTokenType);
 
-    // py::class_<TOKEN_TYPE, std::shared_ptr<TOKEN_TYPE>>(m, "TOKEN_TYPE")
-    //   .def(py::init<>());
-
     // py::class_<Symbol, std::shared_ptr<Symbol>>(m, "Symbol")
-    //   .def(py::init<std::string_view, SYMBOL_TYPE, uint8_t>());
+    //   .def(py::init<std::string_view, SYMBOL_TYPE, uint8_t>())
+    //   .def("get_text", &Symbol::GetText);
 
     // Token class
     py::class_<UnknownToken, std::shared_ptr<UnknownToken>>(m, "UnknownToken")
@@ -75,8 +75,8 @@ PYBIND11_MODULE(py_miz_controller, m)
       .def("get_text", &NumeralToken::GetText)
       .def("get_token_type", &NumeralToken::GetTokenType);
 
-    py::class_<SymbolToken, std::shared_ptr<SymbolToken>, ASTToken>(m, "SymbolToken")
-      .def(py::init<size_t, size_t, Symbol*>())
+    py::class_<SymbolToken, ASTToken, PySymbolToken, std::shared_ptr<SymbolToken>>(m, "SymbolToken")
+      // .def(py::init<size_t, size_t, Symbol*>())
       .def("get_text", &SymbolToken::GetText)
       .def("get_token_type", &SymbolToken::GetTokenType);
 
