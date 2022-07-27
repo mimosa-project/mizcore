@@ -20,6 +20,11 @@ cd build
 cmake ..
 make
 ```
+### Build with clang
+```
+cmake -C ../clang-cmakeinit.cmake ..
+make
+```
 ### Cross compile for windows
 ```bash
 docker build -t llvm-mingw ./x86_64-w64-mingw/
