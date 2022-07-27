@@ -36,5 +36,3 @@
 /build/
 .vscode/*
 !.vscode/settings.json
-
-pybind11/
