@@ -32,13 +32,13 @@ MizController::Exec(const char* mizpath)
     }
     VctLexerHandler vct_handler(&ifs_vct);
     vct_handler.yylex();
-    auto symbol_table = vct_handler.GetSymbolTable();
+    symbol_table_ = vct_handler.GetSymbolTable();
     std::ifstream ifs_miz(mizpath);
     if (!ifs_miz) {
         spdlog::error("Failed to open miz file. The specified path: \"{}\"",
                       mizpath);
     }
-    MizLexerHandler miz_handler(&ifs_miz, symbol_table);
+    MizLexerHandler miz_handler(&ifs_miz, symbol_table_);
     miz_handler.yylex();
     token_table_ = miz_handler.GetTokenTable();
     error_table_ = std::make_shared<ErrorTable>();

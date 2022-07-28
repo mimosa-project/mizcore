@@ -20,7 +20,22 @@ cd build
 cmake ..
 make
 ```
-
+### Build with clang
+```
+cmake -C ../clang-cmakeinit.cmake ..
+make
+```
+### Cross compile for windows
+```bash
+docker build -t llvm-mingw ./x86_64-w64-mingw/
+docker run --rm -v $(pwd):/mizcore llvm-mingw sh /mizcore/x86_64-w64-mingw/build.sh
+```
+Note: You need to put `libc++.dll`, `libunwind.dll` in the same directory as the executable. Refer to `/x86_64-w64-mingw/build.sh`
+### Cross compile for mac
+```bash
+docker build -t osxcross ./x86_64-apple-darwin/
+docker run --rm -v $(pwd):/mizcore osxcross sh /mizcore/x86_64-apple-darwin/build.sh
+```
 ## Test
 
 ```bash
