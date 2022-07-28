@@ -24,7 +24,7 @@ TEST_CASE("test miz_controller")
 {
     mizcore::MizController miz_controller;
     auto mizpath = TEST_DIR() / "data" / "numerals.miz";
-    miz_controller.Exec(mizpath.c_str());
+    miz_controller.Exec(mizpath.string().c_str());
 
     if (!fs::exists(TEST_DIR() / "result")) {
         fs::create_directory(TEST_DIR() / "result");
@@ -46,6 +46,6 @@ TEST_CASE("test miz_controller")
           TEST_DIR() / "result" / "numerals_blocks_diff.json";
         mizcore::write_json_file(json_diff, diff_file_path);
     } else {
-        remove(result_file_path.c_str());
+        remove(result_file_path.string().c_str());
     }
 }

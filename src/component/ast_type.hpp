@@ -1,6 +1,7 @@
 #pragma once
 #include "ast_type.hpp"
 #include <memory>
+#include <string_view>
 
 namespace mizcore {
 
