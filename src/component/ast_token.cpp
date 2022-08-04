@@ -15,7 +15,8 @@ using mizcore::SymbolToken;
 void
 ASTToken::ToJson(nlohmann::json& json) const
 {
-    json = { { "pos", { line_number_, column_number_ } },
+    json = { { "id", GetId() },
+             { "pos", { line_number_, column_number_ } },
              { "length", GetText().size() },
              { "type", string(QueryTokenTypeText(GetTokenType())) },
              { "text", string(GetText()) } };

@@ -19,7 +19,7 @@ class MizController
     MizController& operator=(MizController const&) = delete;
     MizController& operator=(MizController&&) = delete;
 
-    void Exec(const char* mizpath);
+    void Exec(const char* mizpath, const char* vctpath);
     std::shared_ptr<TokenTable> GetTokenTable() const { return token_table_; }
     std::shared_ptr<ASTBlock> GetASTRoot() const { return ast_root_; }
     std::shared_ptr<ErrorTable> GetErrorTable() const { return error_table_; }
