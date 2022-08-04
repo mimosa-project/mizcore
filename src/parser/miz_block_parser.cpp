@@ -185,8 +185,10 @@ MizBlockParser::ParseKeyword(ASTToken* token, ASTToken* prev_token)
         case KEYWORD_TYPE::CASE:
         case KEYWORD_TYPE::SUPPOSE:
         case KEYWORD_TYPE::HEREBY:
-        case KEYWORD_TYPE::NOW:
             ParseBlockStartKeyword(keyword_token);
+            break;
+        case KEYWORD_TYPE::NOW:
+            ParseNowKeyword(keyword_token);
             break;
         case KEYWORD_TYPE::SCHEME:
             ParseSchemeKeyword(keyword_token);
@@ -251,6 +253,29 @@ MizBlockParser::ParseBlockStartKeyword(KeywordToken* token)
         PushBlock(token, parent_block, QueryBlockType(keyword_type));
     } else {
         RecordError(token, ERROR_TYPE::BLOCK_START_KEYWORD_IN_STATEMENT);
+    }
+}
+
+void
+MizBlockParser::ParseNowKeyword(KeywordToken* token)
+{
+    auto* component = GetCurrentComponent();
+    auto element_type = component->GetElementType();
+    if (element_type == ELEMENT_TYPE::BLOCK) {
+        auto* parent_block = static_cast<ASTBlock*>(component);
+        auto keyword_type = token->GetKeywordType();
+        PushBlock(token, parent_block, QueryBlockType(keyword_type));
+    } else {
+        // sometimes now keyword accompanies label declaration (A1:) and "thus" before.
+        // Diffuse-Statement = [ Label-Identifier ":" ] "now" Reasoning "end" ";" .
+        // Diffuse-Conclusion = "thus" Diffuse-Statement | "hereby" Reasoning "end" ";" .
+        // ** We do not check the preceding tokens here. **
+        auto* current_statement = static_cast<ASTStatement*>(component);
+        auto* statement_first_token = current_statement->GetRangeFirstToken();
+        auto* parent_block = current_statement->GetParent();
+        parent_block->PopBackChildComponent();
+        ast_component_stack_.pop();
+        PushBlock(statement_first_token, parent_block, BLOCK_TYPE::NOW);
     }
 }
 
@@ -424,7 +449,7 @@ ASTToken*
 MizBlockParser::QueryNextToken(ASTToken* token) const
 {
     size_t token_num = token_table_->GetTokenNum();
-    for (size_t i = token->GetId(); i < token_num; ++i) {
+    for (size_t i = token->GetId() + 1; i < token_num; ++i) {
         auto* next_token = token_table_->GetToken(i);
         if (next_token->GetTokenType() != TOKEN_TYPE::COMMENT) {
             return next_token;
@@ -484,14 +509,6 @@ MizBlockParser::CheckBlockInBlockConsistency(BLOCK_TYPE inner_block_type,
                 return ERROR_TYPE::NOT_AFTER_BEGIN_KEYWORD;
             }
             break;
-        case BLOCK_TYPE::CASE:
-        case BLOCK_TYPE::SUPPOSE:
-        case BLOCK_TYPE::NOW:
-        case BLOCK_TYPE::HEREBY:
-            if (proof_stack_num_ < 1) {
-                return ERROR_TYPE::NOT_UNDER_PROOF_BLOCK;
-            }
-            break;
         default:
             break;
     }
@@ -511,25 +528,6 @@ MizBlockParser::CheckBlockSiblingsConsistency(ASTBlock* block,
             if (child_num < 2) {
                 return ERROR_TYPE::PER_CASES_STATEMENT_MISSING;
             }
-            auto* first_sibling_statement = parent_block->GetChildStatement(0);
-            if (first_sibling_statement == nullptr ||
-                first_sibling_statement->GetStatementType() !=
-                  STATEMENT_TYPE::PER_CASES) {
-                return ERROR_TYPE::PER_CASES_STATEMENT_MISSING;
-            }
-
-            if (child_num > 2) {
-                auto* prev_sibling_block =
-                  parent_block->GetChildBlock(child_num - 2);
-                if (prev_sibling_block == nullptr ||
-                    prev_sibling_block->GetBlockType() != block_type) {
-                    return (block_type == BLOCK_TYPE::CASE)
-                             ? ERROR_TYPE::
-                                 CASE_BLOCK_PREV_SIBLING_NOT_CASE_BLOCK
-                             : ERROR_TYPE::
-                                 SUPPOSE_BLOCK_PREV_SIBLING_NOT_SUPPOSE_BLOCK;
-                }
-            }
         } break;
         case BLOCK_TYPE::PROOF: {
             size_t child_num = parent_block->GetChildComponentNum();
@@ -539,12 +537,6 @@ MizBlockParser::CheckBlockSiblingsConsistency(ASTBlock* block,
             auto* prev_sibling_statement =
               parent_block->GetChildStatement(child_num - 2);
             if (prev_sibling_statement == nullptr) {
-                return ERROR_TYPE::PROOF_START_WITHOUT_PROPOSITION;
-            }
-            auto prev_sibling_type = prev_sibling_statement->GetStatementType();
-            if (prev_sibling_type != STATEMENT_TYPE::UNKNOWN &&
-                prev_sibling_type != STATEMENT_TYPE::SCHEME &&
-                prev_sibling_type != STATEMENT_TYPE::THEOREM) {
                 return ERROR_TYPE::PROOF_START_WITHOUT_PROPOSITION;
             }
             const auto* token = prev_sibling_statement->GetRangeLastToken();

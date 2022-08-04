@@ -49,6 +49,7 @@ class MizBlockParser
     void ParseEnvironKeyword(KeywordToken* token);
     void ParseBeginKeyword(KeywordToken* token);
     void ParseBlockStartKeyword(KeywordToken* token);
+    void ParseNowKeyword(KeywordToken* token);
     void ParseSchemeKeyword(KeywordToken* token);
     void ParseProofKeyword(KeywordToken* token, ASTToken* prev_token);
     void ParseEndKeyword(KeywordToken* token);

@@ -57,6 +57,7 @@ class ASTBlock : public ASTComponent
         component->SetParent(this);
         child_components_.push_back(std::move(component));
     }
+    void PopBackChildComponent() { child_components_.pop_back(); }
 
     // operations
     void ToJson(nlohmann::json& json) const override;
