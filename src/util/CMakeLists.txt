@@ -1,7 +1,6 @@
 add_library(
   mizcore_util
-  miz_controller.cpp
-  config.cpp)
+  miz_controller.cpp)
 add_library(mizcore::util ALIAS mizcore_util)
 
 target_link_libraries(

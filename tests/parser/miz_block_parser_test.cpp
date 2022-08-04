@@ -98,6 +98,55 @@ TEST_CASE("execute miz file handler")
         }
     }
 
+    SUBCASE("AXIOMS_MOD_NG.miz")
+    {
+        fs::path miz_file_path = TEST_DIR() / "data" / "axioms_mod_ng.miz";
+        std::ifstream ifs(miz_file_path);
+        MizLexerHandler miz_handler(&ifs, symbol_table);
+        miz_handler.yylex();
+        auto token_table = miz_handler.GetTokenTable();
+        auto error_table = std::make_shared<ErrorTable>();
+
+        MizBlockParser miz_block_parser(token_table, error_table);
+
+        // Erapsed time: 0.000168 [s]
+        clock_t start = clock();
+        miz_block_parser.Parse();
+        clock_t duration = clock() - start;
+        std::cout
+          << "The elapsed time [s] of MizBlockParser for AXIOMS_MOD_NG.miz is: "
+          << static_cast<double>(duration) / CLOCKS_PER_SEC << std::endl;
+
+        auto ast_root = miz_block_parser.GetASTRoot();
+
+        if (!fs::exists(TEST_DIR() / "result")) {
+            fs::create_directory(TEST_DIR() / "result");
+        }
+
+        fs::path result_file_path =
+          TEST_DIR() / "result" / "axioms_mod_ng_blocks.json";
+        {
+            nlohmann::json json;
+            ast_root->ToJson(json);
+            mizcore::write_json_file(json, result_file_path);
+        }
+
+        fs::path expected_file_path =
+          TEST_DIR() / "expected" / "axioms_mod_ng_blocks.json";
+
+        auto json_diff =
+          mizcore::json_file_diff(result_file_path, expected_file_path);
+
+        CHECK(json_diff.empty());
+        if (!json_diff.empty()) {
+            fs::path diff_file_path =
+              TEST_DIR() / "result" / "axioms_mod_ng_blocks_diff.json";
+            mizcore::write_json_file(json_diff, diff_file_path);
+        } else {
+            remove(result_file_path.string().c_str());
+        }
+    }
+
     SUBCASE("jgraph_4.miz")
     {
         fs::path miz_file_path = TEST_DIR() / "data" / "jgraph_4.miz";

@@ -24,7 +24,8 @@ TEST_CASE("test miz_controller")
 {
     mizcore::MizController miz_controller;
     auto mizpath = TEST_DIR() / "data" / "numerals.miz";
-    miz_controller.Exec(mizpath.string().c_str());
+    auto vctpath = TEST_DIR().parent_path() / "parser" / "data" / "mml.vct";
+    miz_controller.Exec(mizpath.string().c_str(), vctpath.string().c_str());
 
     if (!fs::exists(TEST_DIR() / "result")) {
         fs::create_directory(TEST_DIR() / "result");
