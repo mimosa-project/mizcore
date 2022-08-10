@@ -54,9 +54,13 @@ check_parser_one(const char* article_name,
     clock_t start = clock();
     miz_block_parser.Parse();
     clock_t duration = clock() - start;
-    std::cout << "The elapsed time [s] of MizBlockParser for " << article_name
-              << " is: " << static_cast<double>(duration) / CLOCKS_PER_SEC
-              << std::endl;
+
+    std::ostringstream oss;
+    oss << "The elapsed time [s] of MizBlockParser for " << article_name
+        << " is: " << static_cast<double>(duration) / CLOCKS_PER_SEC
+        << std::endl;
+    INFO(oss.str());
+    std::cerr << oss.str();
 
     if (!fs::exists(result_dir)) {
         fs::create_directory(result_dir);

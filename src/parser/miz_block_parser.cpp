@@ -401,8 +401,6 @@ MizBlockParser::PushBlock(ASTToken* token,
         RecordError(token, error);
     }
 
-    PushReferenceStack();
-
     return raw_block;
 }
 
@@ -420,7 +418,6 @@ MizBlockParser::PopBlock()
         --proof_stack_num_;
     }
     ast_component_stack_.pop();
-    PopReferenceStack();
 }
 
 ASTStatement*
@@ -469,6 +466,7 @@ MizBlockParser::QueryNextToken(ASTToken* token) const
 void
 MizBlockParser::ResolveIdentifierInBlock(ASTBlock* block)
 {
+    PushReferenceStack();
     if (block->GetBlockType() == BLOCK_TYPE::NOW) {
         ResolveNowBlockIdentifier(block);
     }
@@ -482,6 +480,7 @@ MizBlockParser::ResolveIdentifierInBlock(ASTBlock* block)
             ResolveIdentifierInStatement(static_cast<ASTStatement*>(component));
         }
     }
+    PopReferenceStack();
 }
 
 void
