@@ -53,4 +53,7 @@ IdentifierToken::ToJson(nlohmann::json& json) const
 {
     ASTToken::ToJson(json);
     json["identifier_type"] = QueryIdentifierTypeText(identifier_type_);
+    if (ref_token_ != nullptr) {
+        json["ref_id"] = ref_token_->GetId();
+    }
 }

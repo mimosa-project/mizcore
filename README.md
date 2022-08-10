@@ -60,11 +60,6 @@ It is also recommended that VSCode users install the following extensions for on
 
 ## TODO
 
-- Support partial mode in tokenizer
-  - Create token replace function for TokenTable.
-  - Replace token type from SYMBOL to VARIABLE in partial mode.
-  - Resolve reference relationships between variables.
-  - Resolve reference relationships between labels.
 - Make a cross compile environment.
   - Build on clang-LLVM
 - Python binding (in another project).
