@@ -22,6 +22,7 @@ class TokenTable
 
     // attributes
     void AddToken(ASTToken* token);
+    void ReplaceToken(ASTToken* token, size_t i);
     ASTToken* GetToken(size_t i) const { return tokens_[i].get(); }
     size_t GetTokenNum() const { return tokens_.size(); }
     ASTToken* GetLastToken() const

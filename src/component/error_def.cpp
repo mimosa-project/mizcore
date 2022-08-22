@@ -40,6 +40,8 @@ mizcore::GetErrorMessage(ERROR_TYPE error)
             return "This keyword must be located on the top level.";
         case ERROR_TYPE::NOT_UNDER_PROOF_BLOCK:
             return "This keyword must be located under proof block.";
+        case ERROR_TYPE::NOW_BLOCK_STARTS_WITH_IRREGULAR_TOKENS:
+            return "now block must start with thus or label.";
         case ERROR_TYPE::PER_CASES_STATEMENT_MISSING:
             return "per case statement is missed";
         case ERROR_TYPE::PROOF_START_WITHOUT_PROPOSITION:

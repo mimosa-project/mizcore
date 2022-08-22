@@ -128,12 +128,16 @@ class IdentifierToken : public ASTToken
         identifier_type_ = identifier_type;
     }
 
+    IdentifierToken* GetRefToken() const { return ref_token_; }
+    void SetRefToken(IdentifierToken* ref_token) { ref_token_ = ref_token; }
+
     // operations
     void ToJson(nlohmann::json& json) const override;
 
   private:
     std::string text_;
     IDENTIFIER_TYPE identifier_type_;
+    IdentifierToken* ref_token_ = nullptr;
 };
 
 class CommentToken : public ASTToken
