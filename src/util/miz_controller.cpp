@@ -4,7 +4,6 @@
 
 #include "ast_block.hpp"
 #include "ast_token.hpp"
-#include "config.hpp"
 #include "error_table.hpp"
 #include "miz_block_parser.hpp"
 #include "miz_controller.hpp"
@@ -20,15 +19,14 @@ using mizcore::MizBlockParser;
 using mizcore::MizController;
 using mizcore::MizLexerHandler;
 using mizcore::VctLexerHandler;
-using mizcore::VctPath;
 
 void
-MizController::Exec(const char* mizpath)
+MizController::Exec(const char* mizpath, const char* vctpath)
 {
-    std::ifstream ifs_vct(VctPath());
+    std::ifstream ifs_vct(vctpath);
     if (!ifs_vct) {
         spdlog::error("Failed to open vct file. The specified path: \"{}\"",
-                      VctPath().string());
+                      vctpath);
     }
     VctLexerHandler vct_handler(&ifs_vct);
     vct_handler.yylex();

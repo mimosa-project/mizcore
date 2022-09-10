@@ -1,195 +1,186 @@
 {
-  "children": [
-    {
-      "pos": [
-        15,
-        1
-      ],
-      "statement_type": "environ",
-      "token_id": 13,
-      "type": "statement"
-    },
-    {
-      "pos": [
-        [
-          17,
-          2
-        ],
-        [
-          17,
-          43
-        ]
-      ],
-      "statement_type": "vocabularies",
-      "token_id": [
-        14,
-        20
-      ],
-      "type": "statement"
-    },
-    {
-      "pos": [
-        [
-          18,
-          2
-        ],
-        [
-          18,
-          40
-        ]
-      ],
-      "statement_type": "notations",
-      "token_id": [
-        21,
-        27
-      ],
-      "type": "statement"
-    },
-    {
-      "pos": [
-        [
-          19,
-          2
-        ],
-        [
-          19,
-          33
-        ]
-      ],
-      "statement_type": "constructors",
-      "token_id": [
-        28,
-        32
-      ],
-      "type": "statement"
-    },
-    {
-      "pos": [
-        [
-          20,
-          2
-        ],
-        [
-          20,
-          20
-        ]
-      ],
-      "statement_type": "requirements",
-      "token_id": [
-        33,
-        35
-      ],
-      "type": "statement"
-    },
-    {
-      "pos": [
-        [
-          21,
-          2
-        ],
-        [
-          21,
-          29
-        ]
-      ],
-      "statement_type": "theorems",
-      "token_id": [
-        36,
-        40
-      ],
-      "type": "statement"
-    },
-    {
-      "pos": [
-        23,
-        1
-      ],
-      "statement_type": "section",
-      "token_id": 41,
-      "type": "statement"
-    },
-    {
-      "pos": [
-        [
-          33,
-          1
-        ],
-        [
-          34,
-          20
-        ]
-      ],
-      "statement_type": "theorem",
-      "token_id": [
-        49,
-        54
-      ],
-      "type": "statement"
-    },
-    {
-      "children": [
+    "children": [
         {
-          "pos": [
-            [
-              36,
-              3
+            "pos": [
+                15,
+                1
             ],
-            [
-              36,
-              33
-            ]
-          ],
-          "statement_type": "unknown",
-          "token_id": [
-            56,
-            64
-          ],
-          "type": "statement"
+            "statement_type": "environ",
+            "token_id": 13,
+            "type": "statement"
         },
         {
-          "pos": [
-            [
-              37,
-              3
+            "pos": [
+                [
+                    17,
+                    2
+                ],
+                [
+                    17,
+                    43
+                ]
             ],
-            [
-              37,
-              33
-            ]
-          ],
-          "statement_type": "hence",
-          "token_id": [
-            65,
-            72
-          ],
-          "type": "statement"
+            "statement_type": "vocabularies",
+            "token_id": [
+                14,
+                20
+            ],
+            "type": "statement"
+        },
+        {
+            "pos": [
+                [
+                    18,
+                    2
+                ],
+                [
+                    18,
+                    40
+                ]
+            ],
+            "statement_type": "notations",
+            "token_id": [
+                21,
+                27
+            ],
+            "type": "statement"
+        },
+        {
+            "pos": [
+                [
+                    19,
+                    2
+                ],
+                [
+                    19,
+                    33
+                ]
+            ],
+            "statement_type": "constructors",
+            "token_id": [
+                28,
+                32
+            ],
+            "type": "statement"
+        },
+        {
+            "pos": [
+                [
+                    20,
+                    2
+                ],
+                [
+                    20,
+                    20
+                ]
+            ],
+            "statement_type": "requirements",
+            "token_id": [
+                33,
+                35
+            ],
+            "type": "statement"
+        },
+        {
+            "pos": [
+                [
+                    21,
+                    2
+                ],
+                [
+                    21,
+                    29
+                ]
+            ],
+            "statement_type": "theorems",
+            "token_id": [
+                36,
+                40
+            ],
+            "type": "statement"
+        },
+        {
+            "pos": [
+                23,
+                1
+            ],
+            "statement_type": "section",
+            "token_id": 41,
+            "type": "statement"
+        },
+        {
+            "pos": [
+                [
+                    33,
+                    1
+                ],
+                [
+                    34,
+                    20
+                ]
+            ],
+            "statement_type": "theorem",
+            "token_id": [
+                49,
+                54
+            ],
+            "type": "statement"
+        },
+        {
+            "children": [
+                {
+                    "pos": [
+                        [
+                            36,
+                            3
+                        ],
+                        [
+                            36,
+                            33
+                        ]
+                    ],
+                    "statement_type": "unknown",
+                    "token_id": [
+                        56,
+                        64
+                    ],
+                    "type": "statement"
+                },
+                {
+                    "pos": [
+                        [
+                            37,
+                            3
+                        ],
+                        [
+                            37,
+                            33
+                        ]
+                    ],
+                    "statement_type": "hence",
+                    "token_id": [
+                        65,
+                        72
+                    ],
+                    "type": "statement"
+                }
+            ],
+            "pos": [
+                [
+                    35,
+                    1
+                ],
+                [
+                    38,
+                    4
+                ]
+            ],
+            "token_id": [
+                55,
+                74
+            ],
+            "type": "block"
         }
-      ],
-      "pos": [
-        [
-          35,
-          1
-        ],
-        [
-          38,
-          1
-        ]
-      ],
-      "token_id": [
-        55,
-        73
-      ],
-      "type": "block"
-    },
-    {
-      "pos": [
-        38,
-        4
-      ],
-      "statement_type": "empty",
-      "token_id": 74,
-      "type": "statement"
-    }
-  ],
-  "type": "block"
+    ],
+    "type": "block"
 }

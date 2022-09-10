@@ -18,6 +18,13 @@ TokenTable::AddToken(ASTToken* token)
 }
 
 void
+TokenTable::ReplaceToken(ASTToken* token, size_t i)
+{
+    token->SetId(i);
+    tokens_[i].reset(token);
+}
+
+void
 TokenTable::ToJson(nlohmann::json& json) const
 {
     for (const auto& token : tokens_) {

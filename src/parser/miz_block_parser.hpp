@@ -2,6 +2,7 @@
 
 #include <memory>
 #include <stack>
+#include <vector>
 
 #include "ast_type.hpp"
 #include "error_def.hpp"
@@ -49,6 +50,7 @@ class MizBlockParser
     void ParseEnvironKeyword(KeywordToken* token);
     void ParseBeginKeyword(KeywordToken* token);
     void ParseBlockStartKeyword(KeywordToken* token);
+    void ParseNowKeyword(KeywordToken* token);
     void ParseSchemeKeyword(KeywordToken* token);
     void ParseProofKeyword(KeywordToken* token, ASTToken* prev_token);
     void ParseEndKeyword(KeywordToken* token);
@@ -64,9 +66,10 @@ class MizBlockParser
     void PopStatement(ASTToken* token);
     ASTToken* QueryNextToken(ASTToken* token) const;
 
-    void ResolveIdentifierType(IdentifierToken* token);
-    static ASTToken* ResolveLabelReference(IdentifierToken* label_token);
-    static ASTToken* ResolveVariableReference(IdentifierToken* variable_token);
+    void ResolveIdentifierInBlock(ASTBlock* block);
+    void ResolveIdentifierInStatement(ASTStatement* statement);
+    void ResolveNowBlockIdentifier(ASTBlock* block);
+
     void RecordError(ASTToken* token, ERROR_TYPE error_type) const;
 
     ASTComponent* GetCurrentComponent() const
@@ -79,6 +82,16 @@ class MizBlockParser
     static ERROR_TYPE CheckBlockSiblingsConsistency(ASTBlock* block,
                                                     ASTBlock* parent_block);
 
+    static bool IsThusToken(ASTToken* token);
+    static bool IsSemicolonToken(ASTToken* token);
+    bool CanBeLabelToken(ASTToken* token) const;
+    ASTToken* ReplaceIdentifierType(ASTToken* token, IDENTIFIER_TYPE type);
+
+    void PushReferenceStack();
+    void PopReferenceStack();
+    void PushToReferenceStack(ASTToken* token);
+    void ResolveReference(ASTToken* token);
+
   private:
     bool is_partial_mode_ = false;
     std::shared_ptr<TokenTable> token_table_;
@@ -86,6 +99,7 @@ class MizBlockParser
       std::make_shared<ASTBlock>(BLOCK_TYPE::ROOT);
     std::stack<ASTComponent*> ast_component_stack_;
     std::shared_ptr<ErrorTable> error_table_;
+    std::vector<std::vector<IdentifierToken*>> reference_stack_;
 
     // Only for internal use
     bool is_in_environ_ = false;
