@@ -96,7 +96,8 @@ PYBIND11_MODULE(py_miz_controller, m)
       // .def(py::init<size_t, size_t, std::string_view, IDENTIFIER_TYPE>())
       .def("get_text", &IdentifierToken::GetText)
       .def("get_token_type", &IdentifierToken::GetTokenType)
-      .def("get_identifier_type", &IdentifierToken::GetIdentifierType);
+      .def("get_identifier_type", &IdentifierToken::GetIdentifierType)
+      .def("get_ref_token", &IdentifierToken::GetRefToken);
 
     py::class_<CommentToken, ASTToken, PyCommentToken, std::shared_ptr<CommentToken>>(m, "CommentToken")
       // .def(py::init<size_t, size_t, std::string_view, COMMENT_TYPE>())
