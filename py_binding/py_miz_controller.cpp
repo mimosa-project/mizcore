@@ -8,6 +8,11 @@
 #include "py_ast_element.hpp"
 #include "py_ast_token.hpp"
 #include "py_symbol_token.hpp"
+#include "py_unknown_token.hpp"
+#include "py_numeral_token.hpp"
+#include "py_identifier_token.hpp"
+#include "py_comment_token.hpp"
+#include "py_keyword_token.hpp"
 
 #include <string_view>
 #include <pybind11/pybind11.h>
@@ -23,9 +28,10 @@ using mizcore::SymbolToken;
 using mizcore::TokenTable;
 using mizcore::UnknownToken;
 using mizcore::TOKEN_TYPE;
-using mizcore::COMMENT_TYPE;
-using mizcore::KEYWORD_TYPE;
-using mizcore::IDENTIFIER_TYPE;
+using mizcore::BLOCK_TYPE;
+// using mizcore::COMMENT_TYPE;
+// using mizcore::KEYWORD_TYPE;
+// using mizcore::IDENTIFIER_TYPE;
 // using mizcore::SYMBOL_TYPE;
 // using mizcore::Symbol;
 using mizcore::QueryTokenTypeText;
@@ -34,6 +40,11 @@ using mizcore::ASTToken;
 using mizcore::PyASTElement;
 using mizcore::PyASTToken;
 using mizcore::PySymbolToken;
+using mizcore::PyUnknownToken;
+using mizcore::PyNumeralToken;
+using mizcore::PyIdentifierToken;
+using mizcore::PyCommentToken;
+using mizcore::PyKeywordToken;
 
 namespace py = pybind11;
 
@@ -65,13 +76,13 @@ PYBIND11_MODULE(py_miz_controller, m)
     //   .def("get_text", &Symbol::GetText);
 
     // Token class
-    py::class_<UnknownToken, std::shared_ptr<UnknownToken>>(m, "UnknownToken")
-      .def(py::init<size_t, size_t, std::string_view>())
+    py::class_<UnknownToken,ASTToken, PyUnknownToken, std::shared_ptr<UnknownToken>>(m, "UnknownToken")
+      // .def(py::init<size_t, size_t, std::string_view>())
       .def("get_text", &UnknownToken::GetText)
       .def("get_token_type", &UnknownToken::GetTokenType);
 
-    py::class_<NumeralToken, std::shared_ptr<NumeralToken>>(m, "NumeralToken")
-      .def(py::init<size_t, size_t, std::string_view>())
+    py::class_<NumeralToken,ASTToken, PyNumeralToken, std::shared_ptr<NumeralToken>>(m, "NumeralToken")
+      // .def(py::init<size_t, size_t, std::string_view>())
       .def("get_text", &NumeralToken::GetText)
       .def("get_token_type", &NumeralToken::GetTokenType);
 
@@ -80,21 +91,21 @@ PYBIND11_MODULE(py_miz_controller, m)
       .def("get_text", &SymbolToken::GetText)
       .def("get_token_type", &SymbolToken::GetTokenType);
 
-    py::class_<IdentifierToken, std::shared_ptr<IdentifierToken>>(
+    py::class_<IdentifierToken, ASTToken, PyIdentifierToken, std::shared_ptr<IdentifierToken>>(
       m, "IdentifierToken")
-      .def(py::init<size_t, size_t, std::string_view, IDENTIFIER_TYPE>())
+      // .def(py::init<size_t, size_t, std::string_view, IDENTIFIER_TYPE>())
       .def("get_text", &IdentifierToken::GetText)
       .def("get_token_type", &IdentifierToken::GetTokenType)
       .def("get_identifier_type", &IdentifierToken::GetIdentifierType);
 
-    py::class_<CommentToken, std::shared_ptr<CommentToken>>(m, "CommentToken")
-      .def(py::init<size_t, size_t, std::string_view, COMMENT_TYPE>())
+    py::class_<CommentToken, ASTToken, PyCommentToken, std::shared_ptr<CommentToken>>(m, "CommentToken")
+      // .def(py::init<size_t, size_t, std::string_view, COMMENT_TYPE>())
       .def("get_text", &CommentToken::GetText)
       .def("get_token_type", &CommentToken::GetTokenType)
       .def("get_comment_type", &CommentToken::GetCommentType);
 
-    py::class_<KeywordToken, std::shared_ptr<KeywordToken>>(m, "KeywordToken")
-      .def(py::init<size_t, size_t, KEYWORD_TYPE>())
+    py::class_<KeywordToken, ASTToken, PyKeywordToken, std::shared_ptr<KeywordToken>>(m, "KeywordToken")
+      // .def(py::init<size_t, size_t, KEYWORD_TYPE>())
       .def("get_text", &KeywordToken::GetText)
       .def("get_token_type", &KeywordToken::GetTokenType)
       .def("get_keyword_type", &KeywordToken::GetKeywordType);
@@ -106,10 +117,16 @@ PYBIND11_MODULE(py_miz_controller, m)
       .def("get_token_num", &TokenTable::GetTokenNum);
 
     // ASTBlock
-    py::class_<ASTBlock, std::shared_ptr<ASTBlock>>(m, "ASTBlock");
+    py::class_<ASTBlock, std::shared_ptr<ASTBlock>>(m, "ASTBlock")
+      .def(py::init<BLOCK_TYPE>())
+      .def("get_first_token", &ASTBlock::GetFirstToken)
+      .def("get_child_component_num", &ASTBlock::GetChildComponentNum)
+      .def("get_child_component", &ASTBlock::GetChildComponent);
 
     // ErrorTable
-    py::class_<ErrorTable, std::shared_ptr<ErrorTable>>(m, "ErrorTable");
+    py::class_<ErrorTable, std::shared_ptr<ErrorTable>>(m, "ErrorTable")
+      .def(py::init<>())
+      .def("log_errors", &ErrorTable::LogErrors);
 
     // MizController
     py::class_<MizController, std::shared_ptr<MizController>>(m, "MizController")
