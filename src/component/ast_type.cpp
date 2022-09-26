@@ -355,12 +355,33 @@ mizcore::QueryTokenTypeText(TOKEN_TYPE type)
     return type2text[static_cast<size_t>(type)];
 }
 
+IDENTIFIER_TYPE
+mizcore::QueryIdentifierType(std::string_view text)
+{
+    static map<string, IDENTIFIER_TYPE> text2type = {
+        { "label", IDENTIFIER_TYPE::LABEL },
+        { "variable", IDENTIFIER_TYPE::VARIABLE },
+        { "filename", IDENTIFIER_TYPE::FILENAME },
+        { "scheme", IDENTIFIER_TYPE::SCHEME },
+        { "predicate", IDENTIFIER_TYPE::PREDICATE },
+        { "functor", IDENTIFIER_TYPE::FUNCTOR },
+        { "reserved", IDENTIFIER_TYPE::RESERVED },
+    };
+
+    auto it = text2type.find(string(text));
+    if (it != text2type.end()) {
+        return it->second;
+    }
+    return IDENTIFIER_TYPE::UNKNOWN;
+}
+
 std::string_view
 mizcore::QueryIdentifierTypeText(IDENTIFIER_TYPE type)
 {
-    static std::array<string, 4> type2text = {
-        "unknown", "label", "variable", "filename"
-    };
+    static std::array<string, 8> type2text = { "unknown",  "label",
+                                               "variable", "filename",
+                                               "scheme",   "predicate",
+                                               "functor",  "reserved" };
     return type2text[static_cast<size_t>(type)];
 }
 

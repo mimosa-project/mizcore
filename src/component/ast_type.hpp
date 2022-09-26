@@ -109,6 +109,10 @@ enum class IDENTIFIER_TYPE
     LABEL,
     VARIABLE,
     FILENAME,
+    SCHEME,
+    PREDICATE,
+    FUNCTOR,
+    RESERVED,
 };
 
 enum class COMMENT_TYPE
@@ -323,6 +327,9 @@ QueryKeywordType(std::string_view text);
 
 std::string_view
 QueryTokenTypeText(TOKEN_TYPE type);
+
+IDENTIFIER_TYPE
+QueryIdentifierType(std::string_view text);
 
 std::string_view
 QueryIdentifierTypeText(IDENTIFIER_TYPE type);
