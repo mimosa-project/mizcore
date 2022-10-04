@@ -28,10 +28,11 @@ using mizcore::SymbolToken;
 using mizcore::TokenTable;
 using mizcore::UnknownToken;
 using mizcore::TOKEN_TYPE;
+using mizcore::IDENTIFIER_TYPE;
 using mizcore::BLOCK_TYPE;
 // using mizcore::COMMENT_TYPE;
 // using mizcore::KEYWORD_TYPE;
-// using mizcore::IDENTIFIER_TYPE;
+using mizcore::IDENTIFIER_TYPE;
 // using mizcore::SYMBOL_TYPE;
 // using mizcore::Symbol;
 using mizcore::QueryTokenTypeText;
@@ -61,6 +62,16 @@ PYBIND11_MODULE(py_miz_controller, m)
         .value("COMMENT", TOKEN_TYPE::COMMENT)
         .export_values();
 
+    py::enum_<IDENTIFIER_TYPE>(m, "IDENTIFIER_TYPE", py::arithmetic())
+        .value("UNKNOWN", IDENTIFIER_TYPE::UNKNOWN)
+        .value("LABEL", IDENTIFIER_TYPE::LABEL)
+        .value("VARIABLE", IDENTIFIER_TYPE::VARIABLE)
+        .value("FILENAME", IDENTIFIER_TYPE::FILENAME)
+        .value("SCHEME", IDENTIFIER_TYPE::SCHEME)
+        .value("PREDICATE", IDENTIFIER_TYPE::PREDICATE)
+        .value("FUNCTOR", IDENTIFIER_TYPE::FUNCTOR)
+        .value("RESERVED", IDENTIFIER_TYPE::RESERVED)
+        .export_values();
 
     py::class_<ASTElement, PyASTElement, std::shared_ptr<ASTElement>>(m, "ASTElement")
       .def(py::init<>())
@@ -96,7 +107,8 @@ PYBIND11_MODULE(py_miz_controller, m)
       // .def(py::init<size_t, size_t, std::string_view, IDENTIFIER_TYPE>())
       .def("get_text", &IdentifierToken::GetText)
       .def("get_token_type", &IdentifierToken::GetTokenType)
-      .def("get_identifier_type", &IdentifierToken::GetIdentifierType);
+      .def("get_identifier_type", &IdentifierToken::GetIdentifierType)
+      .def("get_ref_token", &IdentifierToken::GetRefToken);
 
     py::class_<CommentToken, ASTToken, PyCommentToken, std::shared_ptr<CommentToken>>(m, "CommentToken")
       // .def(py::init<size_t, size_t, std::string_view, COMMENT_TYPE>())

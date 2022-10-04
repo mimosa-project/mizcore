@@ -23,12 +23,32 @@ class PyIdentifierToken : public IdentifierToken
   }
 
   TOKEN_TYPE GetTokenType() const override
+  {
+    PYBIND11_OVERRIDE
+    (
+      TOKEN_TYPE,
+      IdentifierToken,
+      GetTokenType,
+    );
+  }
+
+  IDENTIFIER_TYPE GetIdentifierType() const
+  {
+    PYBIND11_OVERRIDE
+    (
+      IDENTIFIER_TYPE,
+      IdentifierToken,
+      GetIdentifierType,
+    );
+  }
+
+  IdentifierToken* GetRefToken() const
     {
       PYBIND11_OVERRIDE
       (
-        TOKEN_TYPE,
+        IdentifierToken*,
         IdentifierToken,
-        GetTokenType,
+        GetRefToken,
       );
     }
 };
