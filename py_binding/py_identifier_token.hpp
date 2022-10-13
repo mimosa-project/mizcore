@@ -10,29 +10,30 @@ class IdentifierToken;
 
 class PyIdentifierToken : public IdentifierToken
 {
-  using IdentifierToken::IdentifierToken;
+  public:
+    using IdentifierToken::IdentifierToken;
 
-  std::string_view GetText() const override
-  {
-    PYBIND11_OVERRIDE
-    (
-      std::string_view,
-      IdentifierToken,
-      GetText,
-    );
-  }
+    std::string_view GetText() const override
+    {
+      PYBIND11_OVERRIDE
+      (
+        std::string_view,
+        IdentifierToken,
+        GetText,
+      );
+    }
 
-  TOKEN_TYPE GetTokenType() const override
-  {
-    PYBIND11_OVERRIDE
-    (
-      TOKEN_TYPE,
-      IdentifierToken,
-      GetTokenType,
-    );
-  }
+    TOKEN_TYPE GetTokenType() const override
+    {
+      PYBIND11_OVERRIDE
+      (
+        TOKEN_TYPE,
+        IdentifierToken,
+        GetTokenType,
+      );
+    }
 
-  IdentifierToken* GetRefToken() const override
+    IdentifierToken* GetRefToken() const override
     {
       PYBIND11_OVERRIDE
       (

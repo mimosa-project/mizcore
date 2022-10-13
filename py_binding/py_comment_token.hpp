@@ -10,19 +10,20 @@ class CommentToken;
 
 class PyCommentToken : public CommentToken
 {
-  using CommentToken::CommentToken;
+  public:
+    using CommentToken::CommentToken;
 
-  std::string_view GetText() const override
-  {
-    PYBIND11_OVERRIDE
-    (
-      std::string_view,
-      CommentToken,
-      GetText,
-    );
-  }
+    std::string_view GetText() const override
+    {
+      PYBIND11_OVERRIDE
+      (
+        std::string_view,
+        CommentToken,
+        GetText,
+      );
+    }
 
-  TOKEN_TYPE GetTokenType() const override
+    TOKEN_TYPE GetTokenType() const override
     {
       PYBIND11_OVERRIDE
       (

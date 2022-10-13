@@ -10,29 +10,30 @@ class UnknownToken;
 
 class PyUnknownToken : public UnknownToken
 {
-  using UnknownToken::UnknownToken;
+  public:
+    using UnknownToken::UnknownToken;
 
-  std::string_view GetText() const override
-  {
-    PYBIND11_OVERRIDE
-    (
-      std::string_view,
-      UnknownToken,
-      GetText,
-    );
-  }
-
-  TOKEN_TYPE GetTokenType() const override
+    std::string_view GetText() const override
     {
       PYBIND11_OVERRIDE
       (
-        TOKEN_TYPE,
+        std::string_view,
         UnknownToken,
-        GetTokenType,
+        GetText,
       );
     }
 
-  IdentifierToken* GetRefToken() const override
+    TOKEN_TYPE GetTokenType() const override
+      {
+        PYBIND11_OVERRIDE
+        (
+          TOKEN_TYPE,
+          UnknownToken,
+          GetTokenType,
+        );
+      }
+
+    IdentifierToken* GetRefToken() const override
     {
       PYBIND11_OVERRIDE
       (

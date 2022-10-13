@@ -10,29 +10,30 @@ class SymbolToken;
 
 class PySymbolToken : public SymbolToken
 {
-  using SymbolToken::SymbolToken;
+  public:
+    using SymbolToken::SymbolToken;
 
-  std::string_view GetText() const override
-  {
-    PYBIND11_OVERRIDE
-    (
-      std::string_view,
-      SymbolToken,
-      GetText,
-    );
-  }
-
-  TOKEN_TYPE GetTokenType() const override
+    std::string_view GetText() const override
     {
       PYBIND11_OVERRIDE
       (
-        TOKEN_TYPE,
+        std::string_view,
         SymbolToken,
-        GetTokenType,
+        GetText,
       );
     }
 
-  IdentifierToken* GetRefToken() const override
+    TOKEN_TYPE GetTokenType() const override
+      {
+        PYBIND11_OVERRIDE
+        (
+          TOKEN_TYPE,
+          SymbolToken,
+          GetTokenType,
+        );
+      }
+
+    IdentifierToken* GetRefToken() const override
     {
       PYBIND11_OVERRIDE
       (

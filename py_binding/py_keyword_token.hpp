@@ -10,19 +10,20 @@ class KeywordToken;
 
 class PyKeywordToken : public KeywordToken
 {
-  using KeywordToken::KeywordToken;
+  public:
+    using KeywordToken::KeywordToken;
 
-  std::string_view GetText() const override
-  {
-    PYBIND11_OVERRIDE
-    (
-      std::string_view,
-      KeywordToken,
-      GetText,
-    );
-  }
+    std::string_view GetText() const override
+    {
+      PYBIND11_OVERRIDE
+      (
+        std::string_view,
+        KeywordToken,
+        GetText,
+      );
+    }
 
-  TOKEN_TYPE GetTokenType() const override
+    TOKEN_TYPE GetTokenType() const override
     {
       PYBIND11_OVERRIDE
       (
