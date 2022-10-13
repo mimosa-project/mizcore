@@ -79,7 +79,7 @@ PYBIND11_MODULE(py_miz_controller, m)
     py::class_<ASTToken, ASTElement, PyASTToken, std::shared_ptr<ASTToken>>(m, "ASTToken")
       .def("get_text", &ASTToken::GetText)
       .def("get_token_type", &ASTToken::GetTokenType)
-      .def("get_ref_token", &ASTToken::GetRefToken);
+      .def("get_ref_token", &ASTToken::GetRefToken, py::return_value_policy::reference);
 
     // Token class
     py::class_<UnknownToken,ASTToken, PyUnknownToken, std::shared_ptr<UnknownToken>>(m, "UnknownToken");
@@ -98,7 +98,7 @@ PYBIND11_MODULE(py_miz_controller, m)
 
     // TokenTable
     py::class_<TokenTable, std::shared_ptr<TokenTable>>(m, "TokenTable")
-      .def("get_token", &TokenTable::GetToken)
+      .def("get_token", &TokenTable::GetToken, py::return_value_policy::reference)
       .def("get_token_num", &TokenTable::GetTokenNum);
 
     // ErrorTable
