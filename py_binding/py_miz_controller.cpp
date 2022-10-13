@@ -29,6 +29,7 @@ using mizcore::UnknownToken;
 using mizcore::TOKEN_TYPE;
 using mizcore::IDENTIFIER_TYPE;
 using mizcore::QueryTokenTypeText;
+using mizcore::QueryIdentifierTypeText;
 using mizcore::ASTElement;
 using mizcore::ASTToken;
 using mizcore::PyASTElement;
@@ -45,6 +46,7 @@ namespace py = pybind11;
 PYBIND11_MODULE(py_miz_controller, m)
 {
     m.def("query_token_type_text", &QueryTokenTypeText);
+    m.def("query_identifier_type_text", &QueryIdentifierTypeText);
 
     py::enum_<TOKEN_TYPE>(m, "TOKEN_TYPE", py::arithmetic())
         .value("UNKNOWN", TOKEN_TYPE::UNKNOWN)
