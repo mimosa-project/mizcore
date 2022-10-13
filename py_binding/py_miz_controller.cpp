@@ -17,7 +17,6 @@
 #include <string_view>
 #include <pybind11/pybind11.h>
 
-using mizcore::ASTBlock;
 using mizcore::CommentToken;
 using mizcore::ErrorTable;
 using mizcore::IdentifierToken;
@@ -29,12 +28,7 @@ using mizcore::TokenTable;
 using mizcore::UnknownToken;
 using mizcore::TOKEN_TYPE;
 using mizcore::IDENTIFIER_TYPE;
-using mizcore::BLOCK_TYPE;
-// using mizcore::COMMENT_TYPE;
-// using mizcore::KEYWORD_TYPE;
 using mizcore::IDENTIFIER_TYPE;
-// using mizcore::SYMBOL_TYPE;
-// using mizcore::Symbol;
 using mizcore::QueryTokenTypeText;
 using mizcore::ASTElement;
 using mizcore::ASTToken;
