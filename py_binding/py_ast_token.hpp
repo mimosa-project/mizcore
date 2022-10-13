@@ -32,6 +32,16 @@ class PyASTToken : public ASTToken
         get_token_type,
       );
     }
+
+    IdentifierToken* GetRefToken() const override
+    {
+      PYBIND11_OVERRIDE_PURE
+      (
+        IdentifierToken*,
+        ASTToken,
+        GetRefToken,
+      );
+    }
 };
 
 } // namespace mizcore

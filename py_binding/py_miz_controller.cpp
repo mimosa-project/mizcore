@@ -90,21 +90,24 @@ PYBIND11_MODULE(py_miz_controller, m)
     py::class_<UnknownToken,ASTToken, PyUnknownToken, std::shared_ptr<UnknownToken>>(m, "UnknownToken")
       // .def(py::init<size_t, size_t, std::string_view>())
       .def("get_text", &UnknownToken::GetText)
-      .def("get_token_type", &UnknownToken::GetTokenType);
+      .def("get_token_type", &UnknownToken::GetTokenType)
+      .def("get_ref_token", &UnknownToken::GetRefToken);
 
     py::class_<NumeralToken,ASTToken, PyNumeralToken, std::shared_ptr<NumeralToken>>(m, "NumeralToken")
       // .def(py::init<size_t, size_t, std::string_view>())
       .def("get_text", &NumeralToken::GetText)
-      .def("get_token_type", &NumeralToken::GetTokenType);
+      .def("get_token_type", &NumeralToken::GetTokenType)
+      .def("get_ref_token", &NumeralToken::GetRefToken);
 
     py::class_<SymbolToken, ASTToken, PySymbolToken, std::shared_ptr<SymbolToken>>(m, "SymbolToken")
       // .def(py::init<size_t, size_t, Symbol*>())
       .def("get_text", &SymbolToken::GetText)
-      .def("get_token_type", &SymbolToken::GetTokenType);
+      .def("get_token_type", &SymbolToken::GetTokenType)
+      .def("get_ref_token", &SymbolToken::GetRefToken);
 
     py::class_<IdentifierToken, ASTToken, PyIdentifierToken, std::shared_ptr<IdentifierToken>>(
       m, "IdentifierToken")
-      // .def(py::init<size_t, size_t, std::string_view, IDENTIFIER_TYPE>())
+      // .def(py::init<size_t, size_t, std::string_view,IDENTIFIER_TYPE>())
       .def("get_text", &IdentifierToken::GetText)
       .def("get_token_type", &IdentifierToken::GetTokenType)
       .def("get_identifier_type", &IdentifierToken::GetIdentifierType)
@@ -114,13 +117,15 @@ PYBIND11_MODULE(py_miz_controller, m)
       // .def(py::init<size_t, size_t, std::string_view, COMMENT_TYPE>())
       .def("get_text", &CommentToken::GetText)
       .def("get_token_type", &CommentToken::GetTokenType)
-      .def("get_comment_type", &CommentToken::GetCommentType);
+      .def("get_comment_type", &CommentToken::GetCommentType)
+      .def("get_ref_token", &CommentToken::GetRefToken);
 
     py::class_<KeywordToken, ASTToken, PyKeywordToken, std::shared_ptr<KeywordToken>>(m, "KeywordToken")
       // .def(py::init<size_t, size_t, KEYWORD_TYPE>())
       .def("get_text", &KeywordToken::GetText)
       .def("get_token_type", &KeywordToken::GetTokenType)
-      .def("get_keyword_type", &KeywordToken::GetKeywordType);
+      .def("get_keyword_type", &KeywordToken::GetKeywordType)
+      .def("get_ref_token", &KeywordToken::GetRefToken);
 
     // TokenTable
     py::class_<TokenTable, std::shared_ptr<TokenTable>>(m, "TokenTable")

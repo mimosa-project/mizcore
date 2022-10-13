@@ -31,6 +31,16 @@ class PyKeywordToken : public KeywordToken
         GetTokenType,
       );
     }
+
+    IdentifierToken* GetRefToken() const override
+    {
+      PYBIND11_OVERRIDE
+      (
+        IdentifierToken*,
+        KeywordToken,
+        GetRefToken,
+      );
+    }
 };
 
 } // namespace mizcore

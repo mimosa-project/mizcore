@@ -31,6 +31,16 @@ class PyCommentToken : public CommentToken
         GetTokenType,
       );
     }
+
+    IdentifierToken* GetRefToken() const override
+    {
+      PYBIND11_OVERRIDE
+      (
+        IdentifierToken*,
+        CommentToken,
+        GetRefToken,
+      );
+    }
 };
 
 } // namespace mizcore

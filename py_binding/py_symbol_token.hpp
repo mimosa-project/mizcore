@@ -31,6 +31,16 @@ class PySymbolToken : public SymbolToken
         GetTokenType,
       );
     }
+
+  IdentifierToken* GetRefToken() const override
+    {
+      PYBIND11_OVERRIDE
+      (
+        IdentifierToken*,
+        SymbolToken,
+        GetRefToken,
+      );
+    }
 };
 
 } // namespace mizcore

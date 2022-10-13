@@ -31,6 +31,16 @@ class PyUnknownToken : public UnknownToken
         GetTokenType,
       );
     }
+
+  IdentifierToken* GetRefToken() const override
+    {
+      PYBIND11_OVERRIDE
+      (
+        IdentifierToken*,
+        UnknownToken,
+        GetRefToken,
+      );
+    }
 };
 
 } // namespace mizcore

@@ -31,6 +31,16 @@ class PyNumeralToken : public NumeralToken
         GetTokenType,
       );
     }
+
+  IdentifierToken* GetRefToken() const override
+  {
+    PYBIND11_OVERRIDE
+    (
+      IdentifierToken*,
+      NumeralToken,
+      GetRefToken,
+    );
+  }
 };
 
 } // namespace mizcore
