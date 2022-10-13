@@ -1,45 +1,42 @@
 #include "ast_block.hpp"
 #include "ast_token.hpp"
 #include "ast_type.hpp"
-#include "error_table.hpp"
 #include "miz_controller.hpp"
 #include "token_table.hpp"
-#include "symbol.hpp"
 #include "py_ast_element.hpp"
 #include "py_ast_token.hpp"
-#include "py_symbol_token.hpp"
 #include "py_unknown_token.hpp"
 #include "py_numeral_token.hpp"
+#include "py_symbol_token.hpp"
 #include "py_identifier_token.hpp"
-#include "py_comment_token.hpp"
 #include "py_keyword_token.hpp"
+#include "py_comment_token.hpp"
 
 #include <string_view>
 #include <pybind11/pybind11.h>
 
-using mizcore::CommentToken;
-using mizcore::ErrorTable;
-using mizcore::IdentifierToken;
-using mizcore::KeywordToken;
-using mizcore::MizController;
-using mizcore::NumeralToken;
-using mizcore::SymbolToken;
-using mizcore::TokenTable;
-using mizcore::UnknownToken;
 using mizcore::TOKEN_TYPE;
 using mizcore::IDENTIFIER_TYPE;
 using mizcore::QueryTokenTypeText;
 using mizcore::QueryIdentifierTypeText;
+using mizcore::MizController;
+using mizcore::TokenTable;
 using mizcore::ASTElement;
 using mizcore::ASTToken;
+using mizcore::UnknownToken;
+using mizcore::NumeralToken;
+using mizcore::SymbolToken;
+using mizcore::IdentifierToken;
+using mizcore::KeywordToken;
+using mizcore::CommentToken;
 using mizcore::PyASTElement;
 using mizcore::PyASTToken;
-using mizcore::PySymbolToken;
 using mizcore::PyUnknownToken;
 using mizcore::PyNumeralToken;
+using mizcore::PySymbolToken;
 using mizcore::PyIdentifierToken;
-using mizcore::PyCommentToken;
 using mizcore::PyKeywordToken;
+using mizcore::PyCommentToken;
 
 namespace py = pybind11;
 
@@ -68,8 +65,7 @@ PYBIND11_MODULE(py_miz_controller, m)
         .value("RESERVED", IDENTIFIER_TYPE::RESERVED)
         .export_values();
 
-    py::class_<ASTElement, PyASTElement, std::shared_ptr<ASTElement>>(m, "ASTElement")
-      .def_property_readonly("element_type", &ASTElement::GetElementType);
+    py::class_<ASTElement, PyASTElement, std::shared_ptr<ASTElement>>(m, "ASTElement");
 
     py::class_<ASTToken, ASTElement, PyASTToken, std::shared_ptr<ASTToken>>(m, "ASTToken")
       .def_property_readonly("text", &ASTToken::GetText)
@@ -96,15 +92,9 @@ PYBIND11_MODULE(py_miz_controller, m)
       .def("token", &TokenTable::GetToken, py::return_value_policy::reference)
       .def_property_readonly("token_num", &TokenTable::GetTokenNum);
 
-    // ErrorTable
-    py::class_<ErrorTable, std::shared_ptr<ErrorTable>>(m, "ErrorTable")
-      .def("log_errors", &ErrorTable::LogErrors);
-
     // MizController
     py::class_<MizController, std::shared_ptr<MizController>>(m, "MizController")
       .def(py::init<>())
       .def("exec", &MizController::Exec)
-      .def_property_readonly("token_table", &MizController::GetTokenTable)
-      .def_property_readonly("ast_root", &MizController::GetASTRoot)
-      .def_property_readonly("error_table", &MizController::GetErrorTable);
+      .def_property_readonly("token_table", &MizController::GetTokenTable);
 }
