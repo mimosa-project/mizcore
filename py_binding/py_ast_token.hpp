@@ -19,7 +19,7 @@ class PyASTToken : public ASTToken
       (
         std::string_view,
         ASTToken,
-        get_text,
+        GetText,
       );
     }
 
@@ -29,7 +29,7 @@ class PyASTToken : public ASTToken
       (
         TOKEN_TYPE,
         ASTToken,
-        get_token_type,
+        GetTokenType,
       );
     }
 
@@ -40,6 +40,16 @@ class PyASTToken : public ASTToken
         IdentifierToken*,
         ASTToken,
         GetRefToken,
+      );
+    }
+
+    ELEMENT_TYPE GetElementType() const override
+    {
+      PYBIND11_OVERRIDE
+      (
+        ELEMENT_TYPE,
+        ASTToken,
+        GetElementType,
       );
     }
 };

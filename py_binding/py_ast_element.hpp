@@ -10,15 +10,15 @@ class PyASTElement : public ASTElement
   public:
     using ASTElement::ASTElement;
 
-    // ELEMENT_TYPE GetElementType() const override
-    // {
-    //   PYBIND11_OVERRIDE_PURE
-    //   (
-    //     ELEMENT_TYPE,
-    //     ASTElement,
-    //     get_element_type,
-    //   );
-    // }
+    ELEMENT_TYPE GetElementType() const override
+    {
+      PYBIND11_OVERRIDE_PURE
+      (
+        ELEMENT_TYPE,
+        ASTElement,
+        GetElementType,
+      );
+    }
 };
 
 } // namespace mizcore
