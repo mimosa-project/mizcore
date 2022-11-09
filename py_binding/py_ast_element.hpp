@@ -16,18 +16,7 @@ class PyASTElement : public ASTElement
       (
         ELEMENT_TYPE,
         ASTElement,
-        get_element_type,
-      );
-    }
-
-    void ToJson(nlohmann::json& json) const override
-    {
-      PYBIND11_OVERRIDE_PURE
-      (
-        void,
-        ASTElement,
-        to_json,
-        json
+        GetElementType,
       );
     }
 };

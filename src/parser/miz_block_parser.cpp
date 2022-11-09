@@ -51,6 +51,7 @@ MizBlockParser::MizBlockParser(std::shared_ptr<TokenTable> token_table,
   , error_table_(std::move(error_table))
 {
     ast_component_stack_.push(ast_root_.get());
+    PushReferenceStack();
 }
 
 void
@@ -98,6 +99,9 @@ MizBlockParser::Parse()
                         ERROR_TYPE::STATEMENT_NOT_CLOSED_IN_ARTICLE);
         }
     }
+
+    // Resolve identifier type and references
+    ResolveIdentifierInBlock(ast_root_.get());
 }
 
 void
@@ -185,8 +189,10 @@ MizBlockParser::ParseKeyword(ASTToken* token, ASTToken* prev_token)
         case KEYWORD_TYPE::CASE:
         case KEYWORD_TYPE::SUPPOSE:
         case KEYWORD_TYPE::HEREBY:
-        case KEYWORD_TYPE::NOW:
             ParseBlockStartKeyword(keyword_token);
+            break;
+        case KEYWORD_TYPE::NOW:
+            ParseNowKeyword(keyword_token);
             break;
         case KEYWORD_TYPE::SCHEME:
             ParseSchemeKeyword(keyword_token);
@@ -251,6 +257,30 @@ MizBlockParser::ParseBlockStartKeyword(KeywordToken* token)
         PushBlock(token, parent_block, QueryBlockType(keyword_type));
     } else {
         RecordError(token, ERROR_TYPE::BLOCK_START_KEYWORD_IN_STATEMENT);
+    }
+}
+
+void
+MizBlockParser::ParseNowKeyword(KeywordToken* token)
+{
+    auto* component = GetCurrentComponent();
+    auto element_type = component->GetElementType();
+    if (element_type == ELEMENT_TYPE::BLOCK) {
+        auto* parent_block = static_cast<ASTBlock*>(component);
+        auto keyword_type = token->GetKeywordType();
+        PushBlock(token, parent_block, QueryBlockType(keyword_type));
+    } else {
+        // sometimes now keyword accompanies label declaration (A1:) and "thus" before.
+        // Diffuse-Statement = [ Label-Identifier ":" ] "now" Reasoning "end" ";" .
+        // Diffuse-Conclusion = "thus" Diffuse-Statement | "hereby" Reasoning "end" ";" .
+        // We do not check the preceding tokens here.
+        // This check will be done in ResolveNowBlockIdentifier.
+        auto* current_statement = static_cast<ASTStatement*>(component);
+        auto* statement_first_token = current_statement->GetRangeFirstToken();
+        auto* parent_block = current_statement->GetParent();
+        parent_block->PopBackChildComponent();
+        ast_component_stack_.pop();
+        PushBlock(statement_first_token, parent_block, BLOCK_TYPE::NOW);
     }
 }
 
@@ -424,7 +454,7 @@ ASTToken*
 MizBlockParser::QueryNextToken(ASTToken* token) const
 {
     size_t token_num = token_table_->GetTokenNum();
-    for (size_t i = token->GetId(); i < token_num; ++i) {
+    for (size_t i = token->GetId() + 1; i < token_num; ++i) {
         auto* next_token = token_table_->GetToken(i);
         if (next_token->GetTokenType() != TOKEN_TYPE::COMMENT) {
             return next_token;
@@ -434,23 +464,415 @@ MizBlockParser::QueryNextToken(ASTToken* token) const
 }
 
 void
-MizBlockParser::ResolveIdentifierType(IdentifierToken* /*token*/)
+MizBlockParser::ResolveIdentifierInBlock(ASTBlock* block)
 {
-    // TODO(nakasho): Not implemented yet.
+    PushReferenceStack();
+    if (block->GetBlockType() == BLOCK_TYPE::NOW) {
+        ResolveNowBlockIdentifier(block);
+    }
+
+    size_t child_num = block->GetChildComponentNum();
+    for (size_t i = 0; i < child_num; ++i) {
+        auto* component = block->GetChildComponent(i);
+        if (component->GetElementType() == ELEMENT_TYPE::BLOCK) {
+            ResolveIdentifierInBlock(static_cast<ASTBlock*>(component));
+        } else {
+            ResolveIdentifierInStatement(static_cast<ASTStatement*>(component));
+        }
+    }
+    PopReferenceStack();
 }
 
-ASTToken*
-MizBlockParser::ResolveLabelReference(IdentifierToken* /*label_token*/)
+void
+MizBlockParser::ResolveIdentifierInStatement(ASTStatement* statement)
 {
-    // TODO(nakasho): Not implemented yet.
-    return nullptr;
+    auto* first_token = statement->GetRangeFirstToken();
+    auto* last_token = statement->GetRangeLastToken();
+
+    size_t first_id = first_token->GetId();
+    size_t last_id = last_token->GetId();
+
+    KEYWORD_TYPE region_type = KEYWORD_TYPE::UNKNOWN;
+    bool is_scheme_parameters = false;
+    size_t scheme_bracket_stack = 0;
+
+    for (size_t i = first_id; i < last_id; ++i) {
+        ASTToken* curr_token = token_table_->GetToken(i);
+        ASTToken* prev_token =
+          i > first_id ? token_table_->GetToken(i - 1) : nullptr;
+        ASTToken* next_token = token_table_->GetToken(i + 1);
+
+        if (curr_token->GetTokenType() == TOKEN_TYPE::KEYWORD) {
+            auto* keyword_token = static_cast<KeywordToken*>(curr_token);
+            auto keyword_type = keyword_token->GetKeywordType();
+
+            // check region start condition
+            if (region_type == KEYWORD_TYPE::UNKNOWN) {
+                if (i == first_id) {
+                    switch (keyword_type) {
+                        case KEYWORD_TYPE::RESERVE:
+                        case KEYWORD_TYPE::GIVEN:
+                        case KEYWORD_TYPE::LET:
+                        case KEYWORD_TYPE::RECONSIDER:
+                        case KEYWORD_TYPE::SET:
+                        case KEYWORD_TYPE::SCHEME:
+                        case KEYWORD_TYPE::DEFPRED:
+                        case KEYWORD_TYPE::DEFFUNC:
+                            region_type = keyword_type;
+                            continue;
+                        default:
+                            break;
+                    }
+                }
+                switch (keyword_type) {
+                    case KEYWORD_TYPE::FOR:
+                    case KEYWORD_TYPE::EX:
+                    case KEYWORD_TYPE::WHERE:
+                    case KEYWORD_TYPE::MEANS:
+                    case KEYWORD_TYPE::EQUALS:
+                    case KEYWORD_TYPE::BY:
+                    case KEYWORD_TYPE::FROM:
+                        region_type = keyword_type;
+                        continue;
+                    default:
+                        continue;
+                }
+            }
+        }
+
+        // reserved identifier
+        if (region_type == KEYWORD_TYPE::RESERVE) {
+            assert(prev_token != nullptr);
+            const auto& prev_text = prev_token->GetText();
+            const auto& next_text = next_token->GetText();
+            if (prev_text == "reserve" || prev_text == ",") {
+                if (next_text == "," || next_text == "for") {
+                    curr_token = ReplaceIdentifierType(
+                      curr_token, IDENTIFIER_TYPE::RESERVED);
+                    PushToReferenceStack(curr_token);
+                }
+            }
+        }
+
+        // variable identifier
+        if (region_type == KEYWORD_TYPE::FOR ||
+            region_type == KEYWORD_TYPE::EX) {
+            const auto& curr_text = curr_token->GetText();
+            if (curr_text == "st" || curr_text == "hold" ||
+                curr_text == "for" || curr_text == "ex" || curr_text == "be" ||
+                curr_text == "being") {
+                region_type = KEYWORD_TYPE::UNKNOWN;
+                continue;
+            }
+
+            assert(prev_token != nullptr);
+            const auto& prev_text = prev_token->GetText();
+            const auto& next_text = next_token->GetText();
+            if (prev_text == "for" || prev_text == "ex" || prev_text == ",") {
+                if (next_text == "st" || next_text == "holds" ||
+                    next_text == "for" || next_text == "ex" ||
+                    next_text == "be" || next_text == "being" ||
+                    next_text == ",") {
+                    ReplaceIdentifierType(curr_token,
+                                          IDENTIFIER_TYPE::VARIABLE);
+                }
+            }
+        }
+
+        if (region_type == KEYWORD_TYPE::GIVEN ||
+            region_type == KEYWORD_TYPE::LET) {
+            const auto& curr_text = curr_token->GetText();
+            if (curr_text == "such" || curr_text == "be" ||
+                curr_text == "being" || curr_text == ";") {
+                region_type = KEYWORD_TYPE::UNKNOWN;
+                continue;
+            }
+
+            assert(prev_token != nullptr);
+            const auto& prev_text = prev_token->GetText();
+            const auto& next_text = next_token->GetText();
+            if (prev_text == "given" || prev_text == "let" ||
+                prev_text == ",") {
+                if (next_text == "such" || next_text == "be" ||
+                    next_text == "being" || next_text == ";" ||
+                    next_text == ",") {
+                    curr_token = ReplaceIdentifierType(
+                      curr_token, IDENTIFIER_TYPE::VARIABLE);
+                    PushToReferenceStack(curr_token);
+                }
+            }
+        }
+
+        if (region_type == KEYWORD_TYPE::RECONSIDER) {
+            const auto& curr_text = curr_token->GetText();
+            if (curr_text == "as") {
+                region_type = KEYWORD_TYPE::UNKNOWN;
+                continue;
+            }
+
+            assert(prev_token != nullptr);
+            const auto& prev_text = prev_token->GetText();
+            const auto& next_text = next_token->GetText();
+            if (prev_text == "reconsider" || prev_text == ",") {
+                if (next_text == "=" || next_text == "," || next_text == "as") {
+                    curr_token = ReplaceIdentifierType(
+                      curr_token, IDENTIFIER_TYPE::VARIABLE);
+                    PushToReferenceStack(curr_token);
+                }
+            }
+        }
+
+        if (region_type == KEYWORD_TYPE::SET) {
+            assert(prev_token != nullptr);
+            const auto& prev_text = prev_token->GetText();
+            const auto& next_text = next_token->GetText();
+            if (prev_text == "set" || prev_text == ",") {
+                if (next_text == "=") {
+                    curr_token = ReplaceIdentifierType(
+                      curr_token, IDENTIFIER_TYPE::VARIABLE);
+                    PushToReferenceStack(curr_token);
+                }
+            }
+        }
+
+        if (region_type == KEYWORD_TYPE::WHERE) {
+            const auto& curr_text = curr_token->GetText();
+            if (curr_text == "is" || curr_text == "are") {
+                region_type = KEYWORD_TYPE::UNKNOWN;
+                continue;
+            }
+
+            assert(prev_token != nullptr);
+            const auto& prev_text = prev_token->GetText();
+            const auto& next_text = next_token->GetText();
+            if (prev_text == "where" || prev_text == ",") {
+                if (next_text == "," || next_text == "is" ||
+                    next_text == "are") {
+                    ReplaceIdentifierType(curr_token,
+                                          IDENTIFIER_TYPE::VARIABLE);
+                }
+            }
+        }
+
+        // label identifier
+        if (region_type == KEYWORD_TYPE::MEANS ||
+            region_type == KEYWORD_TYPE::EQUALS) {
+            assert(prev_token != nullptr);
+            const auto& prev_text = prev_token->GetText();
+            const auto& next_text = next_token->GetText();
+            if (prev_text == ":" && next_text == ":") {
+                ReplaceIdentifierType(curr_token, IDENTIFIER_TYPE::LABEL);
+                PushToReferenceStack(curr_token);
+                region_type = KEYWORD_TYPE::UNKNOWN;
+                continue;
+            }
+        }
+
+        if (i == first_id) {
+            const auto& next_text = next_token->GetText();
+            if (next_text == ":") {
+                curr_token =
+                  ReplaceIdentifierType(curr_token, IDENTIFIER_TYPE::LABEL);
+                PushToReferenceStack(curr_token);
+            }
+        }
+
+        if (prev_token != nullptr) {
+            const auto& prev_text = prev_token->GetText();
+            const auto& next_text = next_token->GetText();
+
+            if (next_text == ":") {
+                if (prev_text == "that" || prev_text == "and" ||
+                    prev_text == "provided" || prev_text == "case" ||
+                    prev_text == "suppose" || prev_text == "assume" ||
+                    prev_text == "theorem" || prev_text == "thus" ||
+                    prev_text == "hence" || prev_text == "then") {
+                    curr_token =
+                      ReplaceIdentifierType(curr_token, IDENTIFIER_TYPE::LABEL);
+                    PushToReferenceStack(curr_token);
+                }
+            }
+        }
+
+        if (region_type == KEYWORD_TYPE::BY) {
+            const auto& curr_text = curr_token->GetText();
+            if (curr_text == ";" || curr_text == ".=") {
+                region_type = KEYWORD_TYPE::UNKNOWN;
+                continue;
+            }
+
+            assert(prev_token != nullptr);
+            const auto& prev_text = prev_token->GetText();
+            const auto& next_text = next_token->GetText();
+            if (prev_text == "by" || prev_text == ",") {
+                if (next_text == "," || next_text == ";" || next_text == ".=") {
+                    curr_token =
+                      ReplaceIdentifierType(curr_token, IDENTIFIER_TYPE::LABEL);
+                }
+            }
+        }
+
+        if (region_type == KEYWORD_TYPE::FROM) {
+            const auto& curr_text = curr_token->GetText();
+            if (curr_text == ")") {
+                region_type = KEYWORD_TYPE::UNKNOWN;
+                continue;
+            }
+
+            assert(prev_token != nullptr);
+            const auto& prev_text = prev_token->GetText();
+            const auto& next_text = next_token->GetText();
+            if (prev_text == "(" || prev_text == ",") {
+                if (next_text == ")" || next_text == ",") {
+                    curr_token =
+                      ReplaceIdentifierType(curr_token, IDENTIFIER_TYPE::LABEL);
+                }
+            }
+            // scheme identifier
+            if (prev_text == "from" && next_text == "(") {
+                curr_token =
+                  ReplaceIdentifierType(curr_token, IDENTIFIER_TYPE::SCHEME);
+            }
+        }
+
+        // scheme identifier
+        if (region_type == KEYWORD_TYPE::SCHEME) {
+            assert(prev_token != nullptr);
+            const auto& prev_text = prev_token->GetText();
+            const auto& next_text = next_token->GetText();
+            if (prev_text == "scheme" && next_text == "{") {
+                curr_token =
+                  ReplaceIdentifierType(curr_token, IDENTIFIER_TYPE::SCHEME);
+                PushToReferenceStack(curr_token);
+            }
+
+            const auto& curr_text = curr_token->GetText();
+            if (curr_text == "{") {
+                is_scheme_parameters = true;
+            } else if (curr_text == "}") {
+                is_scheme_parameters = false;
+                region_type = KEYWORD_TYPE::UNKNOWN;
+                continue;
+            }
+
+            if (is_scheme_parameters) {
+                if (scheme_bracket_stack == 0 &&
+                    (prev_text == "{" || prev_text == ",")) {
+                    if (next_text == "[") {
+                        curr_token = ReplaceIdentifierType(
+                          curr_token, IDENTIFIER_TYPE::PREDICATE);
+                        PushToReferenceStack(curr_token);
+                    } else if (next_text == "(") {
+                        curr_token = ReplaceIdentifierType(
+                          curr_token, IDENTIFIER_TYPE::FUNCTOR);
+                        PushToReferenceStack(curr_token);
+                    } else if (next_text == ",") {
+                        size_t next_id = next_token->GetId();
+                        for (size_t j = next_id + 1; j < last_id; ++j) {
+                            auto* look_ahead_token = token_table_->GetToken(j);
+                            auto look_ahead_text = look_ahead_token->GetText();
+                            if (look_ahead_text == "[") {
+                                curr_token = ReplaceIdentifierType(
+                                  curr_token, IDENTIFIER_TYPE::PREDICATE);
+                                PushToReferenceStack(curr_token);
+                                break;
+                            }
+
+                            if (look_ahead_text == "(") {
+                                curr_token = ReplaceIdentifierType(
+                                  curr_token, IDENTIFIER_TYPE::FUNCTOR);
+                                PushToReferenceStack(curr_token);
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                if (curr_text == "(" || curr_text == "[") {
+                    ++scheme_bracket_stack;
+                } else if (curr_text == ")" || curr_text == "]") {
+                    --scheme_bracket_stack;
+                }
+            }
+        }
+
+        // predicate identifier
+        if (region_type == KEYWORD_TYPE::DEFPRED) {
+            assert(prev_token != nullptr);
+            const auto& prev_text = prev_token->GetText();
+            const auto& next_text = next_token->GetText();
+            if (prev_text == "defpred" && next_text == "[") {
+                curr_token =
+                  ReplaceIdentifierType(curr_token, IDENTIFIER_TYPE::PREDICATE);
+                PushToReferenceStack(curr_token);
+            }
+        }
+
+        // functor identifier
+        if (region_type == KEYWORD_TYPE::DEFFUNC) {
+            assert(prev_token != nullptr);
+            const auto& prev_text = prev_token->GetText();
+            const auto& next_text = next_token->GetText();
+            if (prev_text == "deffunc" && next_text == "(") {
+                curr_token =
+                  ReplaceIdentifierType(curr_token, IDENTIFIER_TYPE::FUNCTOR);
+                PushToReferenceStack(curr_token);
+            }
+        }
+
+        ResolveReference(curr_token);
+    }
 }
 
-ASTToken*
-MizBlockParser::ResolveVariableReference(IdentifierToken* /*variable_token*/)
+void
+MizBlockParser::ResolveNowBlockIdentifier(ASTBlock* block)
 {
-    // TODO(nakasho): Not implemented yet.
-    return nullptr;
+    // Diffuse-Statement = [ Label-Identifier ":" ] "now" Reasoning "end" ";" .
+    // Diffuse-Conclusion = "thus" Diffuse-Statement | "hereby" Reasoning "end" ";" .
+    auto* t0 = block->GetRangeFirstToken();
+
+    std::vector<ASTToken*> pre_tokens;
+    for (size_t i = t0->GetId();; ++i) {
+        ASTToken* token = token_table_->GetToken(i);
+        if (token->GetTokenType() == TOKEN_TYPE::KEYWORD &&
+            static_cast<KeywordToken*>(token)->GetKeywordType() ==
+              KEYWORD_TYPE::NOW) {
+            break;
+        }
+        pre_tokens.push_back(token);
+    }
+
+    if (pre_tokens.size() > 3) {
+        RecordError(t0, ERROR_TYPE::NOW_BLOCK_STARTS_WITH_IRREGULAR_TOKENS);
+        return;
+    }
+
+    if (pre_tokens.size() == 1) {
+        if (!IsThusToken(t0)) {
+            RecordError(t0, ERROR_TYPE::NOW_BLOCK_STARTS_WITH_IRREGULAR_TOKENS);
+        }
+    } else if (pre_tokens.size() == 2) {
+        auto* t1 = pre_tokens[1];
+        if (!CanBeLabelToken(t0)) {
+            RecordError(t0, ERROR_TYPE::NOW_BLOCK_STARTS_WITH_IRREGULAR_TOKENS);
+        } else if (!IsSemicolonToken(t1)) {
+            RecordError(t1, ERROR_TYPE::NOW_BLOCK_STARTS_WITH_IRREGULAR_TOKENS);
+        } else {
+            ReplaceIdentifierType(t0, IDENTIFIER_TYPE::LABEL);
+        }
+    } else if (pre_tokens.size() == 3) {
+        auto* t1 = pre_tokens[1];
+        auto* t2 = pre_tokens[2];
+        if (!IsThusToken(t0)) {
+            RecordError(t0, ERROR_TYPE::NOW_BLOCK_STARTS_WITH_IRREGULAR_TOKENS);
+        } else if (!CanBeLabelToken(t1)) {
+            RecordError(t1, ERROR_TYPE::NOW_BLOCK_STARTS_WITH_IRREGULAR_TOKENS);
+        } else if (!IsSemicolonToken(t2)) {
+            RecordError(t2, ERROR_TYPE::NOW_BLOCK_STARTS_WITH_IRREGULAR_TOKENS);
+        } else {
+            ReplaceIdentifierType(t1, IDENTIFIER_TYPE::LABEL);
+        }
+    }
 }
 
 void
@@ -484,14 +906,6 @@ MizBlockParser::CheckBlockInBlockConsistency(BLOCK_TYPE inner_block_type,
                 return ERROR_TYPE::NOT_AFTER_BEGIN_KEYWORD;
             }
             break;
-        case BLOCK_TYPE::CASE:
-        case BLOCK_TYPE::SUPPOSE:
-        case BLOCK_TYPE::NOW:
-        case BLOCK_TYPE::HEREBY:
-            if (proof_stack_num_ < 1) {
-                return ERROR_TYPE::NOT_UNDER_PROOF_BLOCK;
-            }
-            break;
         default:
             break;
     }
@@ -511,25 +925,6 @@ MizBlockParser::CheckBlockSiblingsConsistency(ASTBlock* block,
             if (child_num < 2) {
                 return ERROR_TYPE::PER_CASES_STATEMENT_MISSING;
             }
-            auto* first_sibling_statement = parent_block->GetChildStatement(0);
-            if (first_sibling_statement == nullptr ||
-                first_sibling_statement->GetStatementType() !=
-                  STATEMENT_TYPE::PER_CASES) {
-                return ERROR_TYPE::PER_CASES_STATEMENT_MISSING;
-            }
-
-            if (child_num > 2) {
-                auto* prev_sibling_block =
-                  parent_block->GetChildBlock(child_num - 2);
-                if (prev_sibling_block == nullptr ||
-                    prev_sibling_block->GetBlockType() != block_type) {
-                    return (block_type == BLOCK_TYPE::CASE)
-                             ? ERROR_TYPE::
-                                 CASE_BLOCK_PREV_SIBLING_NOT_CASE_BLOCK
-                             : ERROR_TYPE::
-                                 SUPPOSE_BLOCK_PREV_SIBLING_NOT_SUPPOSE_BLOCK;
-                }
-            }
         } break;
         case BLOCK_TYPE::PROOF: {
             size_t child_num = parent_block->GetChildComponentNum();
@@ -541,12 +936,6 @@ MizBlockParser::CheckBlockSiblingsConsistency(ASTBlock* block,
             if (prev_sibling_statement == nullptr) {
                 return ERROR_TYPE::PROOF_START_WITHOUT_PROPOSITION;
             }
-            auto prev_sibling_type = prev_sibling_statement->GetStatementType();
-            if (prev_sibling_type != STATEMENT_TYPE::UNKNOWN &&
-                prev_sibling_type != STATEMENT_TYPE::SCHEME &&
-                prev_sibling_type != STATEMENT_TYPE::THEOREM) {
-                return ERROR_TYPE::PROOF_START_WITHOUT_PROPOSITION;
-            }
             const auto* token = prev_sibling_statement->GetRangeLastToken();
             if (token->GetText() == ";") {
                 return ERROR_TYPE::PROOF_START_WITHOUT_PROPOSITION;
@@ -556,4 +945,118 @@ MizBlockParser::CheckBlockSiblingsConsistency(ASTBlock* block,
             break;
     }
     return ERROR_TYPE::SUCCESS;
+}
+
+bool
+MizBlockParser::IsThusToken(ASTToken* token)
+{
+    return token->GetTokenType() == TOKEN_TYPE::KEYWORD &&
+           static_cast<KeywordToken*>(token)->GetKeywordType() ==
+             KEYWORD_TYPE::THUS;
+}
+
+bool
+MizBlockParser::IsSemicolonToken(ASTToken* token)
+{
+    return token->GetTokenType() == TOKEN_TYPE::SYMBOL &&
+           token->GetText() == std::string(";");
+}
+
+bool
+MizBlockParser::CanBeLabelToken(ASTToken* token) const
+{
+    if (token->GetTokenType() == TOKEN_TYPE::IDENTIFIER) {
+        return true;
+    }
+    if (is_partial_mode_ && token->GetTokenType() == TOKEN_TYPE::SYMBOL) {
+        auto text = token->GetText();
+        assert(!text.empty());
+
+        if (isalpha(text[0]) == 0) {
+            return false;
+        }
+
+        for (size_t i = 1; i < text.size(); ++i) {
+            if ((isalnum(text[i]) == 0) || text[i] != '_') {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    return false;
+}
+
+ASTToken*
+MizBlockParser::ReplaceIdentifierType(ASTToken* token, IDENTIFIER_TYPE type)
+{
+    if (token->GetTokenType() == TOKEN_TYPE::IDENTIFIER) {
+        static_cast<IdentifierToken*>(token)->SetIdentifierType(
+          IDENTIFIER_TYPE::LABEL);
+        return token;
+    }
+
+    if (is_partial_mode_ && token->GetTokenType() == TOKEN_TYPE::SYMBOL) {
+        size_t token_id = token->GetId();
+        size_t line_number = token->GetLineNumber();
+        size_t column_number = token->GetColumnNumber();
+        std::string_view text = token->GetText();
+
+        ASTToken* new_token =
+          new IdentifierToken(line_number, column_number, text, type);
+        assert(token);
+        token_table_->ReplaceToken(new_token, token_id);
+        return new_token;
+    }
+
+    return token;
+}
+
+void
+MizBlockParser::PushReferenceStack()
+{
+    reference_stack_.emplace_back(std::vector<IdentifierToken*>());
+}
+
+void
+MizBlockParser::PopReferenceStack()
+{
+    reference_stack_.pop_back();
+}
+
+void
+MizBlockParser::PushToReferenceStack(ASTToken* token)
+{
+    assert(!reference_stack_.empty());
+    assert(token->GetTokenType() == TOKEN_TYPE::IDENTIFIER);
+    reference_stack_.back().push_back(static_cast<IdentifierToken*>(token));
+}
+
+void
+MizBlockParser::ResolveReference(ASTToken* token)
+{
+    auto token_type = token->GetTokenType();
+    if (token_type != TOKEN_TYPE::IDENTIFIER &&
+        (!is_partial_mode_ || token_type != TOKEN_TYPE::SYMBOL)) {
+        return;
+    }
+
+    std::string_view text = token->GetText();
+    for (auto rit = reference_stack_.rbegin(); rit != reference_stack_.rend();
+         ++rit) {
+        for (auto rit2 = rit->rbegin(); rit2 != rit->rend(); ++rit2) {
+            IdentifierToken* ref_token = *rit2;
+            if (ref_token == token) {
+                continue;
+            }
+
+            std::string_view ref_text = ref_token->GetText();
+            if (text == ref_text) {
+                ReplaceIdentifierType(token, ref_token->GetIdentifierType());
+                assert(token->GetTokenType() == TOKEN_TYPE::IDENTIFIER);
+                static_cast<IdentifierToken*>(token)->SetRefToken(ref_token);
+                return;
+            }
+        }
+    }
 }
