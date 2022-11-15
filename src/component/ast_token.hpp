@@ -11,6 +11,7 @@
 namespace mizcore {
 
 class Symbol;
+class IdentifierToken;
 
 class ASTToken : public ASTElement
 {
@@ -35,6 +36,7 @@ class ASTToken : public ASTElement
     int GetColumnNumber() const { return column_number_; }
     virtual std::string_view GetText() const = 0;
     virtual TOKEN_TYPE GetTokenType() const = 0;
+    virtual IdentifierToken* GetRefToken() const = 0;
 
     // operations
     void ToJson(nlohmann::json& json) const override;
@@ -60,6 +62,7 @@ class UnknownToken : public ASTToken
     std::string_view GetText() const override { return text_; }
     void AddText(std::string_view s) { text_ += s; }
     TOKEN_TYPE GetTokenType() const override { return TOKEN_TYPE::UNKNOWN; }
+    IdentifierToken* GetRefToken() const override { return nullptr; }
 
   private:
     std::string text_;
@@ -79,6 +82,7 @@ class NumeralToken : public ASTToken
     // attributes
     std::string_view GetText() const override { return text_; }
     TOKEN_TYPE GetTokenType() const override { return TOKEN_TYPE::NUMERAL; }
+    IdentifierToken* GetRefToken() const override { return nullptr; }
 
   private:
     std::string text_;
@@ -98,6 +102,7 @@ class SymbolToken : public ASTToken
     TOKEN_TYPE GetTokenType() const override { return TOKEN_TYPE::SYMBOL; }
     SYMBOL_TYPE GetSymbolType() const;
     SPECIAL_SYMBOL_TYPE GetSpecialSymbolType() const;
+    IdentifierToken* GetRefToken() const override { return nullptr; }
 
     // operations
     void ToJson(nlohmann::json& json) const override;
@@ -128,7 +133,7 @@ class IdentifierToken : public ASTToken
         identifier_type_ = identifier_type;
     }
 
-    IdentifierToken* GetRefToken() const { return ref_token_; }
+    IdentifierToken* GetRefToken() const override { return ref_token_; }
     void SetRefToken(IdentifierToken* ref_token) { ref_token_ = ref_token; }
 
     // operations
@@ -156,6 +161,7 @@ class CommentToken : public ASTToken
     // attributes
     std::string_view GetText() const override { return text_; }
     TOKEN_TYPE GetTokenType() const override { return TOKEN_TYPE::COMMENT; }
+    IdentifierToken* GetRefToken() const override { return nullptr; }
     COMMENT_TYPE GetCommentType() const { return comment_type_; }
     void SetCommentType(COMMENT_TYPE comment_type)
     {
@@ -184,6 +190,7 @@ class KeywordToken : public ASTToken
         return QueryKeywordText(keyword_type_);
     }
     TOKEN_TYPE GetTokenType() const override { return TOKEN_TYPE::KEYWORD; }
+    IdentifierToken* GetRefToken() const override { return nullptr; }
 
     KEYWORD_TYPE GetKeywordType() const { return keyword_type_; }
     void SetKeywordType(KEYWORD_TYPE keyword_type)

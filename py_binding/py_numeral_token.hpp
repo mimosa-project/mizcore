@@ -6,50 +6,40 @@
 
 namespace mizcore {
 
-class ASTToken;
+class NumeralToken;
 
-class PyASTToken : public ASTToken
+class PyNumeralToken : public NumeralToken
 {
   public:
-    using ASTToken::ASTToken;
+    using NumeralToken::NumeralToken;
 
     std::string_view GetText() const override
     {
-      PYBIND11_OVERRIDE_PURE
+      PYBIND11_OVERRIDE
       (
         std::string_view,
-        ASTToken,
+        NumeralToken,
         GetText,
       );
     }
 
     TOKEN_TYPE GetTokenType() const override
     {
-      PYBIND11_OVERRIDE_PURE
+      PYBIND11_OVERRIDE
       (
         TOKEN_TYPE,
-        ASTToken,
+        NumeralToken,
         GetTokenType,
       );
     }
 
     IdentifierToken* GetRefToken() const override
     {
-      PYBIND11_OVERRIDE_PURE
-      (
-        IdentifierToken*,
-        ASTToken,
-        GetRefToken,
-      );
-    }
-
-    ELEMENT_TYPE GetElementType() const override
-    {
       PYBIND11_OVERRIDE
       (
-        ELEMENT_TYPE,
-        ASTToken,
-        GetElementType,
+        IdentifierToken*,
+        NumeralToken,
+        GetRefToken,
       );
     }
 };

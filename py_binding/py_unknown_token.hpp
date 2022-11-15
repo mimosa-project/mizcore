@@ -6,19 +6,19 @@
 
 namespace mizcore {
 
-class SymbolToken;
+class UnknownToken;
 
-class PySymbolToken : public SymbolToken
+class PyUnknownToken : public UnknownToken
 {
   public:
-    using SymbolToken::SymbolToken;
+    using UnknownToken::UnknownToken;
 
     std::string_view GetText() const override
     {
       PYBIND11_OVERRIDE
       (
         std::string_view,
-        SymbolToken,
+        UnknownToken,
         GetText,
       );
     }
@@ -28,7 +28,7 @@ class PySymbolToken : public SymbolToken
         PYBIND11_OVERRIDE
         (
           TOKEN_TYPE,
-          SymbolToken,
+          UnknownToken,
           GetTokenType,
         );
       }
@@ -38,7 +38,7 @@ class PySymbolToken : public SymbolToken
       PYBIND11_OVERRIDE
       (
         IdentifierToken*,
-        SymbolToken,
+        UnknownToken,
         GetRefToken,
       );
     }
