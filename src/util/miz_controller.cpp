@@ -44,3 +44,29 @@ MizController::Exec(const char* mizpath, const char* vctpath)
     miz_block_parser.Parse();
     ast_root_ = miz_block_parser.GetASTRoot();
 }
+
+void
+MizController::ExecFromText(const char* text, const char* vctpath)
+{
+    std::ifstream ifs_vct(vctpath);
+    if (!ifs_vct) {
+        spdlog::error("Failed to open vct file. The specified path: \"{}\"",
+                      vctpath);
+    }
+    VctLexerHandler vct_handler(&ifs_vct);
+    vct_handler.yylex();
+    symbol_table_ = vct_handler.GetSymbolTable();
+
+    // Convert input text to std::istream
+    std::string str_text = std::string(text);
+    std::stringbuf str_buf(str_text);
+    std::istream ifs_miz(&str_buf);
+
+    MizLexerHandler miz_handler(&ifs_miz, symbol_table_);
+    miz_handler.yylex();
+    token_table_ = miz_handler.GetTokenTable();
+    error_table_ = std::make_shared<ErrorTable>();
+    MizBlockParser miz_block_parser(token_table_, error_table_);
+    miz_block_parser.Parse();
+    ast_root_ = miz_block_parser.GetASTRoot();
+}
