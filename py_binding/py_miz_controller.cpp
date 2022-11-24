@@ -397,7 +397,8 @@ PYBIND11_MODULE(py_miz_controller, m)
 
   py::class_<MizController, std::shared_ptr<MizController>>(m, "MizController")
     .def(py::init<>())
-    .def("exec", &MizController::Exec)
+    .def("exec_file", &MizController::ExecFile)
+    .def("exec_buffer", &MizController::ExecBuffer)
     .def_property_readonly("token_table", &MizController::GetTokenTable)
     .def_property_readonly("ast_root", &MizController::GetASTRoot)
     .def_property_readonly("error_table", &MizController::GetErrorTable);
