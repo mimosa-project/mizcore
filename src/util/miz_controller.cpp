@@ -21,7 +21,7 @@ using mizcore::MizLexerHandler;
 using mizcore::VctLexerHandler;
 
 void
-MizController::Exec(const char* mizpath, const char* vctpath)
+MizController::ExecImpl(std::istream& ifs_miz, const char* vctpath)
 {
     std::ifstream ifs_vct(vctpath);
     if (!ifs_vct) {
@@ -31,11 +31,6 @@ MizController::Exec(const char* mizpath, const char* vctpath)
     VctLexerHandler vct_handler(&ifs_vct);
     vct_handler.yylex();
     symbol_table_ = vct_handler.GetSymbolTable();
-    std::ifstream ifs_miz(mizpath);
-    if (!ifs_miz) {
-        spdlog::error("Failed to open miz file. The specified path: \"{}\"",
-                      mizpath);
-    }
     MizLexerHandler miz_handler(&ifs_miz, symbol_table_);
     miz_handler.yylex();
     token_table_ = miz_handler.GetTokenTable();
@@ -46,27 +41,21 @@ MizController::Exec(const char* mizpath, const char* vctpath)
 }
 
 void
-MizController::ExecFromText(const char* text, const char* vctpath)
+MizController::ExecFile(const char* mizpath, const char* vctpath)
 {
-    std::ifstream ifs_vct(vctpath);
-    if (!ifs_vct) {
-        spdlog::error("Failed to open vct file. The specified path: \"{}\"",
-                      vctpath);
+    std::ifstream ifs_miz(mizpath);
+    if (!ifs_miz) {
+        spdlog::error("Failed to open miz file. The specified path: \"{}\"",
+                      mizpath);
     }
-    VctLexerHandler vct_handler(&ifs_vct);
-    vct_handler.yylex();
-    symbol_table_ = vct_handler.GetSymbolTable();
+    MizController::ExecImpl(ifs_miz, vctpath);
+}
 
-    // Convert input text to std::istream
-    std::string str_text = std::string(text);
+void
+MizController::ExecBuffer(const char* buffer, const char* vctpath)
+{
+    std::string str_text = std::string(buffer);
     std::stringbuf str_buf(str_text);
     std::istream ifs_miz(&str_buf);
-
-    MizLexerHandler miz_handler(&ifs_miz, symbol_table_);
-    miz_handler.yylex();
-    token_table_ = miz_handler.GetTokenTable();
-    error_table_ = std::make_shared<ErrorTable>();
-    MizBlockParser miz_block_parser(token_table_, error_table_);
-    miz_block_parser.Parse();
-    ast_root_ = miz_block_parser.GetASTRoot();
+    MizController::ExecImpl(ifs_miz, vctpath);
 }

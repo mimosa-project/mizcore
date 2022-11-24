@@ -21,14 +21,9 @@ TEST_DIR()
 
 } // namespace
 
-TEST_CASE("test miz_controller")
+void test_miz_controller(MizController& miz_controller)
 {
-    mizcore::MizController miz_controller;
-    auto mizpath = TEST_DIR() / "data" / "numerals.miz";
-    auto vctpath = TEST_DIR().parent_path() / "parser" / "data" / "mml.vct";
-    miz_controller.Exec(mizpath.string().c_str(), vctpath.string().c_str());
-
-    if (!fs::exists(TEST_DIR() / "result")) {
+  if (!fs::exists(TEST_DIR() / "result")) {
         fs::create_directory(TEST_DIR() / "result");
     }
     fs::path result_file_path = TEST_DIR() / "result" / "numerals_blocks.json";
@@ -50,9 +45,19 @@ TEST_CASE("test miz_controller")
     } else {
         remove(result_file_path.string().c_str());
     }
+
 }
 
-TEST_CASE("test miz_controller ExecFromText")
+TEST_CASE("test miz_controller ExecFile")
+{
+    mizcore::MizController miz_controller;
+    auto mizpath = TEST_DIR() / "data" / "numerals.miz";
+    auto vctpath = TEST_DIR().parent_path() / "parser" / "data" / "mml.vct";
+    miz_controller.ExecFile(mizpath.string().c_str(), vctpath.string().c_str());
+    test_miz_controller(miz_controller);
+}
+
+TEST_CASE("test miz_controller ExecBuffer")
 {
     auto mizpath = TEST_DIR() / "data" / "numerals.miz";
     auto vctpath = TEST_DIR().parent_path() / "parser" / "data" / "mml.vct";
@@ -62,27 +67,6 @@ TEST_CASE("test miz_controller ExecFromText")
     // Convert path to std::string
     std::string str_text = std::string((std::istreambuf_iterator<char>(ifs_miz)),
                             std::istreambuf_iterator<char>());
-    miz_controller.ExecFromText(str_text.c_str(), vctpath.string().c_str());
-    if (!fs::exists(TEST_DIR() / "result")) {
-        fs::create_directory(TEST_DIR() / "result");
-    }
-    fs::path result_file_path = TEST_DIR() / "result" / "numerals_blocks.json";
-    nlohmann::json json;
-    auto ast_root = miz_controller.GetASTRoot();
-    ast_root->ToJson(json);
-    mizcore::write_json_file(json, result_file_path);
-    fs::path expected_file_path =
-      TEST_DIR() / "expected" / "numerals_blocks.json";
-
-    auto json_diff =
-      mizcore::json_file_diff(result_file_path, expected_file_path);
-
-    CHECK(json_diff.empty());
-    if (!json_diff.empty()) {
-        fs::path diff_file_path =
-          TEST_DIR() / "result" / "numerals_blocks_diff.json";
-        mizcore::write_json_file(json_diff, diff_file_path);
-    } else {
-        remove(result_file_path.string().c_str());
-    }
+    miz_controller.ExecBuffer(str_text.c_str(), vctpath.string().c_str());
+    test_miz_controller(miz_controller);
 }
