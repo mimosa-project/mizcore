@@ -19,10 +19,11 @@ using std::string;
 std::string_view
 mizcore::QueryElementTypeText(ELEMENT_TYPE type)
 {
-    static std::array<string, 3> type2text = {
+    static std::array<string, 4> type2text = {
         "unknown",
         "block",
         "statement",
+        "token",
     };
     return type2text[static_cast<size_t>(type)];
 }

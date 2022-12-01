@@ -16,7 +16,7 @@ find_package(FLEX REQUIRED)
 # test
 enable_testing()
 
-add_compile_options(-Wall -Wextra -Wpedantic)
+add_compile_options(-Wall -Wextra -Wpedantic -fPIC)
 
 set(JSON_BuildTests
     OFF
@@ -25,3 +25,4 @@ set(JSON_BuildTests
 add_subdirectory(external)
 add_subdirectory(src)
 add_subdirectory(tests)
+add_subdirectory(py_binding)
