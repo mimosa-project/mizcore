@@ -24,7 +24,7 @@
 
 SYMBOL      [[:graph:]]+
 NUMERAL     "0"|[1-9][0-9]*
-FILENAME    [[:upper:]][[:upper:][:digit:]_]{4,7}
+FILENAME    [[:upper:]][[:upper:][:digit:]_]{3,7}
 IDENTIFIER  [[:alpha:][:digit:]_']+
 RETURN      "\r\n"|"\r"|"\n"
 SPACES      [[:blank:]]+

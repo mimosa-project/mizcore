@@ -1,6 +1,7 @@
 #include <cassert>
 #include <iostream>
 #include <memory>
+#include <set>
 #include <sstream>
 
 #include "spdlog/spdlog.h"
@@ -298,7 +299,11 @@ MizBlockParser::ParseSchemeKeyword(KeywordToken* token)
         for (; id < token_num; ++id) {
             ASTToken* current_token = token_table_->GetToken(id);
             if (current_token->GetText() == ";") {
-                PushBlock(token, parent_block, BLOCK_TYPE::SCHEME);
+                if (is_abs_mode_) {
+                    PushStatement(token, parent_block, STATEMENT_TYPE::SCHEME);
+                } else {
+                    PushBlock(token, parent_block, BLOCK_TYPE::SCHEME);
+                }
                 break;
             }
             if (current_token->GetText() == "proof") {
@@ -451,8 +456,34 @@ MizBlockParser::PopStatement(ASTToken* token)
 }
 
 ASTToken*
+MizBlockParser::QueryPrevToken(ASTToken* token) const
+{
+    if (token == nullptr) {
+        return nullptr;
+    }
+
+    size_t i = token->GetId();
+    if (i == 0) {
+        return nullptr;
+    }
+
+    do {
+        --i;
+        auto* prev_token = token_table_->GetToken(i);
+        if (prev_token->GetTokenType() != TOKEN_TYPE::COMMENT) {
+            return prev_token;
+        }
+    } while (i != 0);
+
+    return nullptr;
+}
+
+ASTToken*
 MizBlockParser::QueryNextToken(ASTToken* token) const
 {
+    if (token == nullptr) {
+        return nullptr;
+    }
     size_t token_num = token_table_->GetTokenNum();
     for (size_t i = token->GetId() + 1; i < token_num; ++i) {
         auto* next_token = token_table_->GetToken(i);
@@ -496,11 +527,12 @@ MizBlockParser::ResolveIdentifierInStatement(ASTStatement* statement)
     bool is_scheme_parameters = false;
     size_t scheme_bracket_stack = 0;
 
+    bool is_push_refstack = false;
+
     for (size_t i = first_id; i < last_id; ++i) {
         ASTToken* curr_token = token_table_->GetToken(i);
-        ASTToken* prev_token =
-          i > first_id ? token_table_->GetToken(i - 1) : nullptr;
-        ASTToken* next_token = token_table_->GetToken(i + 1);
+        ASTToken* prev_token = QueryPrevToken(curr_token);
+        ASTToken* next_token = QueryNextToken(curr_token);
 
         if (curr_token->GetTokenType() == TOKEN_TYPE::KEYWORD) {
             auto* keyword_token = static_cast<KeywordToken*>(curr_token);
@@ -521,6 +553,8 @@ MizBlockParser::ResolveIdentifierInStatement(ASTStatement* statement)
                             region_type = keyword_type;
                             continue;
                         default:
+                            is_push_refstack = true;
+                            PushReferenceStack();
                             break;
                     }
                 }
@@ -528,11 +562,15 @@ MizBlockParser::ResolveIdentifierInStatement(ASTStatement* statement)
                     case KEYWORD_TYPE::FOR:
                     case KEYWORD_TYPE::EX:
                     case KEYWORD_TYPE::WHERE:
-                    case KEYWORD_TYPE::MEANS:
-                    case KEYWORD_TYPE::EQUALS:
                     case KEYWORD_TYPE::BY:
                     case KEYWORD_TYPE::FROM:
                         region_type = keyword_type;
+                        continue;
+                    case KEYWORD_TYPE::MEANS:
+                    case KEYWORD_TYPE::EQUALS:
+                        if (next_token->GetText() == ":") {
+                            region_type = keyword_type;
+                        }
                         continue;
                     default:
                         continue;
@@ -575,6 +613,22 @@ MizBlockParser::ResolveIdentifierInStatement(ASTStatement* statement)
                     next_text == ",") {
                     ReplaceIdentifierType(curr_token,
                                           IDENTIFIER_TYPE::VARIABLE);
+                    PushToReferenceStack(curr_token);
+                }
+            }
+        }
+
+        if (region_type == KEYWORD_TYPE::UNKNOWN && prev_token != nullptr) {
+            if (curr_token->GetTokenType() == TOKEN_TYPE::IDENTIFIER) {
+                const auto& prev_text = prev_token->GetText();
+                const auto& next_text = next_token->GetText();
+                if (prev_text == ",") {
+                    if (next_text == "be" || next_text == "being" ||
+                        next_text == ",") {
+                        ReplaceIdentifierType(curr_token,
+                                              IDENTIFIER_TYPE::VARIABLE);
+                        PushToReferenceStack(curr_token);
+                    }
                 }
             }
         }
@@ -636,22 +690,9 @@ MizBlockParser::ResolveIdentifierInStatement(ASTStatement* statement)
         }
 
         if (region_type == KEYWORD_TYPE::WHERE) {
-            const auto& curr_text = curr_token->GetText();
-            if (curr_text == "is" || curr_text == "are") {
-                region_type = KEYWORD_TYPE::UNKNOWN;
-                continue;
-            }
-
-            assert(prev_token != nullptr);
-            const auto& prev_text = prev_token->GetText();
-            const auto& next_text = next_token->GetText();
-            if (prev_text == "where" || prev_text == ",") {
-                if (next_text == "," || next_text == "is" ||
-                    next_text == "are") {
-                    ReplaceIdentifierType(curr_token,
-                                          IDENTIFIER_TYPE::VARIABLE);
-                }
-            }
+            ResolveIdentifierAroundWhere(statement, curr_token);
+            region_type = KEYWORD_TYPE::UNKNOWN;
+            continue;
         }
 
         // label identifier
@@ -665,6 +706,13 @@ MizBlockParser::ResolveIdentifierInStatement(ASTStatement* statement)
                 PushToReferenceStack(curr_token);
                 region_type = KEYWORD_TYPE::UNKNOWN;
                 continue;
+            }
+
+            if (curr_token->GetTokenType() != TOKEN_TYPE::COMMENT) {
+                const auto& curr_text = curr_token->GetText();
+                if (curr_text != ":") {
+                    region_type = KEYWORD_TYPE::UNKNOWN;
+                }
             }
         }
 
@@ -822,6 +870,10 @@ MizBlockParser::ResolveIdentifierInStatement(ASTStatement* statement)
 
         ResolveReference(curr_token);
     }
+
+    if (is_push_refstack) {
+        PopReferenceStack();
+    }
 }
 
 void
@@ -871,6 +923,104 @@ MizBlockParser::ResolveNowBlockIdentifier(ASTBlock* block)
             RecordError(t2, ERROR_TYPE::NOW_BLOCK_STARTS_WITH_IRREGULAR_TOKENS);
         } else {
             ReplaceIdentifierType(t1, IDENTIFIER_TYPE::LABEL);
+        }
+    }
+}
+
+void
+MizBlockParser::ResolveIdentifierAroundWhere(ASTStatement* statement,
+                                             ASTToken* token)
+{
+    ASTToken* where_token = QueryPrevToken(token);
+    assert(where_token->GetText() == "where");
+    size_t where_id = where_token->GetId();
+
+    // Determine a variable scope of the "where" clause
+    size_t first_scope_id = 0;
+    {
+        auto* first_statement_token = statement->GetRangeFirstToken();
+        size_t first_statement_id = first_statement_token->GetId();
+
+        for (ASTToken* curr_token = QueryPrevToken(where_token);
+             curr_token != nullptr && curr_token->GetId() >= first_statement_id;
+             curr_token = QueryPrevToken(curr_token)) {
+            const auto& curr_text = curr_token->GetText();
+            if (curr_text == "{") {
+                first_scope_id = curr_token->GetId();
+                break;
+            }
+            if (curr_text == "all") {
+                ASTToken* token3 = QueryPrevToken(curr_token);
+                ASTToken* token2 = QueryPrevToken(token3);
+                ASTToken* token1 = QueryPrevToken(token2);
+
+                if (token1 != nullptr && token1->GetText() == "the" &&
+                    token2 != nullptr && token2->GetText() == "set" &&
+                    token3 != nullptr && token3->GetText() == "of") {
+                    first_scope_id = curr_token->GetId();
+                    break;
+                }
+            }
+        }
+    }
+
+    size_t last_scope_id = 0;
+    {
+        auto* last_statement_token = statement->GetRangeLastToken();
+        size_t last_statement_id = last_statement_token->GetId();
+
+        for (ASTToken* curr_token = QueryNextToken(where_token);
+             curr_token != nullptr && curr_token->GetId() <= last_statement_id;
+             curr_token = QueryNextToken(curr_token)) {
+            const auto& curr_text = curr_token->GetText();
+            if (curr_text == ":" || curr_text == ";") {
+                last_scope_id = curr_token->GetId();
+                break;
+            }
+        }
+    }
+
+    // Collect candidates of variable declaration
+    std::map<std::string, ASTToken*> candidates;
+    for (size_t i = where_id; i < last_scope_id; ++i) {
+        ASTToken* curr_token = token_table_->GetToken(i);
+        ASTToken* prev_token = QueryPrevToken(curr_token);
+        ASTToken* next_token = QueryNextToken(curr_token);
+        const auto& prev_text = prev_token->GetText();
+        const auto& next_text = next_token->GetText();
+
+        if (prev_text == "where" || prev_text == ",") {
+            if (next_text == "," || next_text == "is" || next_text == "are") {
+                std::string curr_text = std::string(curr_token->GetText());
+                if (candidates.find(curr_text) == candidates.end()) {
+                    candidates.insert(std::make_pair(curr_text, curr_token));
+                }
+            }
+        }
+    }
+
+    // Check if candidates are variable declaration
+    // and they are used in front of "where" keyword
+    std::set<ASTToken*> variable_declarations;
+    for (size_t i = first_scope_id; i < where_id; ++i) {
+        ASTToken* curr_token = token_table_->GetToken(i);
+        std::string curr_text = std::string(curr_token->GetText());
+        auto it = candidates.find(curr_text);
+        if (it != candidates.end()) {
+            it->second =
+              ReplaceIdentifierType(it->second, IDENTIFIER_TYPE::VARIABLE);
+            curr_token =
+              ReplaceIdentifierType(curr_token, IDENTIFIER_TYPE::VARIABLE);
+
+            assert(dynamic_cast<IdentifierToken*>(curr_token) != nullptr);
+            static_cast<IdentifierToken*>(curr_token)
+              ->SetRefToken(static_cast<IdentifierToken*>(it->second));
+
+            if (variable_declarations.find(it->second) ==
+                variable_declarations.end()) {
+                variable_declarations.insert(it->second);
+                PushToReferenceStack(it->second);
+            }
         }
     }
 }
@@ -991,8 +1141,7 @@ ASTToken*
 MizBlockParser::ReplaceIdentifierType(ASTToken* token, IDENTIFIER_TYPE type)
 {
     if (token->GetTokenType() == TOKEN_TYPE::IDENTIFIER) {
-        static_cast<IdentifierToken*>(token)->SetIdentifierType(
-          IDENTIFIER_TYPE::LABEL);
+        static_cast<IdentifierToken*>(token)->SetIdentifierType(type);
         return token;
     }
 

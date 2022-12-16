@@ -38,6 +38,9 @@ class MizBlockParser
         is_partial_mode_ = is_partial_mode;
     }
 
+    bool IsABSMode() const { return is_abs_mode_; }
+    void SetABSMode(bool is_abs_mode) { is_abs_mode_ = is_abs_mode; }
+
     void Parse();
 
   private:
@@ -64,11 +67,14 @@ class MizBlockParser
                                 ASTBlock* parent_block,
                                 STATEMENT_TYPE statement_type);
     void PopStatement(ASTToken* token);
+    ASTToken* QueryPrevToken(ASTToken* token) const;
     ASTToken* QueryNextToken(ASTToken* token) const;
 
     void ResolveIdentifierInBlock(ASTBlock* block);
     void ResolveIdentifierInStatement(ASTStatement* statement);
     void ResolveNowBlockIdentifier(ASTBlock* block);
+    void ResolveIdentifierAroundWhere(ASTStatement* statement,
+                                      ASTToken* curr_token);
 
     void RecordError(ASTToken* token, ERROR_TYPE error_type) const;
 
@@ -94,6 +100,7 @@ class MizBlockParser
 
   private:
     bool is_partial_mode_ = false;
+    bool is_abs_mode_ = false;
     std::shared_ptr<TokenTable> token_table_;
     std::shared_ptr<ASTBlock> ast_root_ =
       std::make_shared<ASTBlock>(BLOCK_TYPE::ROOT);
