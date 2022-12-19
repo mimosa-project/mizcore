@@ -1,0 +1,3 @@
+pybind11_add_module(py_miz_controller py_miz_controller.cpp)
+target_link_libraries(py_miz_controller PUBLIC mizcore::util)
+target_compile_features(py_miz_controller PRIVATE cxx_std_17)

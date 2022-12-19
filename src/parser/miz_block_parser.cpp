@@ -60,6 +60,10 @@ MizBlockParser::Parse()
 {
     ASTToken* prev_token = nullptr;
     size_t token_num = token_table_->GetTokenNum();
+    if (token_num == 0) {
+        return;
+    }
+
     for (size_t i = 0; i < token_num; ++i) {
         auto* token = token_table_->GetToken(i);
         auto token_type = token->GetTokenType();
@@ -98,6 +102,8 @@ MizBlockParser::Parse()
         } else {
             RecordError(prev_token,
                         ERROR_TYPE::STATEMENT_NOT_CLOSED_IN_ARTICLE);
+            auto* last_token = token_table_->GetLastToken();
+            PopStatement(last_token);
         }
     }
 

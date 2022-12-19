@@ -1,4 +1,5 @@
 #include <filesystem>
+#include <fstream>
 #include <iostream>
 
 #include "ast_block.hpp"
@@ -20,14 +21,9 @@ TEST_DIR()
 
 } // namespace
 
-TEST_CASE("test miz_controller")
+void test_miz_controller(MizController& miz_controller)
 {
-    mizcore::MizController miz_controller;
-    auto mizpath = TEST_DIR() / "data" / "numerals.miz";
-    auto vctpath = TEST_DIR().parent_path() / "parser" / "data" / "mml.vct";
-    miz_controller.Exec(mizpath.string().c_str(), vctpath.string().c_str());
-
-    if (!fs::exists(TEST_DIR() / "result")) {
+  if (!fs::exists(TEST_DIR() / "result")) {
         fs::create_directory(TEST_DIR() / "result");
     }
     fs::path result_file_path = TEST_DIR() / "result" / "numerals_blocks.json";
@@ -49,4 +45,28 @@ TEST_CASE("test miz_controller")
     } else {
         remove(result_file_path.string().c_str());
     }
+
+}
+
+TEST_CASE("test miz_controller ExecFile")
+{
+    mizcore::MizController miz_controller;
+    auto mizpath = TEST_DIR() / "data" / "numerals.miz";
+    auto vctpath = TEST_DIR().parent_path() / "parser" / "data" / "mml.vct";
+    miz_controller.ExecFile(mizpath.string().c_str(), vctpath.string().c_str());
+    test_miz_controller(miz_controller);
+}
+
+TEST_CASE("test miz_controller ExecBuffer")
+{
+    auto mizpath = TEST_DIR() / "data" / "numerals.miz";
+    auto vctpath = TEST_DIR().parent_path() / "parser" / "data" / "mml.vct";
+    mizcore::MizController miz_controller;
+    std::ifstream ifs_miz(mizpath);
+    CHECK(ifs_miz.good());
+    // Convert path to std::string
+    std::string str_text = std::string((std::istreambuf_iterator<char>(ifs_miz)),
+                            std::istreambuf_iterator<char>());
+    miz_controller.ExecBuffer(str_text.c_str(), vctpath.string().c_str());
+    test_miz_controller(miz_controller);
 }

@@ -43,6 +43,11 @@ cd build
 ctest
 ```
 
+## build python
+```
+python setup.py build 
+```
+
 ## Development
 
 ### Installation
