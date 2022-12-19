@@ -34,7 +34,8 @@ TEST_DIR()
 
 void
 check_parser_one(const char* article_name,
-                 std::shared_ptr<SymbolTable>& symbol_table)
+                 std::shared_ptr<SymbolTable>& symbol_table,
+                 bool is_abs_mode = false)
 {
     fs::path miz_file_path =
       TEST_DIR() / "data" / (std::string(article_name) + ".miz");
@@ -49,6 +50,7 @@ check_parser_one(const char* article_name,
     auto error_table = std::make_shared<ErrorTable>();
 
     MizBlockParser miz_block_parser(token_table, error_table);
+    miz_block_parser.SetABSMode(is_abs_mode);
 
     // Erapsed time: 0.000168 [s]
     clock_t start = clock();
@@ -139,6 +141,11 @@ TEST_CASE("execute miz file handler")
     SUBCASE("AXIOMS_MOD_NG.miz")
     {
         check_parser_one("axioms_mod_ng", symbol_table);
+    }
+
+    SUBCASE("ABCMIC_1.abs")
+    {
+        check_parser_one("abcmiz_1_abs", symbol_table, true);
     }
 
     SUBCASE("jgraph_4.miz") { check_parser_one("jgraph_4", symbol_table); }

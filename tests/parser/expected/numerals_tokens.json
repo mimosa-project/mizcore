@@ -174,7 +174,7 @@
     },
     {
         "id": 17,
-        "identifier_type": "filename",
+        "identifier_type": "variable",
         "length": 8,
         "pos": [
             17,
@@ -253,7 +253,7 @@
     },
     {
         "id": 24,
-        "identifier_type": "filename",
+        "identifier_type": "variable",
         "length": 8,
         "pos": [
             18,
