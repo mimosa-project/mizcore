@@ -25,12 +25,15 @@ class MizController
     std::shared_ptr<TokenTable> GetTokenTable() const { return token_table_; }
     std::shared_ptr<ASTBlock> GetASTRoot() const { return ast_root_; }
     std::shared_ptr<ErrorTable> GetErrorTable() const { return error_table_; }
+    bool IsABSMode() const { return is_abs_mode_; }
+    void SetABSMode(bool is_abs_mode) { is_abs_mode_ = is_abs_mode; }
 
   private:
     std::shared_ptr<SymbolTable> symbol_table_;
     std::shared_ptr<TokenTable> token_table_;
     std::shared_ptr<ASTBlock> ast_root_;
     std::shared_ptr<ErrorTable> error_table_;
+    bool is_abs_mode_ = false;
 };
 
 } // namespace mizcore
