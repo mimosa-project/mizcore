@@ -399,6 +399,7 @@ PYBIND11_MODULE(py_miz_controller, m)
     .def(py::init<>())
     .def("exec_file", &MizController::ExecFile)
     .def("exec_buffer", &MizController::ExecBuffer)
+    .def("is_abs_mode", &MizController::IsABSMode)
     .def_property_readonly("token_table", &MizController::GetTokenTable)
     .def_property_readonly("ast_root", &MizController::GetASTRoot)
     .def_property_readonly("error_table", &MizController::GetErrorTable);

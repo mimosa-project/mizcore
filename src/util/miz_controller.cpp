@@ -36,6 +36,9 @@ MizController::ExecImpl(std::istream& ifs_miz, const char* vctpath)
     token_table_ = miz_handler.GetTokenTable();
     error_table_ = std::make_shared<ErrorTable>();
     MizBlockParser miz_block_parser(token_table_, error_table_);
+    if(IsABSMode()){
+        miz_block_parser.SetABSMode(true);
+    }
     miz_block_parser.Parse();
     ast_root_ = miz_block_parser.GetASTRoot();
 }
@@ -43,6 +46,12 @@ MizController::ExecImpl(std::istream& ifs_miz, const char* vctpath)
 void
 MizController::ExecFile(const char* mizpath, const char* vctpath)
 {
+    std::string str_mizpath = mizpath;
+    std::string str_abs = ".abs";
+    if (str_mizpath.size() >= str_abs.size() &&
+       str_mizpath.find(str_abs, str_mizpath.size() - str_abs.size()) != std::string::npos) {
+       MizController::SetABSMode(true);
+    }
     std::ifstream ifs_miz(mizpath);
     if (!ifs_miz) {
         spdlog::error("Failed to open miz file. The specified path: \"{}\"",
