@@ -47,7 +47,7 @@ void
 MizController::ExecFile(const char* mizpath, const char* vctpath)
 {
     std::string str_mizpath = mizpath;
-    std::string str_abs = "abs";
+    std::string str_abs = ".abs";
     if (str_mizpath.size() >= str_abs.size() &&
        str_mizpath.find(str_abs, str_mizpath.size() - str_abs.size()) != std::string::npos) {
        MizController::SetABSMode(true);
