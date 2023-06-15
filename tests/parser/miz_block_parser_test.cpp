@@ -148,5 +148,7 @@ TEST_CASE("execute miz file handler")
         check_parser_one("abcmiz_1_abs", symbol_table, true);
     }
 
-    SUBCASE("jgraph_4.miz") { check_parser_one("jgraph_4", symbol_table); }
+    SUBCASE("JGRAPH_4.miz") { check_parser_one("jgraph_4", symbol_table); }
+
+    SUBCASE("TARSKI_0.miz") { check_parser_one("tarski_0", symbol_table); }
 }

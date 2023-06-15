@@ -763,6 +763,10 @@ MizBlockParser::ResolveIdentifierInStatement(ASTStatement* statement)
                     curr_token =
                       ReplaceIdentifierType(curr_token, IDENTIFIER_TYPE::LABEL);
                 }
+                if (next_text == ":") {
+                    curr_token =
+                      ReplaceIdentifierType(curr_token, IDENTIFIER_TYPE::FILENAME);
+                }
             }
         }
 
@@ -1194,6 +1198,13 @@ MizBlockParser::ResolveReference(ASTToken* token)
     if (token_type != TOKEN_TYPE::IDENTIFIER &&
         (!is_partial_mode_ || token_type != TOKEN_TYPE::SYMBOL)) {
         return;
+    }
+
+    if (token_type == TOKEN_TYPE::IDENTIFIER) {
+        auto* identifierToken = static_cast<IdentifierToken*>(token);
+        if (identifierToken->GetIdentifierType() == IDENTIFIER_TYPE::VARIABLE) {
+            return;
+        }
     }
 
     std::string_view text = token->GetText();

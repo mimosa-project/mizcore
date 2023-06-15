@@ -1,0 +1,2564 @@
+[
+    {
+        "id": 0,
+        "length": 45,
+        "pos": [
+            1,
+            1
+        ],
+        "text": ":: Axioms of Tarski {G}rothendieck Set Theory",
+        "type": "comment"
+    },
+    {
+        "id": 1,
+        "length": 23,
+        "pos": [
+            2,
+            1
+        ],
+        "text": "::  by Andrzej Trybulec",
+        "type": "comment"
+    },
+    {
+        "id": 2,
+        "length": 2,
+        "pos": [
+            3,
+            1
+        ],
+        "text": "::",
+        "type": "comment"
+    },
+    {
+        "id": 3,
+        "length": 27,
+        "pos": [
+            4,
+            1
+        ],
+        "text": ":: Received January 1, 1989",
+        "type": "comment"
+    },
+    {
+        "id": 4,
+        "length": 53,
+        "pos": [
+            5,
+            1
+        ],
+        "text": ":: Copyright (c) 1990-2023 Association of Mizar Users",
+        "type": "comment"
+    },
+    {
+        "id": 5,
+        "length": 69,
+        "pos": [
+            6,
+            1
+        ],
+        "text": "::           (Stowarzyszenie Uzytkownikow Mizara, Bialystok, Poland).",
+        "type": "comment"
+    },
+    {
+        "id": 6,
+        "length": 68,
+        "pos": [
+            7,
+            1
+        ],
+        "text": ":: This code can be distributed under the GNU General Public Licence",
+        "type": "comment"
+    },
+    {
+        "id": 7,
+        "length": 71,
+        "pos": [
+            8,
+            1
+        ],
+        "text": ":: version 3.0 or later, or the Creative Commons Attribution-ShareAlike",
+        "type": "comment"
+    },
+    {
+        "id": 8,
+        "length": 70,
+        "pos": [
+            9,
+            1
+        ],
+        "text": ":: License version 3.0 or later, subject to the binding interpretation",
+        "type": "comment"
+    },
+    {
+        "id": 9,
+        "length": 43,
+        "pos": [
+            10,
+            1
+        ],
+        "text": ":: detailed in file COPYING.interpretation.",
+        "type": "comment"
+    },
+    {
+        "id": 10,
+        "length": 66,
+        "pos": [
+            11,
+            1
+        ],
+        "text": ":: See COPYING.GPL and COPYING.CC-BY-SA for the full text of these",
+        "type": "comment"
+    },
+    {
+        "id": 11,
+        "length": 60,
+        "pos": [
+            12,
+            1
+        ],
+        "text": ":: licenses, or see http://www.gnu.org/licenses/gpl.html and",
+        "type": "comment"
+    },
+    {
+        "id": 12,
+        "length": 50,
+        "pos": [
+            13,
+            1
+        ],
+        "text": ":: http://creativecommons.org/licenses/by-sa/3.0/.",
+        "type": "comment"
+    },
+    {
+        "id": 13,
+        "length": 7,
+        "pos": [
+            15,
+            1
+        ],
+        "text": "environ",
+        "type": "keyword"
+    },
+    {
+        "id": 14,
+        "length": 5,
+        "pos": [
+            17,
+            1
+        ],
+        "text": "begin",
+        "type": "keyword"
+    },
+    {
+        "id": 15,
+        "length": 7,
+        "pos": [
+            19,
+            1
+        ],
+        "text": "reserve",
+        "type": "keyword"
+    },
+    {
+        "id": 16,
+        "identifier_type": "reserved",
+        "length": 1,
+        "pos": [
+            19,
+            9
+        ],
+        "text": "x",
+        "type": "identifier"
+    },
+    {
+        "id": 17,
+        "length": 1,
+        "pos": [
+            19,
+            10
+        ],
+        "priority": 64,
+        "symbol_type": "S",
+        "text": ",",
+        "type": "symbol"
+    },
+    {
+        "id": 18,
+        "identifier_type": "reserved",
+        "length": 1,
+        "pos": [
+            19,
+            11
+        ],
+        "text": "y",
+        "type": "identifier"
+    },
+    {
+        "id": 19,
+        "length": 1,
+        "pos": [
+            19,
+            12
+        ],
+        "priority": 64,
+        "symbol_type": "S",
+        "text": ",",
+        "type": "symbol"
+    },
+    {
+        "id": 20,
+        "identifier_type": "reserved",
+        "length": 1,
+        "pos": [
+            19,
+            13
+        ],
+        "text": "z",
+        "type": "identifier"
+    },
+    {
+        "id": 21,
+        "length": 1,
+        "pos": [
+            19,
+            14
+        ],
+        "priority": 64,
+        "symbol_type": "S",
+        "text": ",",
+        "type": "symbol"
+    },
+    {
+        "id": 22,
+        "identifier_type": "reserved",
+        "length": 1,
+        "pos": [
+            19,
+            15
+        ],
+        "text": "a",
+        "type": "identifier"
+    },
+    {
+        "id": 23,
+        "length": 3,
+        "pos": [
+            19,
+            17
+        ],
+        "text": "for",
+        "type": "keyword"
+    },
+    {
+        "id": 24,
+        "length": 6,
+        "pos": [
+            19,
+            21
+        ],
+        "priority": 64,
+        "symbol_type": "M",
+        "text": "object",
+        "type": "symbol"
+    },
+    {
+        "id": 25,
+        "length": 1,
+        "pos": [
+            19,
+            27
+        ],
+        "priority": 64,
+        "symbol_type": "S",
+        "text": ";",
+        "type": "symbol"
+    },
+    {
+        "id": 26,
+        "length": 7,
+        "pos": [
+            20,
+            1
+        ],
+        "text": "reserve",
+        "type": "keyword"
+    },
+    {
+        "id": 27,
+        "identifier_type": "reserved",
+        "length": 1,
+        "pos": [
+            20,
+            9
+        ],
+        "text": "X",
+        "type": "identifier"
+    },
+    {
+        "id": 28,
+        "length": 1,
+        "pos": [
+            20,
+            10
+        ],
+        "priority": 64,
+        "symbol_type": "S",
+        "text": ",",
+        "type": "symbol"
+    },
+    {
+        "id": 29,
+        "identifier_type": "reserved",
+        "length": 1,
+        "pos": [
+            20,
+            11
+        ],
+        "text": "Y",
+        "type": "identifier"
+    },
+    {
+        "id": 30,
+        "length": 1,
+        "pos": [
+            20,
+            12
+        ],
+        "priority": 64,
+        "symbol_type": "S",
+        "text": ",",
+        "type": "symbol"
+    },
+    {
+        "id": 31,
+        "identifier_type": "reserved",
+        "length": 1,
+        "pos": [
+            20,
+            13
+        ],
+        "text": "Z",
+        "type": "identifier"
+    },
+    {
+        "id": 32,
+        "length": 3,
+        "pos": [
+            20,
+            15
+        ],
+        "text": "for",
+        "type": "keyword"
+    },
+    {
+        "id": 33,
+        "length": 3,
+        "pos": [
+            20,
+            19
+        ],
+        "text": "set",
+        "type": "keyword"
+    },
+    {
+        "id": 34,
+        "length": 1,
+        "pos": [
+            20,
+            22
+        ],
+        "priority": 64,
+        "symbol_type": "S",
+        "text": ";",
+        "type": "symbol"
+    },
+    {
+        "id": 35,
+        "length": 12,
+        "pos": [
+            22,
+            1
+        ],
+        "text": ":: Set axiom",
+        "type": "comment"
+    },
+    {
+        "id": 36,
+        "length": 7,
+        "pos": [
+            23,
+            1
+        ],
+        "text": "theorem",
+        "type": "keyword"
+    },
+    {
+        "id": 37,
+        "length": 3,
+        "pos": [
+            24,
+            3
+        ],
+        "text": "for",
+        "type": "keyword"
+    },
+    {
+        "id": 38,
+        "identifier_type": "variable",
+        "length": 1,
+        "pos": [
+            24,
+            7
+        ],
+        "text": "x",
+        "type": "identifier"
+    },
+    {
+        "id": 39,
+        "length": 5,
+        "pos": [
+            24,
+            9
+        ],
+        "text": "being",
+        "type": "keyword"
+    },
+    {
+        "id": 40,
+        "length": 6,
+        "pos": [
+            24,
+            15
+        ],
+        "priority": 64,
+        "symbol_type": "M",
+        "text": "object",
+        "type": "symbol"
+    },
+    {
+        "id": 41,
+        "length": 5,
+        "pos": [
+            24,
+            22
+        ],
+        "text": "holds",
+        "type": "keyword"
+    },
+    {
+        "id": 42,
+        "identifier_type": "variable",
+        "length": 1,
+        "pos": [
+            24,
+            28
+        ],
+        "ref_id": 38,
+        "text": "x",
+        "type": "identifier"
+    },
+    {
+        "id": 43,
+        "length": 2,
+        "pos": [
+            24,
+            30
+        ],
+        "text": "is",
+        "type": "keyword"
+    },
+    {
+        "id": 44,
+        "length": 3,
+        "pos": [
+            24,
+            33
+        ],
+        "text": "set",
+        "type": "keyword"
+    },
+    {
+        "id": 45,
+        "length": 1,
+        "pos": [
+            24,
+            36
+        ],
+        "priority": 64,
+        "symbol_type": "S",
+        "text": ";",
+        "type": "symbol"
+    },
+    {
+        "id": 46,
+        "length": 23,
+        "pos": [
+            26,
+            1
+        ],
+        "text": ":: Extensionality axiom",
+        "type": "comment"
+    },
+    {
+        "id": 47,
+        "length": 7,
+        "pos": [
+            27,
+            1
+        ],
+        "text": "theorem",
+        "type": "keyword"
+    },
+    {
+        "id": 48,
+        "length": 1,
+        "pos": [
+            28,
+            3
+        ],
+        "priority": 64,
+        "symbol_type": "S",
+        "text": "(",
+        "type": "symbol"
+    },
+    {
+        "id": 49,
+        "length": 3,
+        "pos": [
+            28,
+            4
+        ],
+        "text": "for",
+        "type": "keyword"
+    },
+    {
+        "id": 50,
+        "identifier_type": "variable",
+        "length": 1,
+        "pos": [
+            28,
+            8
+        ],
+        "text": "x",
+        "type": "identifier"
+    },
+    {
+        "id": 51,
+        "length": 5,
+        "pos": [
+            28,
+            10
+        ],
+        "text": "being",
+        "type": "keyword"
+    },
+    {
+        "id": 52,
+        "length": 6,
+        "pos": [
+            28,
+            16
+        ],
+        "priority": 64,
+        "symbol_type": "M",
+        "text": "object",
+        "type": "symbol"
+    },
+    {
+        "id": 53,
+        "length": 5,
+        "pos": [
+            28,
+            23
+        ],
+        "text": "holds",
+        "type": "keyword"
+    },
+    {
+        "id": 54,
+        "identifier_type": "variable",
+        "length": 1,
+        "pos": [
+            28,
+            29
+        ],
+        "ref_id": 50,
+        "text": "x",
+        "type": "identifier"
+    },
+    {
+        "id": 55,
+        "length": 2,
+        "pos": [
+            28,
+            31
+        ],
+        "priority": 64,
+        "symbol_type": "R",
+        "text": "in",
+        "type": "symbol"
+    },
+    {
+        "id": 56,
+        "identifier_type": "reserved",
+        "length": 1,
+        "pos": [
+            28,
+            34
+        ],
+        "ref_id": 27,
+        "text": "X",
+        "type": "identifier"
+    },
+    {
+        "id": 57,
+        "length": 3,
+        "pos": [
+            28,
+            36
+        ],
+        "text": "iff",
+        "type": "keyword"
+    },
+    {
+        "id": 58,
+        "identifier_type": "variable",
+        "length": 1,
+        "pos": [
+            28,
+            40
+        ],
+        "ref_id": 50,
+        "text": "x",
+        "type": "identifier"
+    },
+    {
+        "id": 59,
+        "length": 2,
+        "pos": [
+            28,
+            42
+        ],
+        "priority": 64,
+        "symbol_type": "R",
+        "text": "in",
+        "type": "symbol"
+    },
+    {
+        "id": 60,
+        "identifier_type": "reserved",
+        "length": 1,
+        "pos": [
+            28,
+            45
+        ],
+        "ref_id": 29,
+        "text": "Y",
+        "type": "identifier"
+    },
+    {
+        "id": 61,
+        "length": 1,
+        "pos": [
+            28,
+            46
+        ],
+        "priority": 64,
+        "symbol_type": "S",
+        "text": ")",
+        "type": "symbol"
+    },
+    {
+        "id": 62,
+        "length": 7,
+        "pos": [
+            28,
+            48
+        ],
+        "text": "implies",
+        "type": "keyword"
+    },
+    {
+        "id": 63,
+        "identifier_type": "reserved",
+        "length": 1,
+        "pos": [
+            28,
+            56
+        ],
+        "ref_id": 27,
+        "text": "X",
+        "type": "identifier"
+    },
+    {
+        "id": 64,
+        "length": 1,
+        "pos": [
+            28,
+            58
+        ],
+        "priority": 64,
+        "symbol_type": "S",
+        "text": "=",
+        "type": "symbol"
+    },
+    {
+        "id": 65,
+        "identifier_type": "reserved",
+        "length": 1,
+        "pos": [
+            28,
+            60
+        ],
+        "ref_id": 29,
+        "text": "Y",
+        "type": "identifier"
+    },
+    {
+        "id": 66,
+        "length": 1,
+        "pos": [
+            28,
+            61
+        ],
+        "priority": 64,
+        "symbol_type": "S",
+        "text": ";",
+        "type": "symbol"
+    },
+    {
+        "id": 67,
+        "length": 16,
+        "pos": [
+            30,
+            1
+        ],
+        "text": ":: Axiom of pair",
+        "type": "comment"
+    },
+    {
+        "id": 68,
+        "length": 7,
+        "pos": [
+            31,
+            1
+        ],
+        "text": "theorem",
+        "type": "keyword"
+    },
+    {
+        "id": 69,
+        "length": 3,
+        "pos": [
+            32,
+            3
+        ],
+        "text": "for",
+        "type": "keyword"
+    },
+    {
+        "id": 70,
+        "identifier_type": "variable",
+        "length": 1,
+        "pos": [
+            32,
+            7
+        ],
+        "text": "x",
+        "type": "identifier"
+    },
+    {
+        "id": 71,
+        "length": 1,
+        "pos": [
+            32,
+            8
+        ],
+        "priority": 64,
+        "symbol_type": "S",
+        "text": ",",
+        "type": "symbol"
+    },
+    {
+        "id": 72,
+        "identifier_type": "variable",
+        "length": 1,
+        "pos": [
+            32,
+            9
+        ],
+        "text": "y",
+        "type": "identifier"
+    },
+    {
+        "id": 73,
+        "length": 5,
+        "pos": [
+            32,
+            11
+        ],
+        "text": "being",
+        "type": "keyword"
+    },
+    {
+        "id": 74,
+        "length": 6,
+        "pos": [
+            32,
+            17
+        ],
+        "priority": 64,
+        "symbol_type": "M",
+        "text": "object",
+        "type": "symbol"
+    },
+    {
+        "id": 75,
+        "length": 2,
+        "pos": [
+            32,
+            24
+        ],
+        "text": "ex",
+        "type": "keyword"
+    },
+    {
+        "id": 76,
+        "identifier_type": "variable",
+        "length": 1,
+        "pos": [
+            32,
+            27
+        ],
+        "text": "z",
+        "type": "identifier"
+    },
+    {
+        "id": 77,
+        "length": 5,
+        "pos": [
+            32,
+            29
+        ],
+        "text": "being",
+        "type": "keyword"
+    },
+    {
+        "id": 78,
+        "length": 3,
+        "pos": [
+            32,
+            35
+        ],
+        "text": "set",
+        "type": "keyword"
+    },
+    {
+        "id": 79,
+        "length": 2,
+        "pos": [
+            32,
+            39
+        ],
+        "text": "st",
+        "type": "keyword"
+    },
+    {
+        "id": 80,
+        "length": 3,
+        "pos": [
+            33,
+            5
+        ],
+        "text": "for",
+        "type": "keyword"
+    },
+    {
+        "id": 81,
+        "identifier_type": "variable",
+        "length": 1,
+        "pos": [
+            33,
+            9
+        ],
+        "text": "a",
+        "type": "identifier"
+    },
+    {
+        "id": 82,
+        "length": 5,
+        "pos": [
+            33,
+            11
+        ],
+        "text": "being",
+        "type": "keyword"
+    },
+    {
+        "id": 83,
+        "length": 6,
+        "pos": [
+            33,
+            17
+        ],
+        "priority": 64,
+        "symbol_type": "M",
+        "text": "object",
+        "type": "symbol"
+    },
+    {
+        "id": 84,
+        "length": 5,
+        "pos": [
+            33,
+            24
+        ],
+        "text": "holds",
+        "type": "keyword"
+    },
+    {
+        "id": 85,
+        "identifier_type": "variable",
+        "length": 1,
+        "pos": [
+            34,
+            7
+        ],
+        "ref_id": 81,
+        "text": "a",
+        "type": "identifier"
+    },
+    {
+        "id": 86,
+        "length": 2,
+        "pos": [
+            34,
+            9
+        ],
+        "priority": 64,
+        "symbol_type": "R",
+        "text": "in",
+        "type": "symbol"
+    },
+    {
+        "id": 87,
+        "identifier_type": "variable",
+        "length": 1,
+        "pos": [
+            34,
+            12
+        ],
+        "ref_id": 76,
+        "text": "z",
+        "type": "identifier"
+    },
+    {
+        "id": 88,
+        "length": 3,
+        "pos": [
+            34,
+            14
+        ],
+        "text": "iff",
+        "type": "keyword"
+    },
+    {
+        "id": 89,
+        "identifier_type": "variable",
+        "length": 1,
+        "pos": [
+            34,
+            18
+        ],
+        "ref_id": 81,
+        "text": "a",
+        "type": "identifier"
+    },
+    {
+        "id": 90,
+        "length": 1,
+        "pos": [
+            34,
+            20
+        ],
+        "priority": 64,
+        "symbol_type": "S",
+        "text": "=",
+        "type": "symbol"
+    },
+    {
+        "id": 91,
+        "identifier_type": "variable",
+        "length": 1,
+        "pos": [
+            34,
+            22
+        ],
+        "ref_id": 70,
+        "text": "x",
+        "type": "identifier"
+    },
+    {
+        "id": 92,
+        "length": 2,
+        "pos": [
+            34,
+            24
+        ],
+        "text": "or",
+        "type": "keyword"
+    },
+    {
+        "id": 93,
+        "identifier_type": "variable",
+        "length": 1,
+        "pos": [
+            34,
+            27
+        ],
+        "ref_id": 81,
+        "text": "a",
+        "type": "identifier"
+    },
+    {
+        "id": 94,
+        "length": 1,
+        "pos": [
+            34,
+            29
+        ],
+        "priority": 64,
+        "symbol_type": "S",
+        "text": "=",
+        "type": "symbol"
+    },
+    {
+        "id": 95,
+        "identifier_type": "variable",
+        "length": 1,
+        "pos": [
+            34,
+            31
+        ],
+        "ref_id": 72,
+        "text": "y",
+        "type": "identifier"
+    },
+    {
+        "id": 96,
+        "length": 1,
+        "pos": [
+            34,
+            32
+        ],
+        "priority": 64,
+        "symbol_type": "S",
+        "text": ";",
+        "type": "symbol"
+    },
+    {
+        "id": 97,
+        "length": 17,
+        "pos": [
+            36,
+            1
+        ],
+        "text": ":: Axiom of union",
+        "type": "comment"
+    },
+    {
+        "id": 98,
+        "length": 7,
+        "pos": [
+            37,
+            1
+        ],
+        "text": "theorem",
+        "type": "keyword"
+    },
+    {
+        "id": 99,
+        "length": 3,
+        "pos": [
+            38,
+            3
+        ],
+        "text": "for",
+        "type": "keyword"
+    },
+    {
+        "id": 100,
+        "identifier_type": "variable",
+        "length": 1,
+        "pos": [
+            38,
+            7
+        ],
+        "text": "X",
+        "type": "identifier"
+    },
+    {
+        "id": 101,
+        "length": 5,
+        "pos": [
+            38,
+            9
+        ],
+        "text": "being",
+        "type": "keyword"
+    },
+    {
+        "id": 102,
+        "length": 3,
+        "pos": [
+            38,
+            15
+        ],
+        "text": "set",
+        "type": "keyword"
+    },
+    {
+        "id": 103,
+        "length": 2,
+        "pos": [
+            39,
+            4
+        ],
+        "text": "ex",
+        "type": "keyword"
+    },
+    {
+        "id": 104,
+        "identifier_type": "variable",
+        "length": 1,
+        "pos": [
+            39,
+            7
+        ],
+        "text": "Z",
+        "type": "identifier"
+    },
+    {
+        "id": 105,
+        "length": 5,
+        "pos": [
+            39,
+            9
+        ],
+        "text": "being",
+        "type": "keyword"
+    },
+    {
+        "id": 106,
+        "length": 3,
+        "pos": [
+            39,
+            15
+        ],
+        "text": "set",
+        "type": "keyword"
+    },
+    {
+        "id": 107,
+        "length": 2,
+        "pos": [
+            39,
+            19
+        ],
+        "text": "st",
+        "type": "keyword"
+    },
+    {
+        "id": 108,
+        "length": 3,
+        "pos": [
+            40,
+            5
+        ],
+        "text": "for",
+        "type": "keyword"
+    },
+    {
+        "id": 109,
+        "identifier_type": "variable",
+        "length": 1,
+        "pos": [
+            40,
+            9
+        ],
+        "text": "x",
+        "type": "identifier"
+    },
+    {
+        "id": 110,
+        "length": 5,
+        "pos": [
+            40,
+            11
+        ],
+        "text": "being",
+        "type": "keyword"
+    },
+    {
+        "id": 111,
+        "length": 6,
+        "pos": [
+            40,
+            17
+        ],
+        "priority": 64,
+        "symbol_type": "M",
+        "text": "object",
+        "type": "symbol"
+    },
+    {
+        "id": 112,
+        "length": 5,
+        "pos": [
+            40,
+            24
+        ],
+        "text": "holds",
+        "type": "keyword"
+    },
+    {
+        "id": 113,
+        "identifier_type": "variable",
+        "length": 1,
+        "pos": [
+            41,
+            7
+        ],
+        "ref_id": 109,
+        "text": "x",
+        "type": "identifier"
+    },
+    {
+        "id": 114,
+        "length": 2,
+        "pos": [
+            41,
+            9
+        ],
+        "priority": 64,
+        "symbol_type": "R",
+        "text": "in",
+        "type": "symbol"
+    },
+    {
+        "id": 115,
+        "identifier_type": "variable",
+        "length": 1,
+        "pos": [
+            41,
+            12
+        ],
+        "ref_id": 104,
+        "text": "Z",
+        "type": "identifier"
+    },
+    {
+        "id": 116,
+        "length": 3,
+        "pos": [
+            41,
+            14
+        ],
+        "text": "iff",
+        "type": "keyword"
+    },
+    {
+        "id": 117,
+        "length": 2,
+        "pos": [
+            41,
+            18
+        ],
+        "text": "ex",
+        "type": "keyword"
+    },
+    {
+        "id": 118,
+        "identifier_type": "variable",
+        "length": 1,
+        "pos": [
+            41,
+            21
+        ],
+        "text": "Y",
+        "type": "identifier"
+    },
+    {
+        "id": 119,
+        "length": 5,
+        "pos": [
+            41,
+            23
+        ],
+        "text": "being",
+        "type": "keyword"
+    },
+    {
+        "id": 120,
+        "length": 3,
+        "pos": [
+            41,
+            29
+        ],
+        "text": "set",
+        "type": "keyword"
+    },
+    {
+        "id": 121,
+        "length": 2,
+        "pos": [
+            41,
+            33
+        ],
+        "text": "st",
+        "type": "keyword"
+    },
+    {
+        "id": 122,
+        "identifier_type": "variable",
+        "length": 1,
+        "pos": [
+            41,
+            36
+        ],
+        "ref_id": 109,
+        "text": "x",
+        "type": "identifier"
+    },
+    {
+        "id": 123,
+        "length": 2,
+        "pos": [
+            41,
+            38
+        ],
+        "priority": 64,
+        "symbol_type": "R",
+        "text": "in",
+        "type": "symbol"
+    },
+    {
+        "id": 124,
+        "identifier_type": "variable",
+        "length": 1,
+        "pos": [
+            41,
+            41
+        ],
+        "ref_id": 118,
+        "text": "Y",
+        "type": "identifier"
+    },
+    {
+        "id": 125,
+        "length": 1,
+        "pos": [
+            41,
+            43
+        ],
+        "priority": 64,
+        "symbol_type": "S",
+        "text": "&",
+        "type": "symbol"
+    },
+    {
+        "id": 126,
+        "identifier_type": "variable",
+        "length": 1,
+        "pos": [
+            41,
+            45
+        ],
+        "ref_id": 118,
+        "text": "Y",
+        "type": "identifier"
+    },
+    {
+        "id": 127,
+        "length": 2,
+        "pos": [
+            41,
+            47
+        ],
+        "priority": 64,
+        "symbol_type": "R",
+        "text": "in",
+        "type": "symbol"
+    },
+    {
+        "id": 128,
+        "identifier_type": "variable",
+        "length": 1,
+        "pos": [
+            41,
+            50
+        ],
+        "ref_id": 100,
+        "text": "X",
+        "type": "identifier"
+    },
+    {
+        "id": 129,
+        "length": 1,
+        "pos": [
+            41,
+            51
+        ],
+        "priority": 64,
+        "symbol_type": "S",
+        "text": ";",
+        "type": "symbol"
+    },
+    {
+        "id": 130,
+        "length": 22,
+        "pos": [
+            43,
+            1
+        ],
+        "text": ":: Axiom of regularity",
+        "type": "comment"
+    },
+    {
+        "id": 131,
+        "length": 7,
+        "pos": [
+            44,
+            1
+        ],
+        "text": "theorem",
+        "type": "keyword"
+    },
+    {
+        "id": 132,
+        "identifier_type": "reserved",
+        "length": 1,
+        "pos": [
+            45,
+            3
+        ],
+        "ref_id": 16,
+        "text": "x",
+        "type": "identifier"
+    },
+    {
+        "id": 133,
+        "length": 2,
+        "pos": [
+            45,
+            5
+        ],
+        "priority": 64,
+        "symbol_type": "R",
+        "text": "in",
+        "type": "symbol"
+    },
+    {
+        "id": 134,
+        "identifier_type": "reserved",
+        "length": 1,
+        "pos": [
+            45,
+            8
+        ],
+        "ref_id": 27,
+        "text": "X",
+        "type": "identifier"
+    },
+    {
+        "id": 135,
+        "length": 7,
+        "pos": [
+            45,
+            10
+        ],
+        "text": "implies",
+        "type": "keyword"
+    },
+    {
+        "id": 136,
+        "length": 2,
+        "pos": [
+            45,
+            18
+        ],
+        "text": "ex",
+        "type": "keyword"
+    },
+    {
+        "id": 137,
+        "identifier_type": "variable",
+        "length": 1,
+        "pos": [
+            45,
+            21
+        ],
+        "text": "Y",
+        "type": "identifier"
+    },
+    {
+        "id": 138,
+        "length": 2,
+        "pos": [
+            45,
+            23
+        ],
+        "text": "st",
+        "type": "keyword"
+    },
+    {
+        "id": 139,
+        "identifier_type": "variable",
+        "length": 1,
+        "pos": [
+            45,
+            26
+        ],
+        "ref_id": 137,
+        "text": "Y",
+        "type": "identifier"
+    },
+    {
+        "id": 140,
+        "length": 2,
+        "pos": [
+            45,
+            28
+        ],
+        "priority": 64,
+        "symbol_type": "R",
+        "text": "in",
+        "type": "symbol"
+    },
+    {
+        "id": 141,
+        "identifier_type": "reserved",
+        "length": 1,
+        "pos": [
+            45,
+            31
+        ],
+        "ref_id": 27,
+        "text": "X",
+        "type": "identifier"
+    },
+    {
+        "id": 142,
+        "length": 1,
+        "pos": [
+            45,
+            33
+        ],
+        "priority": 64,
+        "symbol_type": "S",
+        "text": "&",
+        "type": "symbol"
+    },
+    {
+        "id": 143,
+        "length": 3,
+        "pos": [
+            45,
+            35
+        ],
+        "text": "not",
+        "type": "keyword"
+    },
+    {
+        "id": 144,
+        "length": 2,
+        "pos": [
+            45,
+            39
+        ],
+        "text": "ex",
+        "type": "keyword"
+    },
+    {
+        "id": 145,
+        "identifier_type": "variable",
+        "length": 1,
+        "pos": [
+            45,
+            42
+        ],
+        "text": "x",
+        "type": "identifier"
+    },
+    {
+        "id": 146,
+        "length": 2,
+        "pos": [
+            45,
+            44
+        ],
+        "text": "st",
+        "type": "keyword"
+    },
+    {
+        "id": 147,
+        "identifier_type": "variable",
+        "length": 1,
+        "pos": [
+            45,
+            47
+        ],
+        "ref_id": 145,
+        "text": "x",
+        "type": "identifier"
+    },
+    {
+        "id": 148,
+        "length": 2,
+        "pos": [
+            45,
+            49
+        ],
+        "priority": 64,
+        "symbol_type": "R",
+        "text": "in",
+        "type": "symbol"
+    },
+    {
+        "id": 149,
+        "identifier_type": "reserved",
+        "length": 1,
+        "pos": [
+            45,
+            52
+        ],
+        "ref_id": 27,
+        "text": "X",
+        "type": "identifier"
+    },
+    {
+        "id": 150,
+        "length": 1,
+        "pos": [
+            45,
+            54
+        ],
+        "priority": 64,
+        "symbol_type": "S",
+        "text": "&",
+        "type": "symbol"
+    },
+    {
+        "id": 151,
+        "identifier_type": "variable",
+        "length": 1,
+        "pos": [
+            45,
+            56
+        ],
+        "ref_id": 145,
+        "text": "x",
+        "type": "identifier"
+    },
+    {
+        "id": 152,
+        "length": 2,
+        "pos": [
+            45,
+            58
+        ],
+        "priority": 64,
+        "symbol_type": "R",
+        "text": "in",
+        "type": "symbol"
+    },
+    {
+        "id": 153,
+        "identifier_type": "variable",
+        "length": 1,
+        "pos": [
+            45,
+            61
+        ],
+        "ref_id": 137,
+        "text": "Y",
+        "type": "identifier"
+    },
+    {
+        "id": 154,
+        "length": 1,
+        "pos": [
+            45,
+            62
+        ],
+        "priority": 64,
+        "symbol_type": "S",
+        "text": ";",
+        "type": "symbol"
+    },
+    {
+        "id": 155,
+        "length": 20,
+        "pos": [
+            47,
+            1
+        ],
+        "text": ":: Fraenkel's scheme",
+        "type": "comment"
+    },
+    {
+        "id": 156,
+        "length": 6,
+        "pos": [
+            48,
+            1
+        ],
+        "text": "scheme",
+        "type": "keyword"
+    },
+    {
+        "id": 157,
+        "identifier_type": "scheme",
+        "length": 11,
+        "pos": [
+            48,
+            8
+        ],
+        "text": "Replacement",
+        "type": "identifier"
+    },
+    {
+        "id": 158,
+        "length": 1,
+        "pos": [
+            48,
+            20
+        ],
+        "priority": 64,
+        "symbol_type": "S",
+        "text": "{",
+        "type": "symbol"
+    },
+    {
+        "id": 159,
+        "identifier_type": "functor",
+        "length": 1,
+        "pos": [
+            48,
+            22
+        ],
+        "text": "A",
+        "type": "identifier"
+    },
+    {
+        "id": 160,
+        "length": 1,
+        "pos": [
+            48,
+            23
+        ],
+        "priority": 64,
+        "symbol_type": "S",
+        "text": "(",
+        "type": "symbol"
+    },
+    {
+        "id": 161,
+        "length": 1,
+        "pos": [
+            48,
+            24
+        ],
+        "priority": 64,
+        "symbol_type": "S",
+        "text": ")",
+        "type": "symbol"
+    },
+    {
+        "id": 162,
+        "length": 2,
+        "pos": [
+            48,
+            26
+        ],
+        "priority": 64,
+        "symbol_type": "S",
+        "text": "->",
+        "type": "symbol"
+    },
+    {
+        "id": 163,
+        "length": 3,
+        "pos": [
+            48,
+            29
+        ],
+        "text": "set",
+        "type": "keyword"
+    },
+    {
+        "id": 164,
+        "length": 1,
+        "pos": [
+            48,
+            32
+        ],
+        "priority": 64,
+        "symbol_type": "S",
+        "text": ",",
+        "type": "symbol"
+    },
+    {
+        "id": 165,
+        "identifier_type": "predicate",
+        "length": 1,
+        "pos": [
+            48,
+            34
+        ],
+        "text": "P",
+        "type": "identifier"
+    },
+    {
+        "id": 166,
+        "length": 1,
+        "pos": [
+            48,
+            35
+        ],
+        "priority": 64,
+        "symbol_type": "S",
+        "text": "[",
+        "type": "symbol"
+    },
+    {
+        "id": 167,
+        "length": 6,
+        "pos": [
+            48,
+            36
+        ],
+        "priority": 64,
+        "symbol_type": "M",
+        "text": "object",
+        "type": "symbol"
+    },
+    {
+        "id": 168,
+        "length": 1,
+        "pos": [
+            48,
+            42
+        ],
+        "priority": 64,
+        "symbol_type": "S",
+        "text": ",",
+        "type": "symbol"
+    },
+    {
+        "id": 169,
+        "length": 6,
+        "pos": [
+            48,
+            44
+        ],
+        "priority": 64,
+        "symbol_type": "M",
+        "text": "object",
+        "type": "symbol"
+    },
+    {
+        "id": 170,
+        "length": 1,
+        "pos": [
+            48,
+            50
+        ],
+        "priority": 64,
+        "symbol_type": "S",
+        "text": "]",
+        "type": "symbol"
+    },
+    {
+        "id": 171,
+        "length": 1,
+        "pos": [
+            48,
+            52
+        ],
+        "priority": 64,
+        "symbol_type": "S",
+        "text": "}",
+        "type": "symbol"
+    },
+    {
+        "id": 172,
+        "length": 1,
+        "pos": [
+            48,
+            53
+        ],
+        "priority": 64,
+        "symbol_type": "S",
+        "text": ":",
+        "type": "symbol"
+    },
+    {
+        "id": 173,
+        "length": 2,
+        "pos": [
+            49,
+            3
+        ],
+        "text": "ex",
+        "type": "keyword"
+    },
+    {
+        "id": 174,
+        "identifier_type": "variable",
+        "length": 1,
+        "pos": [
+            49,
+            6
+        ],
+        "text": "X",
+        "type": "identifier"
+    },
+    {
+        "id": 175,
+        "length": 2,
+        "pos": [
+            49,
+            8
+        ],
+        "text": "st",
+        "type": "keyword"
+    },
+    {
+        "id": 176,
+        "length": 3,
+        "pos": [
+            49,
+            11
+        ],
+        "text": "for",
+        "type": "keyword"
+    },
+    {
+        "id": 177,
+        "identifier_type": "variable",
+        "length": 1,
+        "pos": [
+            49,
+            15
+        ],
+        "text": "x",
+        "type": "identifier"
+    },
+    {
+        "id": 178,
+        "length": 5,
+        "pos": [
+            49,
+            17
+        ],
+        "text": "holds",
+        "type": "keyword"
+    },
+    {
+        "id": 179,
+        "identifier_type": "variable",
+        "length": 1,
+        "pos": [
+            49,
+            23
+        ],
+        "ref_id": 177,
+        "text": "x",
+        "type": "identifier"
+    },
+    {
+        "id": 180,
+        "length": 2,
+        "pos": [
+            49,
+            25
+        ],
+        "priority": 64,
+        "symbol_type": "R",
+        "text": "in",
+        "type": "symbol"
+    },
+    {
+        "id": 181,
+        "identifier_type": "variable",
+        "length": 1,
+        "pos": [
+            49,
+            28
+        ],
+        "ref_id": 174,
+        "text": "X",
+        "type": "identifier"
+    },
+    {
+        "id": 182,
+        "length": 3,
+        "pos": [
+            49,
+            30
+        ],
+        "text": "iff",
+        "type": "keyword"
+    },
+    {
+        "id": 183,
+        "length": 2,
+        "pos": [
+            49,
+            34
+        ],
+        "text": "ex",
+        "type": "keyword"
+    },
+    {
+        "id": 184,
+        "identifier_type": "reserved",
+        "length": 1,
+        "pos": [
+            49,
+            37
+        ],
+        "ref_id": 18,
+        "text": "y",
+        "type": "identifier"
+    },
+    {
+        "id": 185,
+        "length": 2,
+        "pos": [
+            49,
+            39
+        ],
+        "text": "st",
+        "type": "keyword"
+    },
+    {
+        "id": 186,
+        "identifier_type": "reserved",
+        "length": 1,
+        "pos": [
+            49,
+            42
+        ],
+        "ref_id": 18,
+        "text": "y",
+        "type": "identifier"
+    },
+    {
+        "id": 187,
+        "length": 2,
+        "pos": [
+            49,
+            44
+        ],
+        "priority": 64,
+        "symbol_type": "R",
+        "text": "in",
+        "type": "symbol"
+    },
+    {
+        "id": 188,
+        "identifier_type": "functor",
+        "length": 1,
+        "pos": [
+            49,
+            47
+        ],
+        "ref_id": 159,
+        "text": "A",
+        "type": "identifier"
+    },
+    {
+        "id": 189,
+        "length": 1,
+        "pos": [
+            49,
+            48
+        ],
+        "priority": 64,
+        "symbol_type": "S",
+        "text": "(",
+        "type": "symbol"
+    },
+    {
+        "id": 190,
+        "length": 1,
+        "pos": [
+            49,
+            49
+        ],
+        "priority": 64,
+        "symbol_type": "S",
+        "text": ")",
+        "type": "symbol"
+    },
+    {
+        "id": 191,
+        "length": 1,
+        "pos": [
+            49,
+            51
+        ],
+        "priority": 64,
+        "symbol_type": "S",
+        "text": "&",
+        "type": "symbol"
+    },
+    {
+        "id": 192,
+        "identifier_type": "predicate",
+        "length": 1,
+        "pos": [
+            49,
+            53
+        ],
+        "ref_id": 165,
+        "text": "P",
+        "type": "identifier"
+    },
+    {
+        "id": 193,
+        "length": 1,
+        "pos": [
+            49,
+            54
+        ],
+        "priority": 64,
+        "symbol_type": "S",
+        "text": "[",
+        "type": "symbol"
+    },
+    {
+        "id": 194,
+        "identifier_type": "reserved",
+        "length": 1,
+        "pos": [
+            49,
+            55
+        ],
+        "ref_id": 18,
+        "text": "y",
+        "type": "identifier"
+    },
+    {
+        "id": 195,
+        "length": 1,
+        "pos": [
+            49,
+            56
+        ],
+        "priority": 64,
+        "symbol_type": "S",
+        "text": ",",
+        "type": "symbol"
+    },
+    {
+        "id": 196,
+        "identifier_type": "variable",
+        "length": 1,
+        "pos": [
+            49,
+            57
+        ],
+        "ref_id": 177,
+        "text": "x",
+        "type": "identifier"
+    },
+    {
+        "id": 197,
+        "length": 1,
+        "pos": [
+            49,
+            58
+        ],
+        "priority": 64,
+        "symbol_type": "S",
+        "text": "]",
+        "type": "symbol"
+    },
+    {
+        "id": 198,
+        "length": 8,
+        "pos": [
+            50,
+            2
+        ],
+        "text": "provided",
+        "type": "keyword"
+    },
+    {
+        "id": 199,
+        "length": 3,
+        "pos": [
+            51,
+            3
+        ],
+        "text": "for",
+        "type": "keyword"
+    },
+    {
+        "id": 200,
+        "identifier_type": "variable",
+        "length": 1,
+        "pos": [
+            51,
+            7
+        ],
+        "text": "x",
+        "type": "identifier"
+    },
+    {
+        "id": 201,
+        "length": 1,
+        "pos": [
+            51,
+            8
+        ],
+        "priority": 64,
+        "symbol_type": "S",
+        "text": ",",
+        "type": "symbol"
+    },
+    {
+        "id": 202,
+        "identifier_type": "variable",
+        "length": 1,
+        "pos": [
+            51,
+            9
+        ],
+        "text": "y",
+        "type": "identifier"
+    },
+    {
+        "id": 203,
+        "length": 1,
+        "pos": [
+            51,
+            10
+        ],
+        "priority": 64,
+        "symbol_type": "S",
+        "text": ",",
+        "type": "symbol"
+    },
+    {
+        "id": 204,
+        "identifier_type": "variable",
+        "length": 1,
+        "pos": [
+            51,
+            11
+        ],
+        "text": "z",
+        "type": "identifier"
+    },
+    {
+        "id": 205,
+        "length": 5,
+        "pos": [
+            51,
+            13
+        ],
+        "text": "being",
+        "type": "keyword"
+    },
+    {
+        "id": 206,
+        "length": 6,
+        "pos": [
+            51,
+            19
+        ],
+        "priority": 64,
+        "symbol_type": "M",
+        "text": "object",
+        "type": "symbol"
+    },
+    {
+        "id": 207,
+        "length": 2,
+        "pos": [
+            51,
+            26
+        ],
+        "text": "st",
+        "type": "keyword"
+    },
+    {
+        "id": 208,
+        "identifier_type": "predicate",
+        "length": 1,
+        "pos": [
+            51,
+            29
+        ],
+        "ref_id": 165,
+        "text": "P",
+        "type": "identifier"
+    },
+    {
+        "id": 209,
+        "length": 1,
+        "pos": [
+            51,
+            30
+        ],
+        "priority": 64,
+        "symbol_type": "S",
+        "text": "[",
+        "type": "symbol"
+    },
+    {
+        "id": 210,
+        "identifier_type": "variable",
+        "length": 1,
+        "pos": [
+            51,
+            31
+        ],
+        "ref_id": 200,
+        "text": "x",
+        "type": "identifier"
+    },
+    {
+        "id": 211,
+        "length": 1,
+        "pos": [
+            51,
+            32
+        ],
+        "priority": 64,
+        "symbol_type": "S",
+        "text": ",",
+        "type": "symbol"
+    },
+    {
+        "id": 212,
+        "identifier_type": "variable",
+        "length": 1,
+        "pos": [
+            51,
+            33
+        ],
+        "ref_id": 202,
+        "text": "y",
+        "type": "identifier"
+    },
+    {
+        "id": 213,
+        "length": 1,
+        "pos": [
+            51,
+            34
+        ],
+        "priority": 64,
+        "symbol_type": "S",
+        "text": "]",
+        "type": "symbol"
+    },
+    {
+        "id": 214,
+        "length": 1,
+        "pos": [
+            51,
+            36
+        ],
+        "priority": 64,
+        "symbol_type": "S",
+        "text": "&",
+        "type": "symbol"
+    },
+    {
+        "id": 215,
+        "identifier_type": "predicate",
+        "length": 1,
+        "pos": [
+            51,
+            38
+        ],
+        "ref_id": 165,
+        "text": "P",
+        "type": "identifier"
+    },
+    {
+        "id": 216,
+        "length": 1,
+        "pos": [
+            51,
+            39
+        ],
+        "priority": 64,
+        "symbol_type": "S",
+        "text": "[",
+        "type": "symbol"
+    },
+    {
+        "id": 217,
+        "identifier_type": "variable",
+        "length": 1,
+        "pos": [
+            51,
+            40
+        ],
+        "ref_id": 200,
+        "text": "x",
+        "type": "identifier"
+    },
+    {
+        "id": 218,
+        "length": 1,
+        "pos": [
+            51,
+            41
+        ],
+        "priority": 64,
+        "symbol_type": "S",
+        "text": ",",
+        "type": "symbol"
+    },
+    {
+        "id": 219,
+        "identifier_type": "variable",
+        "length": 1,
+        "pos": [
+            51,
+            42
+        ],
+        "ref_id": 204,
+        "text": "z",
+        "type": "identifier"
+    },
+    {
+        "id": 220,
+        "length": 1,
+        "pos": [
+            51,
+            43
+        ],
+        "priority": 64,
+        "symbol_type": "S",
+        "text": "]",
+        "type": "symbol"
+    },
+    {
+        "id": 221,
+        "length": 5,
+        "pos": [
+            51,
+            45
+        ],
+        "text": "holds",
+        "type": "keyword"
+    },
+    {
+        "id": 222,
+        "identifier_type": "variable",
+        "length": 1,
+        "pos": [
+            51,
+            51
+        ],
+        "ref_id": 202,
+        "text": "y",
+        "type": "identifier"
+    },
+    {
+        "id": 223,
+        "length": 1,
+        "pos": [
+            51,
+            53
+        ],
+        "priority": 64,
+        "symbol_type": "S",
+        "text": "=",
+        "type": "symbol"
+    },
+    {
+        "id": 224,
+        "identifier_type": "unknown",
+        "length": 1,
+        "pos": [
+            51,
+            55
+        ],
+        "text": "z",
+        "type": "identifier"
+    },
+    {
+        "id": 225,
+        "length": 5,
+        "pos": [
+            52,
+            3
+        ],
+        "text": "proof",
+        "type": "keyword"
+    },
+    {
+        "id": 226,
+        "length": 4,
+        "pos": [
+            53,
+            5
+        ],
+        "text": "thus",
+        "type": "keyword"
+    },
+    {
+        "id": 227,
+        "length": 6,
+        "pos": [
+            53,
+            10
+        ],
+        "text": "thesis",
+        "type": "keyword"
+    },
+    {
+        "id": 228,
+        "length": 1,
+        "pos": [
+            53,
+            16
+        ],
+        "priority": 64,
+        "symbol_type": "S",
+        "text": ";",
+        "type": "symbol"
+    },
+    {
+        "id": 229,
+        "length": 3,
+        "pos": [
+            54,
+            3
+        ],
+        "text": "end",
+        "type": "keyword"
+    },
+    {
+        "id": 230,
+        "length": 1,
+        "pos": [
+            54,
+            6
+        ],
+        "priority": 64,
+        "symbol_type": "S",
+        "text": ";",
+        "type": "symbol"
+    }
+]
