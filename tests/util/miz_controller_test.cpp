@@ -3,11 +3,15 @@
 #include <iostream>
 
 #include "ast_block.hpp"
+#include "ast_token.hpp"
 #include "doctest/doctest.h"
 #include "file_handling_tools.hpp"
 #include "miz_controller.hpp"
+#include "token_table.hpp"
+
 
 using mizcore::MizController;
+using mizcore::ASTToken;
 namespace fs = std::filesystem;
 
 namespace {
@@ -69,4 +73,23 @@ TEST_CASE("test miz_controller ExecBuffer")
                             std::istreambuf_iterator<char>());
     miz_controller.ExecBuffer(str_text.c_str(), vctpath.string().c_str());
     test_miz_controller(miz_controller);
+}
+
+TEST_CASE("test miz_controller CheckIsSeparableTokens")
+{
+    auto mizpath = TEST_DIR() / "data" / "numerals.miz";
+    auto vctpath = TEST_DIR().parent_path() / "parser" / "data" / "mml.vct";
+    mizcore::MizController miz_controller;
+    miz_controller.ExecFile(mizpath.string().c_str(), vctpath.string().c_str());
+    auto token_table = miz_controller.GetTokenTable();
+
+    auto* t1 = token_table->GetToken(50); // {}
+    auto* t2 = token_table->GetToken(51); // is
+    auto* t3 = token_table->GetToken(52); // Element
+
+    std::vector<ASTToken*> v1 = {t1, t2};
+    CHECK(miz_controller.CheckIsSeparableTokens(v1) == true);
+
+    std::vector<ASTToken*> v2 = {t1, t2, t3};
+    CHECK(miz_controller.CheckIsSeparableTokens(v2) == false);
 }
