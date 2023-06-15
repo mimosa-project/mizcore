@@ -1,10 +1,12 @@
 #pragma once
 
 #include <memory>
+#include <vector>
 
 namespace mizcore {
 
 class ASTBlock;
+class ASTToken;
 class SymbolTable;
 class TokenTable;
 class ErrorTable;
@@ -27,6 +29,8 @@ class MizController
     std::shared_ptr<ErrorTable> GetErrorTable() const { return error_table_; }
     bool IsABSMode() const { return is_abs_mode_; }
     void SetABSMode(bool is_abs_mode) { is_abs_mode_ = is_abs_mode; }
+
+    bool CheckIsSeparableTokens(const std::vector<ASTToken*>& tokens) const;
 
   private:
     std::shared_ptr<SymbolTable> symbol_table_;

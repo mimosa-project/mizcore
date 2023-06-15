@@ -68,3 +68,26 @@ MizController::ExecBuffer(const char* buffer, const char* vctpath)
     std::istream ifs_miz(&str_buf);
     MizController::ExecImpl(ifs_miz, vctpath);
 }
+
+bool MizController::CheckIsSeparableTokens(const std::vector<ASTToken*>& tokens) const
+{
+    std::stringstream ss;
+    for (auto* token : tokens) {
+        ss << token->GetText();
+    }
+
+    MizLexerHandler lexer(&ss, symbol_table_);
+    lexer.yylex();
+    auto token_table = lexer.GetTokenTable();
+    size_t n = token_table->GetTokenNum();
+    if (n != tokens.size()) {
+        return false;
+    }
+    for (size_t i = 0; i < n; ++i) {
+        auto* token = token_table->GetToken(i);
+        if (token->GetText() != tokens[i]->GetText()) {
+            return false;
+        }
+    }
+    return true;
+}
