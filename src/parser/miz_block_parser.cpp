@@ -1196,6 +1196,13 @@ MizBlockParser::ResolveReference(ASTToken* token)
         return;
     }
 
+    if (token_type == TOKEN_TYPE::IDENTIFIER) {
+        auto* identifierToken = static_cast<IdentifierToken*>(token);
+        if (identifierToken->GetIdentifierType() == IDENTIFIER_TYPE::VARIABLE) {
+            return;
+        }
+    }
+
     std::string_view text = token->GetText();
     for (auto rit = reference_stack_.rbegin(); rit != reference_stack_.rend();
          ++rit) {
