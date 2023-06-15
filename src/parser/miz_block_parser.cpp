@@ -763,6 +763,10 @@ MizBlockParser::ResolveIdentifierInStatement(ASTStatement* statement)
                     curr_token =
                       ReplaceIdentifierType(curr_token, IDENTIFIER_TYPE::LABEL);
                 }
+                if (next_text == ":") {
+                    curr_token =
+                      ReplaceIdentifierType(curr_token, IDENTIFIER_TYPE::FILENAME);
+                }
             }
         }
 

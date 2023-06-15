@@ -1,1 +1,204 @@
-{"children":[{"pos":[15,1],"statement_type":"environ","token_id":13,"type":"statement"},{"pos":[17,1],"statement_type":"section","token_id":14,"type":"statement"},{"pos":[[19,1],[19,27]],"statement_type":"reserve","token_id":[15,25],"type":"statement"},{"pos":[[20,1],[20,22]],"statement_type":"reserve","token_id":[26,34],"type":"statement"},{"pos":[[23,1],[24,36]],"statement_type":"theorem","token_id":[36,45],"type":"statement"},{"pos":[[27,1],[28,61]],"statement_type":"theorem","token_id":[47,66],"type":"statement"},{"pos":[[31,1],[34,32]],"statement_type":"theorem","token_id":[68,96],"type":"statement"},{"pos":[[37,1],[41,51]],"statement_type":"theorem","token_id":[98,129],"type":"statement"},{"pos":[[44,1],[45,62]],"statement_type":"theorem","token_id":[131,154],"type":"statement"},{"pos":[[48,1],[51,55]],"statement_type":"scheme","token_id":[156,224],"type":"statement"},{"children":[{"pos":[[53,5],[53,16]],"statement_type":"thus","token_id":[226,228],"type":"statement"}],"pos":[[52,3],[54,6]],"token_id":[225,230],"type":"block"}],"type":"block"}
+{
+    "children": [
+        {
+            "pos": [
+                15,
+                1
+            ],
+            "statement_type": "environ",
+            "token_id": 13,
+            "type": "statement"
+        },
+        {
+            "pos": [
+                17,
+                1
+            ],
+            "statement_type": "section",
+            "token_id": 14,
+            "type": "statement"
+        },
+        {
+            "pos": [
+                [
+                    19,
+                    1
+                ],
+                [
+                    19,
+                    27
+                ]
+            ],
+            "statement_type": "reserve",
+            "token_id": [
+                15,
+                25
+            ],
+            "type": "statement"
+        },
+        {
+            "pos": [
+                [
+                    20,
+                    1
+                ],
+                [
+                    20,
+                    22
+                ]
+            ],
+            "statement_type": "reserve",
+            "token_id": [
+                26,
+                34
+            ],
+            "type": "statement"
+        },
+        {
+            "pos": [
+                [
+                    23,
+                    1
+                ],
+                [
+                    24,
+                    36
+                ]
+            ],
+            "statement_type": "theorem",
+            "token_id": [
+                36,
+                45
+            ],
+            "type": "statement"
+        },
+        {
+            "pos": [
+                [
+                    27,
+                    1
+                ],
+                [
+                    28,
+                    61
+                ]
+            ],
+            "statement_type": "theorem",
+            "token_id": [
+                47,
+                66
+            ],
+            "type": "statement"
+        },
+        {
+            "pos": [
+                [
+                    31,
+                    1
+                ],
+                [
+                    34,
+                    32
+                ]
+            ],
+            "statement_type": "theorem",
+            "token_id": [
+                68,
+                96
+            ],
+            "type": "statement"
+        },
+        {
+            "pos": [
+                [
+                    37,
+                    1
+                ],
+                [
+                    41,
+                    51
+                ]
+            ],
+            "statement_type": "theorem",
+            "token_id": [
+                98,
+                129
+            ],
+            "type": "statement"
+        },
+        {
+            "pos": [
+                [
+                    44,
+                    1
+                ],
+                [
+                    45,
+                    62
+                ]
+            ],
+            "statement_type": "theorem",
+            "token_id": [
+                131,
+                154
+            ],
+            "type": "statement"
+        },
+        {
+            "pos": [
+                [
+                    48,
+                    1
+                ],
+                [
+                    51,
+                    55
+                ]
+            ],
+            "statement_type": "scheme",
+            "token_id": [
+                156,
+                224
+            ],
+            "type": "statement"
+        },
+        {
+            "children": [
+                {
+                    "pos": [
+                        [
+                            53,
+                            5
+                        ],
+                        [
+                            53,
+                            16
+                        ]
+                    ],
+                    "statement_type": "thus",
+                    "token_id": [
+                        226,
+                        228
+                    ],
+                    "type": "statement"
+                }
+            ],
+            "pos": [
+                [
+                    52,
+                    3
+                ],
+                [
+                    54,
+                    6
+                ]
+            ],
+            "token_id": [
+                225,
+                230
+            ],
+            "type": "block"
+        }
+    ],
+    "type": "block"
+}
