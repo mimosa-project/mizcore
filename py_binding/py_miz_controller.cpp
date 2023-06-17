@@ -19,6 +19,7 @@
 
 #include <string_view>
 #include <pybind11/pybind11.h>
+#include <pybind11/stl.h>
 
 using mizcore::TOKEN_TYPE;
 using mizcore::ELEMENT_TYPE;
@@ -402,5 +403,6 @@ PYBIND11_MODULE(py_miz_controller, m)
     .def("is_abs_mode", &MizController::IsABSMode)
     .def_property_readonly("token_table", &MizController::GetTokenTable)
     .def_property_readonly("ast_root", &MizController::GetASTRoot)
-    .def_property_readonly("error_table", &MizController::GetErrorTable);
+    .def_property_readonly("error_table", &MizController::GetErrorTable)
+    .def("is_separable_tokens", &MizController::CheckIsSeparableTokens);
 }
