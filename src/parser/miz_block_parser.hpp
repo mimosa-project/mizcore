@@ -93,10 +93,17 @@ class MizBlockParser
     bool CanBeLabelToken(ASTToken* token) const;
     ASTToken* ReplaceIdentifierType(ASTToken* token, IDENTIFIER_TYPE type);
 
-    void PushReferenceStack();
+    void PushReferenceStack(bool is_statement = false);
     void PopReferenceStack();
     void PushToReferenceStack(ASTToken* token);
     void ResolveReference(ASTToken* token);
+
+  private:
+    struct References {
+      References(bool is_statement = false) : is_statement_(is_statement) {}
+      bool is_statement_ = false;
+      std::vector<IdentifierToken*> references_;
+    };
 
   private:
     bool is_partial_mode_ = false;
@@ -106,7 +113,7 @@ class MizBlockParser
       std::make_shared<ASTBlock>(BLOCK_TYPE::ROOT);
     std::stack<ASTComponent*> ast_component_stack_;
     std::shared_ptr<ErrorTable> error_table_;
-    std::vector<std::vector<IdentifierToken*>> reference_stack_;
+    std::vector<References> reference_stack_;
 
     // Only for internal use
     bool is_in_environ_ = false;

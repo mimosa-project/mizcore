@@ -143,10 +143,13 @@ TEST_CASE("execute miz file handler")
         check_parser_one("axioms_mod_ng", symbol_table);
     }
 
-    SUBCASE("ABCMIC_1.abs")
+    SUBCASE("ABCMIZ_0.miz") { check_parser_one("abcmiz_0", symbol_table); }
+
+    SUBCASE("ABCMIZ_1.abs")
     {
         check_parser_one("abcmiz_1_abs", symbol_table, true);
     }
+
 
     SUBCASE("JGRAPH_4.miz") { check_parser_one("jgraph_4", symbol_table); }
 

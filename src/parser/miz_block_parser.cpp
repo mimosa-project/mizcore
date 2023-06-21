@@ -560,7 +560,7 @@ MizBlockParser::ResolveIdentifierInStatement(ASTStatement* statement)
                             continue;
                         default:
                             is_push_refstack = true;
-                            PushReferenceStack();
+                            PushReferenceStack(true);
                             break;
                     }
                 }
@@ -1172,9 +1172,9 @@ MizBlockParser::ReplaceIdentifierType(ASTToken* token, IDENTIFIER_TYPE type)
 }
 
 void
-MizBlockParser::PushReferenceStack()
+MizBlockParser::PushReferenceStack(bool is_statement)
 {
-    reference_stack_.emplace_back(std::vector<IdentifierToken*>());
+    reference_stack_.emplace_back(References(is_statement));
 }
 
 void
@@ -1188,7 +1188,19 @@ MizBlockParser::PushToReferenceStack(ASTToken* token)
 {
     assert(!reference_stack_.empty());
     assert(token->GetTokenType() == TOKEN_TYPE::IDENTIFIER);
-    reference_stack_.back().push_back(static_cast<IdentifierToken*>(token));
+    auto* identfiler_token = static_cast<IdentifierToken*>(token);
+    if (identfiler_token->GetIdentifierType() == IDENTIFIER_TYPE::VARIABLE) {
+        reference_stack_.back().references_.push_back(identfiler_token);
+    } else {
+        if (reference_stack_.back().is_statement_) {
+            assert(reference_stack_.size() > 1);
+            reference_stack_[reference_stack_.size() - 2].references_.push_back(
+              identfiler_token);
+        } else {
+            reference_stack_.back().references_.push_back(identfiler_token);
+        }
+    }
+
 }
 
 void
@@ -1210,7 +1222,8 @@ MizBlockParser::ResolveReference(ASTToken* token)
     std::string_view text = token->GetText();
     for (auto rit = reference_stack_.rbegin(); rit != reference_stack_.rend();
          ++rit) {
-        for (auto rit2 = rit->rbegin(); rit2 != rit->rend(); ++rit2) {
+        const auto& references = rit->references_;
+        for (auto rit2 = references.rbegin(); rit2 != references.rend(); ++rit2) {
             IdentifierToken* ref_token = *rit2;
             if (ref_token == token) {
                 continue;
