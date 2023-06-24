@@ -37,6 +37,8 @@ class ASTToken : public ASTElement
     virtual std::string_view GetText() const = 0;
     virtual TOKEN_TYPE GetTokenType() const = 0;
     virtual IdentifierToken* GetRefToken() const = 0;
+    void SetFormattedText(std::string_view text) { formatted_text_ = text; }
+    std::string_view GetFormattedText() const { return formatted_text_; };
 
     // operations
     void ToJson(nlohmann::json& json) const override;
@@ -45,6 +47,7 @@ class ASTToken : public ASTElement
     size_t id_ = SIZE_MAX;
     size_t line_number_;
     size_t column_number_;
+    std::string formatted_text_;
 };
 
 class UnknownToken : public ASTToken
