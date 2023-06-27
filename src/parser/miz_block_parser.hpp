@@ -95,7 +95,7 @@ class MizBlockParser
 
     void PushReferenceStack(bool is_statement = false);
     void PopReferenceStack();
-    void PushToReferenceStack(ASTToken* token);
+    void PushToReferenceStack(ASTToken* token, bool is_root_label = false);
     void ResolveReference(ASTToken* token);
 
   private:
