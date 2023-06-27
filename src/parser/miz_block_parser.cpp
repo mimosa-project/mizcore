@@ -593,7 +593,7 @@ MizBlockParser::ResolveIdentifierInStatement(ASTStatement* statement)
                 if (next_text == "," || next_text == "for") {
                     curr_token = ReplaceIdentifierType(
                       curr_token, IDENTIFIER_TYPE::RESERVED);
-                    PushToReferenceStack(curr_token);
+                    PushToReferenceStack(curr_token, true);
                 }
             }
         }
@@ -709,7 +709,7 @@ MizBlockParser::ResolveIdentifierInStatement(ASTStatement* statement)
             const auto& next_text = next_token->GetText();
             if (prev_text == ":" && next_text == ":") {
                 ReplaceIdentifierType(curr_token, IDENTIFIER_TYPE::LABEL);
-                PushToReferenceStack(curr_token);
+                PushToReferenceStack(curr_token, true);
                 region_type = KEYWORD_TYPE::UNKNOWN;
                 continue;
             }
@@ -801,7 +801,7 @@ MizBlockParser::ResolveIdentifierInStatement(ASTStatement* statement)
             if (prev_text == "scheme" && next_text == "{") {
                 curr_token =
                   ReplaceIdentifierType(curr_token, IDENTIFIER_TYPE::SCHEME);
-                PushToReferenceStack(curr_token);
+                PushToReferenceStack(curr_token, true);
             }
 
             const auto& curr_text = curr_token->GetText();
@@ -1184,23 +1184,20 @@ MizBlockParser::PopReferenceStack()
 }
 
 void
-MizBlockParser::PushToReferenceStack(ASTToken* token)
+MizBlockParser::PushToReferenceStack(ASTToken* token, bool is_root_label)
 {
     assert(!reference_stack_.empty());
     assert(token->GetTokenType() == TOKEN_TYPE::IDENTIFIER);
     auto* identfiler_token = static_cast<IdentifierToken*>(token);
-    if (identfiler_token->GetIdentifierType() == IDENTIFIER_TYPE::VARIABLE) {
-        reference_stack_.back().references_.push_back(identfiler_token);
+    if (is_root_label) {
+        reference_stack_.front().references_.push_back(identfiler_token);
+    } else if (reference_stack_.back().is_statement_ && identfiler_token->GetIdentifierType() != IDENTIFIER_TYPE::VARIABLE) {
+        assert(reference_stack_.size() > 1);
+        reference_stack_[reference_stack_.size() - 2].references_.push_back(
+        identfiler_token);
     } else {
-        if (reference_stack_.back().is_statement_) {
-            assert(reference_stack_.size() > 1);
-            reference_stack_[reference_stack_.size() - 2].references_.push_back(
-              identfiler_token);
-        } else {
-            reference_stack_.back().references_.push_back(identfiler_token);
-        }
+        reference_stack_.back().references_.push_back(identfiler_token);
     }
-
 }
 
 void
