@@ -368,7 +368,9 @@ PYBIND11_MODULE(py_miz_controller, m)
     .def_property_readonly("column_number", &ASTToken::GetColumnNumber)
     .def_property_readonly("text", &ASTToken::GetText)
     .def_property_readonly("token_type", &ASTToken::GetTokenType)
-    .def_property_readonly("ref_token", &ASTToken::GetRefToken, py::return_value_policy::reference);
+    .def_property_readonly("ref_token", &ASTToken::GetRefToken, py::return_value_policy::reference)
+    .def("set_formatted_text", &ASTToken::SetFormattedText)
+    .def_property_readonly("formatted_text", &ASTToken::GetFormattedText);
 
   py::class_<UnknownToken,ASTToken, PyUnknownToken, std::shared_ptr<UnknownToken>>(m, "UnknownToken");
 
